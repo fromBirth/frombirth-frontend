@@ -1,4 +1,4 @@
-import './weekly-report.css'
+import './WeeklyReport.css'
 
 function WeeklyReport() {
 

@@ -1,4 +1,4 @@
-import './baby-diary.css'
+import './BabyDiary.css'
 import { useEffect, useState } from "react";
 import axios from "axios";
 

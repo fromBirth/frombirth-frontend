@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'HakgyoansimDunggeunmisoTTF-B';
+    src: url('/src/assets/fonts/Hakgyoansim-Dunggeunmiso-TTF-B.ttf') format('truetype'); /* 폰트 파일 경로 */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HakgyoansimDunggeunmisoTTF-R';
+    src: url('/src/assets/fonts/Hakgyoansim-Dunggeunmiso-TTF-R.ttf') format('truetype'); /* 폰트 파일 경로 */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'pretendard-bold';
+    src: url('/src/assets/fonts/Pretendard-Bold.otf') format('truetype'); /* 폰트 파일 경로 */
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 이후 폰트 적용 */
+.dunggeunmiso-b {
+    font-family: 'HakgyoansimDunggeunmisoTTF-B', sans-serif;
+}
+
+.dunggeunmiso-r {
+    font-family: 'HakgyoansimDunggeunmisoTTF-R', sans-serif;
+}
+
+.pretendard-bold{
+    font-family: 'pretendard-bold', sans-serif;
+}

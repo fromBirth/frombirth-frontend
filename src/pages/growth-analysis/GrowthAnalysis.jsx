@@ -1,4 +1,4 @@
-import './growth-analysis.css'
+import './GrowthAnalysis.css'
 
 function GrowthAnalysis() {
 

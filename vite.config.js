@@ -13,6 +13,8 @@ export default defineConfig({
         secure: false,  // HTTPS가 아닌 경우 secure를 false로 설정
       },
     },
+    host: '0.0.0.0',  // 모든 네트워크 인터페이스에서 접근 가능하게 설정
+    port: 5173,       // 기본 포트 설정
   },
   build: {
     rollupOptions: {

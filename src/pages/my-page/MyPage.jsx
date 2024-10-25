@@ -1,4 +1,4 @@
-import './my-page.css'
+import './MyPage.css'
 
 function MyPage() {
 
