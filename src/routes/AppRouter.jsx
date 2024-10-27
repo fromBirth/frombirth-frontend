@@ -16,7 +16,7 @@ function AppRouter() {
             {/* 로그인 후 접근 가능한 페이지 */}
             {/* 로그인 후 페이지는 Layout으로 감싸줌 */}
             <Route element={<Footer />}>
-                <Route path="/" element={<Main />} />
+                <Route path="/main" element={<Main />} />
                 <Route path="/mypage" element={<MyPage />} />
                 <Route path="/babydiary" element={<BabyDiary />} />
                 <Route path="/growthanalysis" element={<GrowthAnalysis />} />
