@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal {
+            background-color: white;
+            width: 80%;
+            max-width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .modal h3 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .modal p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .cancel-button {
+            background-color: #f0f0f0;
+            color: #555;
+        }
+        .confirm-button {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="modal">
+    <h3>일기를 수정할까요?</h3>
+    <p>수정한 내용을 바탕으로 12시간 후에 답장을 드려요. 감정태그, 오늘의 칭찬 내용이 바뀔 수 있어요</p>
+    <div class="modal-buttons">
+        <button class="button cancel-button">아니요</button>
+        <button class="button confirm-button">네, 수정할래요</button>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 주간보고</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        .date-range {
+            text-align: center;
+            font-size: 14px;
+            color: gray;
+            margin-bottom: 20px;
+        }
+        .report-content {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .analysis-section {
+            margin-bottom: 20px;
+        }
+        .analysis-section h3 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .progress-bar {
+            display: flex;
+            height: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        .progress-bar div {
+            height: 100%;
+        }
+        .low-risk { background-color: #ff6b6b; width: 25%; }
+        .high-risk { background-color: #ffa500; width: 60%; }
+        .map-section {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .map-section img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">홍길동 - 0개월 12일 (만 0세)</div>
+    <div class="date-range">2024년 10월 3주<br>2024.10.14 (월) ~ 2024.10.14 (월)</div>
+
+    <div class="report-content">
+        이번 주에 아기가 분유도 잘 먹어서 기쁘셨을 것 같아요. 활발하게 성장하는 모습을 보니 더욱 뿌듯하셨겠죠. 하지만 유치원에서 산만하다는 피드백을 듣고 걱정이 되실 수도 있을 것 같아요. 집중력을 기를 수 있도록, 집에서 조용한 놀이 시간을 자주 가져보는 것도 큰 도움이 될 거예요. 너무 큰 걱정은 하지 마시고, 아이의 속도에 맞춰 따뜻하게 응원해 주세요. 앞으로 점점 더 나아질 테니, 조금 더 지켜봐 주세요.
+    </div>
+
+    <div class="analysis-section">
+        <h3>일기 분석 결과 위험성 정도</h3>
+        <div class="progress-bar">
+            <div class="low-risk"></div>
+            <div class="high-risk"></div>
+        </div>
+
+        <h3>영상분석 결과 위험성 정도</h3>
+        <div class="progress-bar">
+            <div class="low-risk"></div>
+            <div style="width: 20%;" class="high-risk"></div>
+        </div>
+    </div>
+
+    <div class="map-section">
+        <h3>근처 병원 정보</h3>
+        <img src="map-placeholder.jpg" alt="Map">
+    </div>
+</div>
+
+</body>
+</html>

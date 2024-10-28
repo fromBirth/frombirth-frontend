@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사진 갤러리</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+        }
+        .header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0e68c;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .header span {
+            font-size: 14px;
+            color: gray;
+        }
+        .tab-bar {
+            display: flex;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .tab.active {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        .gallery {
+            padding: 15px;
+        }
+        .gallery h3 {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .gallery-item {
+            width: 100%;
+            padding-top: 100%;
+            background-color: #f78e1e;
+            border-radius: 5px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="profile-placeholder.png" alt="Profile Picture">
+        <div>
+            <h2>홍길동 - 0개월 12일 (만 0세)</h2>
+            <span>▼</span>
+        </div>
+        <div style="margin-left:auto;">
+            <span>🔍 ⋮</span>
+        </div>
+    </div>
+
+    <div class="tab-bar">
+        <div class="tab">전체</div>
+        <div class="tab active">사진</div>
+    </div>
+
+    <div class="gallery">
+        <h3>2024년 10월</h3>
+        <div class="gallery-item"></div>
+    </div>
+</div>
+
+</body>
+</html>

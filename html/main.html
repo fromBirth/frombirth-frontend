@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이 정보</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0e68c;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .header span {
+            font-size: 14px;
+            color: gray;
+        }
+        .info-section, .record-section, .links-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .info-section h3, .record-section h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .info-grid, .record-grid {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #555;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #3b82f6;
+        }
+        .links-section div {
+            background-color: white;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .links-section div:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="profile-placeholder.png" alt="Profile Picture">
+        <div>
+            <h2>홍길동 - 0개월 12일 (만 0세)</h2>
+            <span>▼</span>
+        </div>
+        <div style="margin-left:auto;">
+            <span>🔔</span>
+        </div>
+    </div>
+
+    <div class="info-section">
+        <h3>아이정보</h3>
+        <div class="info-grid">
+            <span>성별</span><span>남자</span>
+            <span>혈액형</span><span>A형</span>
+            <span>생년월일</span><span>2024.10.01</span>
+            <span>탄생시간</span><span>오후 05시 30분</span>
+        </div>
+    </div>
+
+    <div class="record-section">
+        <h3>최근기록 2024-10-02</h3>
+        <div class="record-grid">
+            <span>키</span><span class="highlight">평균 64.8 cm</span>
+            <span>몸무게</span><span class="highlight" style="color: #34c759;">높은 편 11.2 kg</span>
+        </div>
+    </div>
+
+    <div class="links-section">
+        <div>
+            <span>육아일기</span>
+            <span>▶</span>
+        </div>
+        <div>
+            <span>AI 주간보고</span>
+            <span>▶</span>
+        </div>
+        <div>
+            <span>성장분석</span>
+            <span>▶</span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

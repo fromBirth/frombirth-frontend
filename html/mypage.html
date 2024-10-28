@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .login-info, .child-management {
+            margin-bottom: 20px;
+        }
+        .login-info h3, .child-management h3 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .email {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .email img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .logout {
+            font-size: 14px;
+            color: #f78e1e;
+            text-align: right;
+            cursor: pointer;
+        }
+        .child-cards {
+            display: flex;
+            gap: 10px;
+        }
+        .child-card {
+            width: 45%;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .child-card img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-bottom: 5px;
+        }
+        .active-child {
+            background-color: #fff5f5;
+            color: #f78e1e;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">마이페이지</div>
+
+    <div class="login-info">
+        <h3>로그인 정보</h3>
+        <div class="email">
+            <img src="email-icon.png" alt="Email Icon">
+            <span>qjqmti0113@naver.com</span>
+        </div>
+        <div class="logout">로그아웃</div>
+    </div>
+
+    <div class="child-management">
+        <h3>내 아이 관리</h3>
+        <div class="child-cards">
+            <div class="child-card active-child">
+                <img src="child1.png" alt="Child Image">
+                <div>홍길동 <span style="background-color: #f78e1e; color: white; border-radius: 10px; padding: 2px 5px;">현재</span></div>
+                <small>현재 0일</small>
+            </div>
+            <div class="child-card">
+                <img src="add-child.png" alt="Add Child">
+                <div>아이추가</div>
+                <small>(1/5)</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
