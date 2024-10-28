@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>육아일기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f0e68c;
+        }
+        .header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .header span {
+            font-size: 14px;
+            color: gray;
+        }
+        .calendar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            margin: 20px 0;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        .calendar div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding-top: 100%;
+            position: relative;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .calendar div img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .highlighted {
+            background-color: #1e90ff;
+            color: white;
+            font-weight: bold;
+        }
+        .diary-entry {
+            margin-top: 20px;
+        }
+        .diary-entry h3 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .diary-text {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .diary-images {
+            display: flex;
+            gap: 5px;
+        }
+        .diary-images img {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="profile-placeholder.png" alt="Profile Picture">
+        <div>
+            <h2>홍길동 - 0개월 12일 (만 0세)</h2>
+            <span>▼</span>
+        </div>
+        <div style="margin-left:auto;">
+            <span>🔍 ⋮</span>
+        </div>
+    </div>
+
+    <div class="calendar-nav">
+        <span>◀</span>
+        <span>2024.10</span>
+        <span>▶</span>
+    </div>
+
+    <div class="calendar">
+        <div>일</div>
+        <div>월</div>
+        <div>화</div>
+        <div>수</div>
+        <div>목</div>
+        <div>금</div>
+        <div>토</div>
+
+        <div></div><div></div><div class="highlighted"><img src="avatar1.png" alt="Avatar"></div><div><img src="avatar2.png" alt="Avatar"></div><div></div><div></div><div></div>
+        <div><img src="avatar3.png" alt="Avatar"></div><div></div><div><img src="avatar4.png" alt="Avatar"></div><div></div><div class="highlighted">11</div><div><img src="avatar5.png" alt="Avatar"></div><div></div>
+        <!-- Add empty slots or more dates/images as necessary -->
+    </div>
+
+    <div class="diary-entry">
+        <h3>10.11 첫 이유식 도전!</h3>
+        <p class="diary-text">오늘 드디어 아기 이유식을 시작했다. 쌀미음을 준비해서 작은 숟가락에 떠서 줬는데, 처음엔 어리둥절하더니 이내 찝찝거리면서 잘 먹었다. 얼굴에 이유식을 잔뜩 묻히면서도 열심히 먹는 모습이 너무 귀여웠다. 아직은 양이 적...</p>
+        <div class="diary-images">
+            <img src="food1.png" alt="Food Image">
+            <img src="food2.png" alt="Food Image">
+            <img src="food3.png" alt="Food Image">
+            <img src="food4.png" alt="Food Image">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
