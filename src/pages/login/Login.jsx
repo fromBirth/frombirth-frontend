@@ -6,13 +6,13 @@ function Login() {
 
     useEffect(() => {
         if (window.Kakao && !window.Kakao.isInitialized()) {
-            window.Kakao.init('519ba2250d60f42ba1773ab9a6c41eb5');
+            window.Kakao.init('66231e0e83f9f6009c0eb6c52aadb80b');
         }
     }, []);
 
     const handleKakaoLogin = () => {
         window.Kakao.Auth.authorize({
-            redirectUri: 'http://172.30.1.18:8181/api/kakao/callback', // 리다이렉트 URI 설정
+            redirectUri: 'http://localhost:8181/api/kakao/callback', // 리다이렉트 URI 설정
         });
     };
 
