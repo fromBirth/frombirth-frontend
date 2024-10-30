@@ -1,0 +1,5 @@
+.tab-bar { display: flex; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; } 
+.tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; font-size: 16px; } 
+.tab.active { background-color: #f0f0f0; font-weight: bold; } 
+.entry { padding: 15px; border-bottom: 1px solid #ddd; font-size: 14px; color: #555; } 
+.entry-title { font-weight: bold; color: #333; } 
