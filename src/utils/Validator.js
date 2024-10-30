@@ -10,19 +10,19 @@ export const checkLength = (target, limit) => {
 }
 
 export const checkHasSpace = (target) => {
-    return target.indexOf(' ') === -1;
+    return target.indexOf(' ') !== -1;
 }
 
 export const checkOnlyNumber = (target) => {
-    return REGEXP.ONLY_NUMBER.test(target);
+    return !REGEXP.ONLY_NUMBER.test(target);
 }
 
 export const checkMonth = (target) => {
     return target >= 1 && target <= 12;
 }
 
-export const checkDate = (year, date, month) => {
-    return date > getLastDateByMonth(month, year) && date < 1;
+export const checkDate = (year, month, date) => {
+    return date > getLastDateByMonth(month, year) || date < 1;
 }
 
 // 윤년 검사

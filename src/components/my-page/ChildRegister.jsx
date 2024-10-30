@@ -11,7 +11,7 @@ import {
 } from "../../utils/Validator.js";
 import {ValidateMessage} from "../../utils/ValidateMessage.js";
 import {REGEXP} from "../../utils/RegularExpression.js";
-import {getLastDateByMonth} from "../../utils/Util.js";
+import {getLastDateByMonth, numberAddZero} from "../../utils/Util.js";
 import axios from "axios";
 import {CHILDREN_CREATE} from "../../routes/ApiPath.js";
 
@@ -33,7 +33,7 @@ const MyPage = () => {
         if (checkNull(inputName)) {
             return '이름을 ' + ValidateMessage.NO_INPUT;
         }
-        if (REGEXP.ONLY_ENG_AND_KOR.test(name)) {
+        if (!REGEXP.ONLY_ENG_AND_KOR.test(inputName.trim())) {
             return ValidateMessage.NAME_ENG_KOR;
         }
         if (checkLength(inputName, limitNameLength)) {
@@ -59,10 +59,10 @@ const MyPage = () => {
         if (validateInputYear(year)) {
             return '유효한 출생연도를 입력해주세요.';
         }
-        if (checkMonth(month)) {
+        if (!checkMonth(month)) {
             return '월은 1~12 사이 값만 입력 가능합니다.';
         }
-        if (checkDate(year, date, month)) {
+        if (checkDate(year, month, date)) {
             return '일은 1~' + getLastDateByMonth(month, year) + ' 사이 값만 입력 가능합니다.';
         }
 
@@ -130,10 +130,10 @@ const MyPage = () => {
 
         const child = {
             name: inputName,
-            birthDate: inputBirthYear + '-' + inputBirthMonth + '-' + inputBirthDate,
+            birthDate: inputBirthYear + '-' + numberAddZero(inputBirthMonth,2) + '-' + numberAddZero(inputBirthDate,2),
             gender: inputGender,
             bloodType: inputBlood,
-            birthTime: (inputAmPm === 'AM' ? inputHour : inputHour + 12) + ':' + inputMinute + ':00',
+            birthTime: (inputAmPm === 'AM' ? numberAddZero(inputHour, 2) : inputHour + 12) + ':' + numberAddZero(inputMinute, 2) + ':00',
             birthHeight: inputHeight,
             birthWeight: inputWeight
         }
