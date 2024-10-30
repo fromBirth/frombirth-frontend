@@ -11,7 +11,7 @@ import Layout from '../components/common/Layout.jsx';
 // 스피너 컴포넌트 import
 import Spinner from '../components/common/Spinner.jsx'; 
 // 전역 스타일 파일을 import하여 스타일 적용
-import '/src/assets/styles/common.css';
+import '/src/components/common/Common.css';
 
 // React.lazy를 사용하여 동적 import로 각 페이지를 로딩하여 초기 로딩 속도 최적화
 const Login = lazy(() => import('../components/login/Login.jsx'));
