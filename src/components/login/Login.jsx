@@ -12,7 +12,7 @@ function Login() {
 
     const handleKakaoLogin = () => {
         window.Kakao.Auth.authorize({
-            redirectUri: 'https://your-redirect-url.com/kakaoLoginCallback', // 리다이렉트 URI 설정
+            redirectUri: 'http://localhost:8181/api/kakao/callback', // 리다이렉트 URI 설정
         });
     };
 
