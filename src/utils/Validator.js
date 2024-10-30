@@ -31,7 +31,7 @@ export const checkLeapYear = (year) => {
 }
 
 export const checkHour = (hour) => {
-    return hour < 0 || hour > 23;
+    return hour < 0 || hour > 11;
 }
 
 export const checkMinute = (minute) => {
