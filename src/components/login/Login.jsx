@@ -1,5 +1,8 @@
+/* src/components/login/Login.jsx */
+
 import './Login.css'
 import kakaoSymbol from '../../assets/img/kakaoSymbol.svg'
+import { Link } from 'react-router-dom';
 import {useEffect} from "react";
 
 function Login() {
@@ -17,17 +20,28 @@ function Login() {
     };
 
     return (
-        <div className="wrap">
+        <div className="login-wrap">
             <div className="logo-text">
-                <p className="title dunggeunmiso-b">프롬버스</p>
-                <p className="subtitle dunggeunmiso-b">from birth : 탄생부터 성장까지</p>
-                <p className="description dunggeunmiso-r">육아 기록 및 발달장애 진단 앱</p>
+                <p className="title">프롬버스</p>
+                <p className="subtitle">from birth : 탄생부터 성장까지</p>
+                <p className="description">육아 기록 및 발달장애 진단 앱</p>
+                <Link
+                    to="/"
+                    style={{
+                        fontSize: '12px',
+                        color: 'gray',
+                        position: 'absolute',
+                        top: '10px',
+                        right: '10px',
+                    }}
+                >
+                    메인으로
+                </Link>
             </div>
             <button onClick={handleKakaoLogin}>
                 <div className="kakao-button">
-                    <img src={kakaoSymbol} alt="KaKaoLoginImg"
-                         style={{width: '6vw', height: 'auto', marginRight: '2vw'}}/>
-                    <span className="pretendard-bold">카카오로 시작하기</span>
+                    <img src={kakaoSymbol} alt="KaKaoLoginImg" />
+                    <span>카카오로 시작하기</span>
                 </div>
             </button>
         </div>

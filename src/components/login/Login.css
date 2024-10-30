@@ -1,8 +1,10 @@
-button { border: none; outline: none; background-color: inherit; cursor: pointer; } 
-.wrap { text-align: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; } 
-.title { color: var(--logo-color); font-size: 3.5em; padding-bottom: 2vh; } 
-.subtitle { color: var(--logo-color); padding-bottom: 1.2vh; font-size: 1.3em; } 
-.description { color: var(--logo-color); font-size: 1.29em; } 
-.logo-text { text-align: left; display: flex; flex-direction: column; align-items: flex-start; } 
-.logo-text h1 { font-size: 8vw; color: #F57C00; font-weight: 900; } 
-.kakao-button { display: flex; align-items: center; justify-content: center; cursor: pointer; background-color: #FEE500; width: 90vw; height: 6.2vh; border-radius: 12px; font-size: 1.2em; position: absolute; transform: translateX(-50%); bottom: 3vh; } 
+/* src/components/login/Login.css */
+
+.login-wrap { text-align: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; background-color: white; max-width: 600px; margin: 0 auto; }
+.login-wrap .logo-text { text-align: left; width: 100%; padding-left: 30px; padding-bottom: 60px; }
+.login-wrap .logo-text .title { font-family: "HakgyoansimDunggeunmisoTTF-B"; color: var(--logo-color); font-size: clamp(3em, 15vw, 6em); padding-bottom: 1.6vh; }
+.login-wrap .logo-text .subtitle { font-family: "HakgyoansimDunggeunmisoTTF-B"; color: var(--logo-color); font-size: clamp(1em, 5vw, 2em); padding-bottom: 1.6vh; }
+.login-wrap .logo-text .description { font-family: "HakgyoansimDunggeunmisoTTF-R"; color: var(--logo-color); font-size: clamp(0.9em, 4.5vw, 1.8em); }
+.login-wrap .kakao-button { display: flex; align-items: center; justify-content: center; cursor: pointer; background-color: #FEE500; width: 90%; height: 50px; border-radius: 12px; font-size: 18px; position: absolute; transform: translateX(-50%); bottom: 3vh; }
+.login-wrap .kakao-button img { width: 23px; height: auto; margin-right: 6px; }
+.login-wrap .kakao-button span { font-weight: 600; }
