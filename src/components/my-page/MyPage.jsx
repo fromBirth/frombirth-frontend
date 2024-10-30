@@ -1,6 +1,8 @@
 /* src/components/dashboard/MyPage.jsx */
 
 import './MyPage.css';
+import {Link} from "react-router-dom";
+import {PATHS} from "../../routes/paths.js";
 
 const MyPage = () => {
     return (
@@ -28,9 +30,11 @@ const MyPage = () => {
                         <small>현재 0일</small>
                     </div>
                     <div className="child-card">
-                        <img src="add-child.png" alt="Add Child" />
-                        <div>아이추가</div>
-                        <small>(1/5)</small>
+                        <Link to={PATHS.CHILD_REGISTER}>
+                            {/*<img src="add-child.png" alt="Add Child" />*/}
+                            <div>아이추가</div>
+                            <small>(1/5)</small>
+                        </Link>
                     </div>
                 </div>
             </div>

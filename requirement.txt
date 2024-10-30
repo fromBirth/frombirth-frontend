@@ -1,4 +1,5 @@
 npm install react-router-dom
 npm install axios
+npm install date-fns
 npm install chart.js react-chartjs-2
 npm install @mui/material @emotion/react @emotion/styled
