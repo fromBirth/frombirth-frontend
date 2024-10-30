@@ -1,0 +1,14 @@
+@font-face { font-family: 'HakgyoansimDunggeunmisoTTF-B'; src: url('/src/assets/fonts/Hakgyoansim-Dunggeunmiso-TTF-B.ttf') format('truetype'); font-weight: normal; font-style: normal; } 
+@font-face { font-family: 'HakgyoansimDunggeunmisoTTF-R'; src: url('/src/assets/fonts/Hakgyoansim-Dunggeunmiso-TTF-R.ttf') format('truetype'); font-weight: normal; font-style: normal; } 
+@font-face { font-family: 'pretendard-bold'; src: url('/src/assets/fonts/Pretendard-Bold.otf') format('truetype'); font-weight: normal; font-style: normal; } 
+
+/* 이후 폰트 적용 */
+.dunggeunmiso-b { font-family: 'HakgyoansimDunggeunmisoTTF-B', sans-serif; } 
+.dunggeunmiso-r { font-family: 'HakgyoansimDunggeunmisoTTF-R', sans-serif; } 
+.pretendard-bold { font-family: 'pretendard-bold', sans-serif; } 
+
+#root { height: 100vh; width: 100vw; } 
+a { text-decoration: none; color: inherit; cursor: pointer; } 
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; } 
+
+:root { --logo-color: #FF893C; --button-disabled-color: #E6E9F0; --menu-symbol-color: #B8BCBF; --menu-text-color: #949598; --background-color: #F4F7FC;}

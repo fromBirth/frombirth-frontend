@@ -1,0 +1,21 @@
+/* src/components/dashboard/Dashboard.css */
+
+/* 중앙 컨테이너 스타일 */
+.container { background-color: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); } 
+
+/* 헤더 스타일 */
+.header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; } 
+.profile-image { width: 40px; height: 40px; border-radius: 50%; background-color: #f0e68c; } 
+.header-title { font-size: 18px; } 
+.header-dropdown { font-size: 14px; color: gray; } 
+.notification { margin-left: auto; } 
+
+/* 섹션 스타일 */
+.section { background-color: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; } 
+.section-title { font-size: 14px; margin-bottom: 8px; color: #333; } 
+.grid { display: flex; justify-content: space-between; font-size: 14px; color: #555; } 
+.highlight { font-weight: bold; color: #3b82f6; } 
+
+/* 링크 섹션 스타일 */
+.links-section { margin-top: 10px; } 
+.link-item { background-color: white; padding: 10px; margin-top: 5px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; } 
