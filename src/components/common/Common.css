@@ -1,4 +1,4 @@
-/* src/assets/styles/common.css */
+/* src/components/common/Common.css */
 
 /* 🔴 폰트 설정 */
 @font-face { font-family: 'Pretendard'; font-weight: 100; font-style: normal; src: url('https://cdn.jsdelivr.net/gh/webfontworld/pretendard/Pretendard-Thin.woff') format('woff'); font-display: swap; }

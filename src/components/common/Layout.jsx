@@ -2,7 +2,7 @@
 
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import '/src/assets/styles/layout.css';
+import '/src/components/common/Layout.css';
 
 function Layout() {
 
