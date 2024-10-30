@@ -22,7 +22,7 @@ function Login() {
     return (
         <div className="login-wrap">
             <div className="logo-text">
-                <p className="title">프롬버스</p>
+                <p className="title">프롬버스2</p>
                 <p className="subtitle">from birth : 탄생부터 성장까지</p>
                 <p className="description">육아 기록 및 발달장애 진단 앱</p>
                 <Link
@@ -31,7 +31,7 @@ function Login() {
                         fontSize: '12px',
                         color: 'gray',
                         position: 'absolute',
-                        top: '10px',
+                        top: '30px',
                         right: '10px',
                     }}
                 >
