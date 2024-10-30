@@ -1,8 +1,0 @@
-button { border: none; outline: none; background-color: inherit; cursor: pointer; } 
-.wrap { text-align: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; } 
-.title { color: var(--logo-color); font-size: 3.5em; padding-bottom: 2vh; } 
-.subtitle { color: var(--logo-color); padding-bottom: 1.2vh; font-size: 1.3em; } 
-.description { color: var(--logo-color); font-size: 1.29em; } 
-.logo-text { text-align: left; display: flex; flex-direction: column; align-items: flex-start; } 
-.logo-text h1 { font-size: 8vw; color: #F57C00; font-weight: 900; } 
-.kakao-button { display: flex; align-items: center; justify-content: center; cursor: pointer; background-color: #FEE500; width: 90vw; height: 6.2vh; border-radius: 12px; font-size: 1.2em; position: absolute; transform: translateX(-50%); bottom: 3vh; } 
