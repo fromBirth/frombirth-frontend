@@ -12,6 +12,8 @@ import {
 import {ValidateMessage} from "../../utils/ValidateMessage.js";
 import {REGEXP} from "../../utils/RegularExpression.js";
 import {getLastDateByMonth} from "../../utils/Util.js";
+import axios from "axios";
+import {CHILDREN_CREATE} from "../../routes/ApiPath.js";
 
 const MyPage = () => {
     const limitNameLength = 2;
@@ -21,7 +23,7 @@ const MyPage = () => {
     const [inputBirthDate, setInputBirthDate] = useState('');
     const [inputGender, setInputGender] = useState('M');
     const [inputBlood, setInputBlood] = useState('');
-    const [inputAmPm, setInputAmPm] = useState('am');
+    const [inputAmPm, setInputAmPm] = useState('AM');
     const [inputHour, setInputHour] = useState('');
     const [inputMinute, setInputMinute] = useState('');
     const [inputHeight, setInputHeight] = useState('');
@@ -81,7 +83,7 @@ const MyPage = () => {
             return '출생시간은 ' + ValidateMessage.HAS_SPACE;
         }
         if (checkHour(inputHour)) {
-            return '시간은 0~23 사이 값을 입력해주세요';
+            return '시간은 0~11 사이 값을 입력해주세요';
         }
         if (checkMinute(inputMinute)) {
             return '분은 0~59 사이 값을 입력해주세요';
@@ -104,9 +106,7 @@ const MyPage = () => {
         return 'ok';
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
+    const validateInput = () => {
         const checkResultSet = new Set();
         checkResultSet.add(validateInputName());
         checkResultSet.add(validateInputBirthDate(inputBirthYear, inputBirthMonth, inputBirthDate));
@@ -117,10 +117,29 @@ const MyPage = () => {
         checkResultSet.delete('ok');
         if (checkResultSet.size >= 1) {
             checkResultSet.forEach(message => alert(message));
+            return false;
+        }
+        return true;
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!validateInput()) {
             return;
         }
 
-        
+        const child = {
+            name: inputName,
+            birthDate: inputBirthYear + '-' + inputBirthMonth + '-' + inputBirthDate,
+            gender: inputGender,
+            bloodType: inputBlood,
+            birthTime: (inputAmPm === 'AM' ? inputHour : inputHour + 12) + ':' + inputMinute + ':00',
+            birthHeight: inputHeight,
+            birthWeight: inputWeight
+        }
+
+        let {data} = axios.post(CHILDREN_CREATE, child);
+        console.log(data);
     }
 
     return (
@@ -205,12 +224,12 @@ const MyPage = () => {
                 <label><span>출생시간</span><span>*</span></label>
                 <div className="birth-time">
                     <input type="radio" id="am" name="birth-time" required
-                           value="am" checked={inputAmPm === 'am'}
+                           value="AM" checked={inputAmPm === 'AM'}
                            onChange={e => setInputAmPm(e.target.value)}
                     />
                     <label htmlFor="am">오전</label>
                     <input type="radio" id="pm" name="birth-time" required
-                           value="pm" checked={inputAmPm === 'pm'}
+                           value="PM" checked={inputAmPm === 'PM'}
                            onChange={e => setInputAmPm(e.target.value)}
                     />
                     <label htmlFor="pm">오후</label>

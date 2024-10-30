@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "env-cmd -f .env.local vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -16,6 +16,7 @@
     "axios": "^1.7.7",
     "chart.js": "^4.4.6",
     "date-fns": "^4.1.0",
+    "env-cmd": "^10.1.0",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
