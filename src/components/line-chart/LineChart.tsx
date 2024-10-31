@@ -24,18 +24,20 @@ ChartJS.register(
 
 // Props 타입 정의
 interface LineChartProps {
+    label: string;
     labels: string[];
     chartData: number[];
+    title: string;
 }
 
 
 
 // LineChart 컴포넌트를 정의합니다.
-const LineChart: React.FC<LineChartProps> = ({labels, chartData}) => {
+const LineChart: React.FC<LineChartProps> = ({labels, chartData, label, title}) => {
     // 그래프 데이터와 옵션을 설정합니다.
     const datasets = [
         {
-            label: 'Chart Data',
+            label: label,
             data: chartData,
             fill: false,
             borderColor: 'rgba(75,192,192,1)',
@@ -56,7 +58,7 @@ const LineChart: React.FC<LineChartProps> = ({labels, chartData}) => {
             },
             title: {
                 display: true,
-                text: 'Sample Line Chart',
+                text: title,
             },
         },
     };
