@@ -4,6 +4,7 @@ import './WeeklyReport.css';
 import {useEffect} from "react";
 import KakaoMap from "../kakao-map/KakaoMap";
 import ProgressBar from "../ProgressBar/ProgressBar";
+import Loader from "../loader/Loader.jsx";
 
 const {kakao} = window;
 
@@ -40,6 +41,8 @@ const WeeklyReport = () => {
                 <h3>근처 병원 정보</h3>
                 <KakaoMap/>
             </div>
+
+            <Loader/>
         </>
     );
 };
