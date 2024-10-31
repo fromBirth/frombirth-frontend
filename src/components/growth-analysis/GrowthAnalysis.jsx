@@ -1,6 +1,5 @@
 /* src/components/dashboard/GrowthAnalysis.jsx */
 
-import Header from '../common/Header.jsx';
 import './GrowthAnalysis.css';
 import ProgressBar from "../ProgressBar/ProgressBar";
 import {useEffect, useState} from "react";
@@ -44,8 +43,6 @@ const GrowthAnalysis = () => {
 
     return (
         <>
-            <Header />
-
             <div className="tabs">
                 <div onClick={() => handleGrowthTabs('height')}
                      className={`tab ${activeTab === 'height' ? 'active' : ''}`}>
