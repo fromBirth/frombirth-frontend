@@ -1,6 +1,5 @@
 /* src/components/dashboard/WeeklyReport.jsx */
 
-import Header from '../common/Header.jsx';
 import './WeeklyReport.css';
 import {useEffect} from "react";
 import KakaoMap from "../kakao-map/KakaoMap";
@@ -14,8 +13,6 @@ const WeeklyReport = () => {
 
     return (
         <>
-            <Header/>
-
             <div className="date-range">2024년 10월 3주<br/>2024.10.14 (월) ~ 2024.10.14 (월)</div>
 
             <div className="report-content">
