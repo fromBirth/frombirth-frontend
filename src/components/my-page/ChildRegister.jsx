@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import './ChildRegister.css';
 import {
     checkDate,
@@ -9,11 +9,11 @@ import {
     checkNull,
     checkOnlyNumber
 } from "../../utils/Validator.js";
-import {ValidateMessage} from "../../utils/ValidateMessage.js";
-import {REGEXP} from "../../utils/RegularExpression.js";
-import {getLastDateByMonth, numberAddZero} from "../../utils/Util.js";
+import { ValidateMessage } from "../../utils/ValidateMessage.js";
+import { REGEXP } from "../../utils/RegularExpression.js";
+import { getLastDateByMonth, numberAddZero } from "../../utils/Util.js";
 import axios from "axios";
-import {CHILDREN_CREATE} from "../../routes/ApiPath.js";
+import { CHILDREN_CREATE } from "../../routes/ApiPath.js";
 
 const MyPage = () => {
     const limitNameLength = 2;
@@ -116,7 +116,8 @@ const MyPage = () => {
 
         checkResultSet.delete('ok');
         if (checkResultSet.size >= 1) {
-            checkResultSet.forEach(message => alert(message));
+            // checkResultSet.forEach(message => alert(message));
+            checkResultSet.forEach(message => window.showToast(message));
             return false;
         }
         return true;
@@ -130,7 +131,7 @@ const MyPage = () => {
 
         const child = {
             name: inputName,
-            birthDate: inputBirthYear + '-' + numberAddZero(inputBirthMonth,2) + '-' + numberAddZero(inputBirthDate,2),
+            birthDate: inputBirthYear + '-' + numberAddZero(inputBirthMonth, 2) + '-' + numberAddZero(inputBirthDate, 2),
             gender: inputGender,
             bloodType: inputBlood,
             birthTime: (inputAmPm === 'AM' ? numberAddZero(inputHour, 2) : inputHour + 12) + ':' + numberAddZero(inputMinute, 2) + ':00',
@@ -138,7 +139,7 @@ const MyPage = () => {
             birthWeight: inputWeight
         }
 
-        let {data} = axios.post(CHILDREN_CREATE, child);
+        let { data } = axios.post(CHILDREN_CREATE, child);
         console.log(data);
     }
 
@@ -152,71 +153,71 @@ const MyPage = () => {
             <form>
                 <label htmlFor="name"><span>이름</span><span>*</span></label>
                 <input type="text" id="name" placeholder="이름을 입력해주세요." required
-                       onChange={e  => setInputName(e.target.value)} value={inputName}/>
+                    onChange={e => setInputName(e.target.value)} value={inputName} />
 
                 <label><span>생년월일</span><span>*</span></label>
                 <div className="flex-row">
                     <input type="number" placeholder="YYYY" min="1900" max="2099" required
-                           onChange={e  => setInputBirthYear(e.target.value)}
-                           value={inputBirthYear} />
+                        onChange={e => setInputBirthYear(e.target.value)}
+                        value={inputBirthYear} />
                     <input type="number" placeholder="MM" min="1" max="12" required
-                           onChange={e  => setInputBirthMonth(e.target.value)}
-                           value={inputBirthMonth} />
+                        onChange={e => setInputBirthMonth(e.target.value)}
+                        value={inputBirthMonth} />
                     <input type="number" placeholder="DD" min="1" max="31" required
-                           onChange={e  => setInputBirthDate(e.target.value)}
-                           value={inputBirthDate} />
+                        onChange={e => setInputBirthDate(e.target.value)}
+                        value={inputBirthDate} />
                 </div>
 
                 <label><span>성별</span><span>*</span></label>
                 <div className="gender">
                     <input type="radio" id="male" name="gender" value="M" required checked={inputGender === 'M'}
-                           onChange={e => setInputGender(e.target.value)}/>
+                        onChange={e => setInputGender(e.target.value)} />
                     <label htmlFor="male">남자아이</label>
-                    <input type="radio" id="female" name="gender" value="W" required  checked={inputGender === 'W'}
-                           onChange={e => setInputGender(e.target.value)}/>
+                    <input type="radio" id="female" name="gender" value="W" required checked={inputGender === 'W'}
+                        onChange={e => setInputGender(e.target.value)} />
                     <label htmlFor="female">여자아이</label>
                 </div>
 
                 <label><span>혈액형</span><span>*</span></label>
                 <div className="blood-type">
                     <input type="radio" id="a" name="blood" required
-                           value="a" checked={inputBlood === 'a'}
-                           onChange={e => setInputBlood(e.target.value)}
+                        value="a" checked={inputBlood === 'a'}
+                        onChange={e => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="a">A형</label>
                     <input type="radio" id="b" name="blood" required
-                           value="b" checked={inputBlood === 'b'}
-                           onChange={e => setInputBlood(e.target.value)}
+                        value="b" checked={inputBlood === 'b'}
+                        onChange={e => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="b">B형</label>
                     <input type="radio" id="o" name="blood" required
-                           value="o" checked={inputBlood === 'o'}
-                           onChange={e => setInputBlood(e.target.value)}
+                        value="o" checked={inputBlood === 'o'}
+                        onChange={e => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="o">O형</label>
                     <input type="radio" id="ab" name="blood" required
-                           value="ab" checked={inputBlood === 'ab'}
-                           onChange={e => setInputBlood(e.target.value)}
+                        value="ab" checked={inputBlood === 'ab'}
+                        onChange={e => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="ab">AB형</label>
                     <input type="radio" id="rh-a" name="blood" required
-                           value="rh-a" checked={inputBlood === 'rh-a'}
-                           onChange={e => setInputBlood(e.target.value)}
+                        value="rh-a" checked={inputBlood === 'rh-a'}
+                        onChange={e => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="rh-a">Rh-A형</label>
                     <input type="radio" id="rh-b" name="blood" required
-                           value="rh-b" checked={inputBlood === 'rh-b'}
-                           onChange={e => setInputBlood(e.target.value)}
+                        value="rh-b" checked={inputBlood === 'rh-b'}
+                        onChange={e => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="rh-b">Rh-B형</label>
                     <input type="radio" id="rh-o" name="blood" required
-                           value="rh-o" checked={inputBlood === 'rh-o'}
-                           onChange={e => setInputBlood(e.target.value)}
+                        value="rh-o" checked={inputBlood === 'rh-o'}
+                        onChange={e => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="rh-o">Rh-O형</label>
                     <input type="radio" id="rh-ab" name="blood" required
-                           value="rh-ab" checked={inputBlood === 'rh-ab'}
-                           onChange={e => setInputBlood(e.target.value)}
+                        value="rh-ab" checked={inputBlood === 'rh-ab'}
+                        onChange={e => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="rh-ab">Rh-AB형</label>
                 </div>
@@ -224,33 +225,33 @@ const MyPage = () => {
                 <label><span>출생시간</span><span>*</span></label>
                 <div className="birth-time">
                     <input type="radio" id="am" name="birth-time" required
-                           value="AM" checked={inputAmPm === 'AM'}
-                           onChange={e => setInputAmPm(e.target.value)}
+                        value="AM" checked={inputAmPm === 'AM'}
+                        onChange={e => setInputAmPm(e.target.value)}
                     />
                     <label htmlFor="am">오전</label>
                     <input type="radio" id="pm" name="birth-time" required
-                           value="PM" checked={inputAmPm === 'PM'}
-                           onChange={e => setInputAmPm(e.target.value)}
+                        value="PM" checked={inputAmPm === 'PM'}
+                        onChange={e => setInputAmPm(e.target.value)}
                     />
                     <label htmlFor="pm">오후</label>
                 </div>
                 <div className="flex-row">
                     <input type="number" id="hour" placeholder="HH" min="0" max="23" required
-                           value={inputHour} onChange={e => setInputHour(e.target.value)}/>
+                        value={inputHour} onChange={e => setInputHour(e.target.value)} />
                     <label htmlFor="hour">시</label>
                     <input type="number" id="minute" placeholder="MM" min="0" max="59" required
-                           value={inputMinute} onChange={e => setInputMinute(e.target.value)}/>
+                        value={inputMinute} onChange={e => setInputMinute(e.target.value)} />
                     <label htmlFor="minute">분</label>
                 </div>
 
                 <label><span>출생 키/몸무게</span><span>*</span></label>
                 <div className="flex-row">
                     <input type="number" id="length" placeholder="cm" required
-                           value={inputHeight} onChange={e => setInputHeight(e.target.value)}
+                        value={inputHeight} onChange={e => setInputHeight(e.target.value)}
                     />
                     <label htmlFor="length">cm</label>
                     <input type="number" id="weight" placeholder="kg" required
-                           value={inputWeight} onChange={e => setInputWeight(e.target.value)}
+                        value={inputWeight} onChange={e => setInputWeight(e.target.value)}
                     />
                     <label htmlFor="weight">kg</label>
                 </div>

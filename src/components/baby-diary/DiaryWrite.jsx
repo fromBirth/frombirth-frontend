@@ -1,6 +1,6 @@
-import './DiaryRegister.css';
+import './DiaryWrite.css';
 
-const DiaryRegister = () => {
+const DiaryWrite = () => {
     return (
         <div className="container">
             <h2>10/13(일) 일기 작성</h2>
@@ -32,4 +32,4 @@ const DiaryRegister = () => {
     );
 };
 
-export default DiaryRegister;
+export default DiaryWrite;

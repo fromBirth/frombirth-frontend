@@ -7,8 +7,6 @@ import {PATHS} from "../../routes/paths.js";
 const MyPage = () => {
     return (
         <>
-            <div className="header">마이페이지</div>
-
             <div className="login-info">
                 <h3>로그인 정보</h3>
                 <div className="email">

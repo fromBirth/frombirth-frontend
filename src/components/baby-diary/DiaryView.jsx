@@ -1,6 +1,6 @@
-import './DiaryDetail.css';
+import './DiaryView.css';
 
-const DiaryDetail = () => {
+const DiaryView = () => {
     return (
         <div className="container">
             <div className="header">10/13(일) 일기</div>
@@ -19,4 +19,4 @@ const DiaryDetail = () => {
     );
 };
 
-export default DiaryDetail;
+export default DiaryView;

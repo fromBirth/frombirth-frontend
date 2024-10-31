@@ -15,7 +15,7 @@
 @font-face { font-family: 'HakgyoansimDunggeunmisoTTF-R'; src: url('/src/assets/fonts/Hakgyoansim-Dunggeunmiso-TTF-R.ttf') format('truetype'); font-weight: normal; font-style: normal; } 
 
 /* 🔴 css 초기화 설정 */
-html, body { font-family: "Pretendard", sans-serif; height: 100%; margin: 0; padding: 0; } 
+html, body { font-family: "Pretendard", sans-serif; height: 100%; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; } 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; touch-action: manipulation; } 
 a { text-decoration: none; color: black; } 
 ul, li, ol, dl, dd { list-style: none; margin: 0; } 
@@ -40,14 +40,15 @@ input::placeholder { color: #888; }
 
 /* 🟣 토스트 메시지 */
 .toast-container { position: fixed; bottom: 55px; z-index: 1000; } 
-.toast { background-color: #444444dd; color: white; padding: 14px 21px; border-radius: 21px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); font-size: 16px; font-weight: 400; animation: fadeInOut 2s ease-in-out forwards; }
+.toast { background-color: #444444dd; color: white; padding: 14px 21px; border-radius: 21px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); font-size: 16px; font-weight: 400; animation: fadeInOut 2s ease-in-out forwards; } 
 .toast i { margin-right: 5px; } 
 .toast i.bi-check-circle-fill { color: #10ae77; } 
 .toast i.bi-exclamation-circle-fill { color: #ff0b00; } 
 
 /* 🟣 fadeInOut 애니메이션 정의 */
-@keyframes fadeInOut {0% { opacity: 0; }
-10% { opacity: 1; }
-85% { opacity: 1; }
-100% { opacity: 0; }
-}
+@keyframes fadeInOut { 
+ 0% { opacity: 0; } 
+10% { opacity: 1; } 
+85% { opacity: 1; } 
+100% { opacity: 0; } 
+ }

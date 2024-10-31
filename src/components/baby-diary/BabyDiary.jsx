@@ -1,6 +1,5 @@
 /* src/components/dashboard/BabyDiary.jsx */
 
-import Header from '../common/Header.jsx';
 import Calendar from "./diary-calendar/DiaryCalendar.jsx";
 
 import './BabyDiary.css';
@@ -9,8 +8,6 @@ const BabyDiary = () => {
 
     return (
         <>
-            <Header />
-
             <Calendar/>
 
             <div className="diary-entry">
