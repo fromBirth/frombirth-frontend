@@ -12,6 +12,7 @@ import Layout from '../components/common/Layout.jsx';
 import Spinner from '../components/common/Spinner.jsx'; 
 // 전역 스타일 파일을 import하여 스타일 적용
 import '/src/components/common/Common.css';
+import DiarySearch from "../components/baby-diary/DiarySearch.jsx";
 
 // React.lazy를 사용하여 동적 import로 각 페이지를 로딩하여 초기 로딩 속도 최적화
 const Login = lazy(() => import('../components/login/Login.jsx'));
@@ -48,6 +49,7 @@ function AppRouter() {
                     <Route path={PATHS.DIARY_LIST_PHOTO} element={<DiaryListPhoto />} />
                     <Route path={PATHS.DIARY_WRITE} element={<DiaryWrite />} />
                     <Route path={PATHS.DIARY_VIEW} element={<DiaryView />} />
+                    <Route path={PATHS.DIARY_SEARCH} element={<DiarySearch />} />
 
                     {/* WeeklyReport 페이지 */}
                     <Route path={PATHS.WEEKLY_REPORT} element={<WeeklyReport />} />

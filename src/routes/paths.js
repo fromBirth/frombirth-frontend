@@ -15,6 +15,7 @@ export const PATHS = {
     DIARY_LIST_PHOTO: "/diarylistphoto", // 사진으로 보는 일기 목록 경로
     DIARY_WRITE: "/diarywrite",          // 일기 작성 페이지 경로
     DIARY_VIEW: "/diaryview",            // 일기 상세 페이지 경로
+    DIARY_SEARCH: "/diarysearch",        // 일기 검색 페이지 경로
 
     // AI주간보고 페이지 경로
     WEEKLY_REPORT: "/weeklyreport",
