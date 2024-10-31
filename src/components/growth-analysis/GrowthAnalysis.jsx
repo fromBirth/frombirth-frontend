@@ -2,24 +2,71 @@
 
 import Header from '../common/Header.jsx';
 import './GrowthAnalysis.css';
+import ProgressBar from "../ProgressBar/ProgressBar";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {RECORD_CHILD_ALL_BODY_SIZE} from "../../routes/ApiPath.js";
+import LineChart from "../line-chart/LineChart";
 
 const GrowthAnalysis = () => {
+    const [activeTab, setActiveTab] = useState('height');
+    const handleGrowthTabs = type => {
+        setActiveTab(type);
+        setChartData(childAllRecords.map(record => record[type]));
+    };
+    const [childId, setChildId] = useState('hong');
+    const [childName, setChildName] = useState('홍길동');
+    const [childHeight, setChildHeight] = useState(64);
+    const [childWeight, setChildWeight] = useState(5);
+
+    const [labels, setLabels] = useState('');
+    const [chartData, setChartData] = useState({});
+    const [childAllRecords, setChildAllRecords] = useState({});
+
+    const fetchData = async () => {
+        try {
+            let { data } = await axios.get(RECORD_CHILD_ALL_BODY_SIZE + '?childId=' + childId);
+            setChildAllRecords(data);
+            setLabels(data.map(record => record.recordDate));
+            setChartData(data.map(record => record.height));
+        } catch (e) {
+            console.log(e);
+            // 요청 실패 시 빈 배열로 초기화
+            setChildAllRecords([]);
+            setLabels([]);
+            setChartData([]);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     return (
         <>
             <Header />
 
             <div className="tabs">
-                <div className="tab active">키</div>
-                <div className="tab">몸무게</div>
+                <div onClick={() => handleGrowthTabs('height')}
+                     className={`tab ${activeTab === 'height' ? 'active' : ''}`}>
+                    키
+                </div>
+                <div onClick={() => handleGrowthTabs('weight')}
+                     className={`tab ${activeTab === 'weight' ? 'active' : ''}`}>
+                    몸무게
+                </div>
             </div>
 
             <div className="section-title">3개월 전</div>
             <div className="highlight-text">
-                홍길순 님의 키는 <span style={{ color: '#f78e1e' }}>평균 64.8 cm</span> 이에요 ✏️
+                {childName} 님의 {activeTab === 'height' ? '키':'몸무게'}는
+                <span style={{ color: '#f78e1e' }}>
+                    {' '}평균 {activeTab === 'height' ? childHeight+' cm' : childWeight + ' kg'}
+                </span> 이에요 ✏️
             </div>
 
             <div className="progress-bar">
-                <div className="progress"></div>
+                <ProgressBar value={0}/>
             </div>
             <div className="range-labels">
                 <span>작은편</span>
@@ -28,18 +75,12 @@ const GrowthAnalysis = () => {
             </div>
 
             <div className="chart">
-                <svg width="100%" height="200">
-                    <polyline points="20,150 80,130 140,110 200,90" style={{ fill: 'none', stroke: '#f78e1e', strokeWidth: 2 }} />
-                    <circle cx="20" cy="150" r="4" fill="#f78e1e" />
-                    <circle cx="80" cy="130" r="4" fill="#f78e1e" />
-                    <circle cx="140" cy="110" r="4" fill="#f78e1e" />
-                    <circle cx="200" cy="90" r="6" fill="#f78e1e" stroke="#f78e1e" strokeWidth="2" />
-                </svg>
-                <div style={{ display: 'flex', justifyContent: 'space-around', fontSize: '12px', color: 'gray' }}>
-                    <span>05.12</span>
-                    <span>06.12</span>
-                    <span>07.12</span>
-                </div>
+                <LineChart
+                    labels={labels}
+                    chartData={chartData}
+                    title={childName + ' 님 ' + (activeTab === 'height' ? '키' : '몸무게') + ' 변화'}
+                    label={activeTab}
+                />
             </div>
         </>
     );
