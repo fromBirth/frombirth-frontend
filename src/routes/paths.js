@@ -10,11 +10,11 @@ export const PATHS = {
     DASHBOARD: "/dashboard",
 
     // 육아 일기 섹션 경로들
-    BABY_DIARY: "/babydiary",               // 육아 일기 메인 경로
-    DIARY_LIST: "/babydiary/list",          // 일기 목록 페이지 경로
-    DIARY_LIST_PHOTO: "/babydiary/listphoto", // 사진으로 보는 일기 목록 경로
-    DIARY_REGISTER: "/babydiary/register",  // 일기 작성 페이지 경로
-    DIARY_DETAIL: "/babydiary/detail",      // 일기 상세 페이지 경로
+    BABY_DIARY: "/babydiary",            // 육아 일기 메인 경로
+    DIARY_LIST: "/diarylist",            // 일기 목록 페이지 경로
+    DIARY_LIST_PHOTO: "/diarylistphoto", // 사진으로 보는 일기 목록 경로
+    DIARY_WRITE: "/diarywrite",          // 일기 작성 페이지 경로
+    DIARY_VIEW: "/diaryview",            // 일기 상세 페이지 경로
 
     // AI주간보고 페이지 경로
     WEEKLY_REPORT: "/weeklyreport",

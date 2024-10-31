@@ -1,13 +1,12 @@
 /* src/components/dashboard/Dashboard.jsx */
 
-import Header from '../common/Header.jsx';
+import { Link } from 'react-router-dom';
+
 import './Dashboard.css';
 
 const Dashboard = () => {
     return (
         <>
-            <Header />
-
             <div className="section">
                 <h3 className="section-title">아이정보</h3>
                 <div className="grid">
@@ -39,7 +38,16 @@ const Dashboard = () => {
                     <span>성장분석</span>
                     <span>▶</span>
                 </div>
+                <div className="link-item">
+                    <Link
+                        to="/login"
+                        style={{
+                            fontSize: '12px',
+                            color: 'gray',
+                        }}>로그인</Link>
+                </div>
             </div>
+
         </>
     );
 };

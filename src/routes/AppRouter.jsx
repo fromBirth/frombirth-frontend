@@ -19,8 +19,8 @@ const Dashboard = lazy(() => import('../components/dashboard/Dashboard.jsx'));
 const BabyDiary = lazy(() => import('../components/baby-diary/BabyDiary.jsx'));
 const DiaryList = lazy(() => import('../components/baby-diary/DiaryList.jsx'));
 const DiaryListPhoto = lazy(() => import('../components/baby-diary/DiaryListPhoto.jsx'));
-const DiaryRegister = lazy(() => import('../components/baby-diary/DiaryRegister.jsx'));
-const DiaryDetail = lazy(() => import('../components/baby-diary/DiaryDetail.jsx'));
+const DiaryWrite = lazy(() => import('../components/baby-diary/DiaryWrite.jsx'));
+const DiaryView = lazy(() => import('../components/baby-diary/DiaryView.jsx'));
 const WeeklyReport = lazy(() => import('../components/weekly-report/WeeklyReport.jsx'));
 const GrowthAnalysis = lazy(() => import('../components/growth-analysis/GrowthAnalysis.jsx'));
 const MyPage = lazy(() => import('../components/my-page/MyPage.jsx'));
@@ -46,8 +46,8 @@ function AppRouter() {
                     <Route path={PATHS.BABY_DIARY} element={<BabyDiary />} />
                     <Route path={PATHS.DIARY_LIST} element={<DiaryList />} />
                     <Route path={PATHS.DIARY_LIST_PHOTO} element={<DiaryListPhoto />} />
-                    <Route path={PATHS.DIARY_REGISTER} element={<DiaryRegister />} />
-                    <Route path={PATHS.DIARY_DETAIL} element={<DiaryDetail />} />
+                    <Route path={PATHS.DIARY_WRITE} element={<DiaryWrite />} />
+                    <Route path={PATHS.DIARY_VIEW} element={<DiaryView />} />
 
                     {/* WeeklyReport 페이지 */}
                     <Route path={PATHS.WEEKLY_REPORT} element={<WeeklyReport />} />
