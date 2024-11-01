@@ -6,49 +6,70 @@ import './Dashboard.css';
 
 const Dashboard = () => {
     return (
-        <>
-            <div className="section">
-                <h3 className="section-title">아이정보</h3>
-                <div className="grid">
-                    <span>성별</span><span>남자</span>
-                    <span>혈액형</span><span>A형</span>
-                    <span>생년월일</span><span>2024.10.01</span>
-                    <span>탄생시간</span><span>오후 05시 30분</span>
+        <div className="main-content">
+            <section className="info-section">
+                <h2 className="section-title">아이정보</h2>
+                <div className="info-details">
+                    <div className="info-item">
+                        <span className="label">성별</span>
+                        <span className="value">남자</span>
+                    </div>
+                    <div className="info-item">
+                        <span className="label">혈액형</span>
+                        <span className="value">A형</span>
+                    </div>
+                    <div className="info-item">
+                        <span className="label">생년월일</span>
+                        <span className="value">2024.10.01</span>
+                    </div>
+                    <div className="info-item">
+                        <span className="label">탄생시간</span>
+                        <span className="value">오후 05시 30분</span>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div className="section">
-                <h3 className="section-title">최근기록 2024-10-02</h3>
-                <div className="grid">
-                    <span>키</span><span className="highlight">평균 64.8 cm</span>
-                    <span>몸무게</span><span className="highlight" style={{ color: '#34c759' }}>높은 편 11.2 kg</span>
+            <section className="record-section">
+                <h2 className="section-title">최근기록<span className='recent-date'>2024-10-02</span></h2>
+                <div className='record-wrap'>
+                    <div className="record-item">
+                        <span className="label">키</span>
+                        <div className="value"><span className="tag average">평균</span><span>64.8 cm</span></div>
+                    </div>
+                    <div className="record-item">
+                        <span className="label">몸무게</span>
+                        <div className="value"><span className="tag high">높은편</span><span>11.2 kg</span></div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div className="links-section">
-                <div className="link-item">
-                    <span>육아일기</span>
-                    <span>▶</span>
+            <section className="menu-section">
+                <div className="menu-item">
+                    <div className="menu-text">
+                        <span className="menu-title">육아일기</span>
+                        <span className="menu-count">총 14건</span>
+                        <p className="menu-description">하루에 한 번 육아일기를 작성하세요. 키와 몸무게도 기록할 수 있습니다.</p>
+                    </div>
+                    <i className="bi bi-chevron-right"></i>
                 </div>
-                <div className="link-item">
-                    <span>AI 주간보고</span>
-                    <span>▶</span>
+                <div className="menu-item">
+                    <div className="menu-text">
+                        <span className="menu-title">AI 주간보고</span>
+                        <span className="menu-count">총 2건</span>
+                        <p className="menu-description">매주 월요일, 육아 피드백 및 발달장애 진단 보고서가 도착합니다.</p>
+                    </div>
+                    <i className="bi bi-chevron-right"></i>
                 </div>
-                <div className="link-item">
-                    <span>성장분석</span>
-                    <span>▶</span>
+                <div className="menu-item">
+                    <div className="menu-text">
+                        <span className="menu-title">성장분석</span>
+                        <span className="menu-count">총 2건</span>
+                        <p className="menu-description">아이의 성장 추이를 확인하고 또래 평균과 비교해보세요.</p>
+                    </div>
+                    <i className="bi bi-chevron-right"></i>
                 </div>
-                <div className="link-item">
-                    <Link
-                        to="/login"
-                        style={{
-                            fontSize: '12px',
-                            color: 'gray',
-                        }}>로그인</Link>
-                </div>
-            </div>
-
-        </>
+            </section>
+        </div>
     );
 };
 

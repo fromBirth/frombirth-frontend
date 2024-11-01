@@ -1,12 +1,25 @@
 /* src/components/dashboard/Dashboard.css */
+.info-section,
+.record-section { background-color: #f4f7fc; border-radius: 10px; padding: 16px; margin-bottom: 12px; } 
+.section-title { font-size: 16px; font-weight: 400; color: #333333; margin-bottom: 12px; } 
+.section-title .recent-date { font-size: 14px; font-weight: 400; color: #888; margin-left: 4px; } 
+.info-details,
+.record-details { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; } 
+.info-item { width: 48%;; } 
+.record-wrap { display: flex; flex-direction: column; gap: 10px; } 
+.record-item { display: flex; justify-content: space-between; align-items: center; } 
+.label { font-size: 14px; color: #999999; } 
+.value { font-size: 17px; font-weight: bold; color: #333333; } 
+.info-section .value { margin-left:6px; } 
+.value .tag { font-size: 0.9rem; margin-right: 3px; border-radius: 12px; padding: 2px 8px; } 
+.value .tag.average { color: #ff6f61; background-color: #ffe4e1; } 
+.value .tag.high { color: #2ecc71; background-color: #e8f8e9; } 
+.menu-section { background-color: #ffffff; border-radius: 10px; } 
+.menu-item { display: flex; justify-content: space-between; align-items: center; background-color: #f4f7fc; border-radius: 10px; padding: 16px; margin-bottom: 12px; } 
+.menu-item:last-child { border-bottom: none; } 
+.menu-item .menu-text { flex-grow: 1; } 
+.menu-item .menu-title { font-size: 16px; font-weight: 400; color: #333333; } 
+.menu-item .menu-count { font-size: 14px; color: #666666; margin-top: 4px; margin-left: 3px; } 
+.menu-item .menu-description { font-size: 12px; color: #999999; margin-top: 4px; } 
+.menu-item i { color: #999999; margin-left: 16px; } 
 
-/* 섹션 스타일 */
-.section { background-color: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; } 
-.section-title { font-size: 14px; margin-bottom: 8px; color: #333; } 
-.grid { display: flex; justify-content: space-between; font-size: 14px; color: #555; } 
-.highlight { font-weight: bold; color: #3b82f6; } 
-
-/* 링크 섹션 스타일 */
-.links-section { margin-top: 10px; } 
-.links-section div { background-color: white; padding: 10px; margin-top: 5px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; } 
-.link-item { background-color: white; padding: 10px; margin-top: 5px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; } 
