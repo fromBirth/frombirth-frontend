@@ -1,10 +1,13 @@
 /* src/components/common/Header.jsx */
 
 import { useState, useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { PATHS } from '../../routes/paths.js';
 
 const Header = () => {
     const location = useLocation();
+    const navigate = useNavigate(); // useNavigate 훅 추가
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null); // 드롭다운 참조 생성
 
@@ -30,6 +33,20 @@ const Header = () => {
         };
     }, [isDropdownOpen]);
 
+    // 0.2초 지연 후 경로 이동 함수
+    const handleNavigation = (path) => {
+        setTimeout(() => {
+            navigate(path); // 지정된 경로로 이동
+        }, 200); // 0.2초 지연
+    };
+
+    // 뒤로가기 함수
+    const handleGoBack = () => {
+        setTimeout(() => {
+            navigate(-1); // 0.2초 후 이전 페이지로 이동
+        }, 200);
+    };
+
     // 경로에 따라 표시할 헤더 내용 분기
     const renderHeaderContent = () => {
         const profilePaths = [
@@ -38,20 +55,29 @@ const Header = () => {
             '/diarylist',
             '/diarylistphoto',
             '/weeklyreport',
-            '/growthanalysis'
+            '/growthanalysis',
         ];
 
         if (profilePaths.includes(location.pathname)) {
             // profilePaths에 있는 경로라면 프로필 표시
             return (
-                <div className='profile-wrap' ref={dropdownRef}>
-                    <div className='btn-profile' onClick={toggleDropdown}>
-                        <div className='profile-img-wrap'>
-                            <img src="/src/assets/img/basic_profile.png" alt="Profile Picture" className="profile-image" />
+                <div className="profile-wrap" ref={dropdownRef}>
+                    <div className="btn-profile" onClick={toggleDropdown}>
+                        <div className="profile-img-wrap">
+                            <img
+                                src="/src/assets/img/profile_male.png"
+                                alt="Profile Picture"
+                                className="profile-image"
+                            />
                         </div>
-                        <div className='profile-info-wrap'>
-                            <b className='name'>홍길동</b> <span className='info'>· 0개월 12일 (만 0세)</span>
-                            <i className={`bi bi-chevron-down icon ${isDropdownOpen ? 'rotate' : ''}`}></i>
+                        <div className="profile-info-wrap">
+                            <b className="name">홍길동</b>{' '}
+                            <span className="info">· 0개월 12일 (만 0세)</span>
+                            <i
+                                className={`bi bi-chevron-down icon ${
+                                    isDropdownOpen ? 'rotate' : ''
+                                }`}
+                            ></i>
                         </div>
                     </div>
 
@@ -60,7 +86,10 @@ const Header = () => {
                         <div className="dropdown-menu">
                             <div className="dropdown-item active">홍길동</div>
                             <div className="dropdown-item">홍길순</div>
-                            <div className="dropdown-item">
+                            <div
+                                className="dropdown-item"
+                                onClick={() => handleNavigation(PATHS.CHILD_REGISTER)}
+                            >
                                 아이등록하기 <i className="bi bi-person-plus"></i>
                             </div>
                         </div>
@@ -70,19 +99,15 @@ const Header = () => {
         } else {
             // 그 외 경로에서는 다른 콘텐츠 표시 (예시로 뒤로가기 + 페이지 제목 추가)
             return (
-                <div className='page-header'>
-                    <i className="bi bi-chevron-left"></i>
+                <div className="page-header">
+                    <i className="bi bi-chevron-left" onClick={handleGoBack}></i>
                     <span>내 정보</span>
                 </div>
             );
         }
     };
 
-    return (
-        <header className="header">
-            {renderHeaderContent()}
-        </header>
-    );
+    return <header className="header">{renderHeaderContent()}</header>;
 };
 
 export default Header;
