@@ -12,7 +12,7 @@ import Layout from '../components/common/Layout.jsx';
 import Spinner from '../components/common/Spinner.jsx';
 // 전역 스타일 파일을 import하여 스타일 적용
 import '/src/components/common/Common.css';
-import DiarySearch from "../components/baby-diary/DiarySearch.jsx";
+import DiarySearch from "../components/baby-diary/diary-search/DiarySearch.jsx";
 import ProtectedRoute from '../routes/ProtectedRoute.jsx';
 import AppContext from "../contexts/AppProvider.jsx";
 
@@ -25,6 +25,7 @@ const DiaryListPhoto = lazy(() => import('../components/baby-diary/diary-list-ph
 const DiaryWrite = lazy(() => import('../components/baby-diary/diray-write/DiaryWrite.jsx'));
 const DiaryView = lazy(() => import('../components/baby-diary/diary-view/DiaryView.jsx'));
 const WeeklyReport = lazy(() => import('../components/weekly-report/WeeklyReport.jsx'));
+const WeeklyReview = lazy(() => import('../components/weekly-report/WeeklyReview.jsx'));
 const GrowthAnalysis = lazy(() => import('../components/growth-analysis/GrowthAnalysis.jsx'));
 const MyPage = lazy(() => import('../components/my-page/MyPage.jsx'));
 const ChildRegister = lazy(() => import('../components/child-regist/ChildRegister.jsx'));
@@ -57,6 +58,8 @@ function AppRouter() {
 
                         {/* WeeklyReport 페이지 */}
                         <Route path={PATHS.WEEKLY_REPORT} element={<WeeklyReport />} />
+                        <Route path={PATHS.WEEKLY_REVIEW} element={<WeeklyReview />} />
+
 
                         {/* GrowthAnalysis 페이지 */}
                         <Route path={PATHS.GROWTH_ANALYSIS} element={<GrowthAnalysis />} />
