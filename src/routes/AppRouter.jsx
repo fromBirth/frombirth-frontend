@@ -12,7 +12,7 @@ import Layout from '../components/common/Layout.jsx';
 import Spinner from '../components/common/Spinner.jsx';
 // 전역 스타일 파일을 import하여 스타일 적용
 import '/src/components/common/Common.css';
-import DiarySearch from "../components/baby-diary/DiarySearch.jsx";
+import DiarySearch from "../components/baby-diary/diary-search/DiarySearch.jsx";
 import ProtectedRoute from '../routes/ProtectedRoute.jsx';
 import AppContext from "../contexts/AppProvider.jsx";
 
