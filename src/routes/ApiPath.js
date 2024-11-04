@@ -12,3 +12,4 @@ export const CHILDREN_DELETE = SPRING_CHILDREN_BASE + '/';
 export const SPRING_RECORD_BASE = SPRING_BASE_URL + '/api/records';
 export const RECORD_CHILD_ALL_RECORD = SPRING_RECORD_BASE + '/all/';
 export const RECORD_CHILD_ALL_BODY_SIZE = SPRING_RECORD_BASE + '/all/body';
+export const RECORD_CREATE = SPRING_RECORD_BASE + '/create';

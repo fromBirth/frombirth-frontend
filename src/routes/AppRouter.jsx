@@ -20,14 +20,14 @@ import AppContext from "../contexts/AppProvider.jsx";
 const Login = lazy(() => import('../components/login/Login.jsx'));
 const Dashboard = lazy(() => import('../components/dashboard/Dashboard.jsx'));
 const BabyDiary = lazy(() => import('../components/baby-diary/BabyDiary.jsx'));
-const DiaryList = lazy(() => import('../components/baby-diary/DiaryList.jsx'));
-const DiaryListPhoto = lazy(() => import('../components/baby-diary/DiaryListPhoto.jsx'));
-const DiaryWrite = lazy(() => import('../components/baby-diary/DiaryWrite.jsx'));
-const DiaryView = lazy(() => import('../components/baby-diary/DiaryView.jsx'));
+const DiaryList = lazy(() => import('../components/baby-diary/diary-list/DiaryList.jsx'));
+const DiaryListPhoto = lazy(() => import('../components/baby-diary/diary-list-photo/DiaryLIstPhoto.jsx'));
+const DiaryWrite = lazy(() => import('../components/baby-diary/diray-write/DiaryWrite.jsx'));
+const DiaryView = lazy(() => import('../components/baby-diary/diary-view/DiaryView.jsx'));
 const WeeklyReport = lazy(() => import('../components/weekly-report/WeeklyReport.jsx'));
 const GrowthAnalysis = lazy(() => import('../components/growth-analysis/GrowthAnalysis.jsx'));
 const MyPage = lazy(() => import('../components/my-page/MyPage.jsx'));
-const ChildRegister = lazy(() => import('../components/my-page/ChildRegister.jsx'));
+const ChildRegister = lazy(() => import('../components/child-regist/ChildRegister.jsx'));
 
 function AppRouter() {
     const { user } = useContext(AppContext);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useRef, useState} from 'react';
 import './ChildRegister.css';
 import {
     checkDate,
@@ -14,8 +14,9 @@ import { REGEXP } from "../../utils/RegularExpression.js";
 import { getLastDateByMonth, numberAddZero } from "../../utils/Util.js";
 import axios from "axios";
 import { CHILDREN_CREATE } from "../../routes/ApiPath.js";
+import { FaCameraRetro } from "react-icons/fa";
 
-const MyPage = () => {
+const ChildRegister = () => {
     const limitNameLength = 2;
     const [inputName, setInputName] = useState('');
     const [inputBirthYear, setInputBirthYear] = useState('');
@@ -28,6 +29,8 @@ const MyPage = () => {
     const [inputMinute, setInputMinute] = useState('');
     const [inputHeight, setInputHeight] = useState('');
     const [inputWeight, setInputWeight] = useState('');
+    const [preview, setPreview] = useState(null);
+    const uploadImg = useRef(null);
 
     const validateInputName = () => {
         if (checkNull(inputName)) {
@@ -143,15 +146,30 @@ const MyPage = () => {
         console.log(data);
     }
 
+    function handleImageUpload() {
+        uploadImg.current.click();
+    }
+
+    function handlePreview() {
+        if (uploadImg.current?.files != null) {
+            setPreview(URL.createObjectURL(uploadImg.current.files[0]));
+        }
+    }
+
     return (
         <div className="container">
             <h1>아이 등록하기</h1>
+            <div>
             <div className="profile-pic">
-                <img src="profile-placeholder.png" alt="Profile Picture" />
+                <img src={preview} alt="Profile Picture" className="profile-image"/>
+                <div className="camera-icon">
+                    <button onClick={handleImageUpload}><FaCameraRetro /></button>
+                </div>
+                <input style={{display:'none'}} accept="image/*" onChange={handlePreview} ref={uploadImg} type="file"/>
             </div>
-
+            </div>
             <form>
-                <label htmlFor="name"><span>이름</span><span>*</span></label>
+            <label htmlFor="name"><span>이름</span><span>*</span></label>
                 <input type="text" id="name" placeholder="이름을 입력해주세요." required
                     onChange={e => setInputName(e.target.value)} value={inputName} />
 
@@ -264,4 +282,4 @@ const MyPage = () => {
     );
 };
 
-export default MyPage;
+export default ChildRegister;
