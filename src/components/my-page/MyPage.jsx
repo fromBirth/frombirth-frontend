@@ -1,17 +1,20 @@
 /* src/components/dashboard/MyPage.jsx */
 
 import './MyPage.css';
+import { useContext } from "react";
 import {Link} from "react-router-dom";
+import AppContext from "../../contexts/AppProvider.jsx";
 import {PATHS} from "../../routes/paths.js";
 
 const MyPage = () => {
+    const { user } = useContext(AppContext);
     return (
         <>
             <div className="login-info">
                 <h3>로그인 정보</h3>
                 <div className="email">
                     <img src="email-icon.png" alt="Email Icon" />
-                    <span>qjqmti0113@naver.com</span>
+                    <span>{user.email}</span>
                 </div>
                 <div className="logout">로그아웃</div>
             </div>

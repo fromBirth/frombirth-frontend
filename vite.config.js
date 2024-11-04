@@ -1,5 +1,8 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import dotenv from 'dotenv';
+
+dotenv.config(); // .env 파일을 불러와 process.env에 환경 변수를 설정합니다.
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -8,9 +11,14 @@ export default defineConfig({
     historyApiFallback: true, // React Router의 브라우저 새로고침 지원
     proxy: {
       '/api': {
-        target: 'http://localhost:8181', // Spring Boot 서버 주소
+        target: process.env.VITE_SPRING_BASE_URL, // Spring Boot 서버 주소
         changeOrigin: true,
         secure: false,  // HTTPS가 아닌 경우 secure를 false로 설정
+      },
+      '/auth': {
+        target: process.env.VITE_SPRING_BASE_URL, // 백엔드 서버 주소
+        changeOrigin: true,
+        secure: false,
       },
     },
     host: '0.0.0.0',  // 모든 네트워크 인터페이스에서 접근 가능하게 설정
@@ -24,4 +32,4 @@ export default defineConfig({
       },
     },
   },
-})
+});
