@@ -49,7 +49,7 @@ function Login() {
                     window.Android.receiveTokens(newaccessToken, newrefreshToken);
                 }
                 // 메인 페이지로 이동
-                navigate("/");
+                navigate("/dashboard");
             })
             .catch(error => {
                 console.error('Error:', error);

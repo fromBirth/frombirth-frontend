@@ -1,4 +1,4 @@
-import {useRef, useState} from 'react';
+import {useContext, useEffect, useRef, useState} from 'react';
 import './ChildRegister.css';
 import {
     checkDate,
@@ -15,8 +15,11 @@ import { getLastDateByMonth, numberAddZero } from "../../utils/Util.js";
 import axios from "axios";
 import { CHILDREN_CREATE } from "../../routes/ApiPath.js";
 import { FaCameraRetro } from "react-icons/fa";
+import AppContext from "../../contexts/AppProvider.jsx";
 
 const ChildRegister = () => {
+    const {user} = useContext(AppContext);
+
     const limitNameLength = 2;
     const [inputName, setInputName] = useState('');
     const [inputBirthYear, setInputBirthYear] = useState('');
@@ -29,8 +32,17 @@ const ChildRegister = () => {
     const [inputMinute, setInputMinute] = useState('');
     const [inputHeight, setInputHeight] = useState('');
     const [inputWeight, setInputWeight] = useState('');
-    const [preview, setPreview] = useState(null);
+    const [profile, setProfile] = useState();
+    const [profileSrc, setProfileSrc] = useState('/img/basic_profile.png');
     const uploadImg = useRef(null);
+
+    // useEffect(() => {
+    //     handleDefaultImage();
+    // }, []);
+
+    // useEffect(() => {
+    //     setProfileSrc(URL.createObjectURL(profile));
+    // }, [profile]);
 
     const validateInputName = () => {
         if (checkNull(inputName)) {
@@ -133,6 +145,7 @@ const ChildRegister = () => {
         }
 
         const child = {
+            userId: user.userId,
             name: inputName,
             birthDate: inputBirthYear + '-' + numberAddZero(inputBirthMonth, 2) + '-' + numberAddZero(inputBirthDate, 2),
             gender: inputGender,
@@ -142,7 +155,21 @@ const ChildRegister = () => {
             birthWeight: inputWeight
         }
 
-        let { data } = axios.post(CHILDREN_CREATE, child);
+        const formData = new FormData();
+        formData.append('childrenDTO', new Blob([JSON.stringify(child)], {type: 'application/json'}));
+        formData.append('file', profile);
+
+        console.log(child);
+        console.log(profile);
+        for (const pair of formData.entries()) {
+            console.log(pair[0] + ', ' + pair[1]);
+        }
+
+        let { data } = axios.post(CHILDREN_CREATE, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }}
+        );
         console.log(data);
     }
 
@@ -152,16 +179,25 @@ const ChildRegister = () => {
 
     function handlePreview() {
         if (uploadImg.current?.files != null) {
-            setPreview(URL.createObjectURL(uploadImg.current.files[0]));
+            setProfile(uploadImg.current.files[0]);
+            setProfileSrc(URL.createObjectURL(uploadImg.current.files[0]));
         }
     }
+
+    // async function handleDefaultImage() {
+    //     const response = await fetch('/img/basic_profile.png'); // 기본 이미지 경로
+    //     const blob = await response.blob();
+    //     const defaultFile = new File([blob], 'basic_profile.png', { type: blob.type });
+    //     setProfile(defaultFile);
+    //     console.log(profile);
+    // }
 
     return (
         <div className="container">
             <h1>아이 등록하기</h1>
             <div>
             <div className="profile-pic">
-                <img src={preview} alt="Profile Picture" className="profile-image"/>
+                <img src={profileSrc} className="profile-image" alt=""/>
                 <div className="camera-icon">
                     <button onClick={handleImageUpload}><FaCameraRetro /></button>
                 </div>
