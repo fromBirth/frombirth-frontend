@@ -12,20 +12,20 @@ import Layout from '../components/common/Layout.jsx';
 import Spinner from '../components/common/Spinner.jsx'; 
 // 전역 스타일 파일을 import하여 스타일 적용
 import '/src/components/common/Common.css';
-import DiarySearch from "../components/baby-diary/DiarySearch.jsx";
+import DiarySearch from "../components/baby-diary/diary-search/DiarySearch.jsx";
 
 // React.lazy를 사용하여 동적 import로 각 페이지를 로딩하여 초기 로딩 속도 최적화
 const Login = lazy(() => import('../components/login/Login.jsx'));
 const Dashboard = lazy(() => import('../components/dashboard/Dashboard.jsx'));
 const BabyDiary = lazy(() => import('../components/baby-diary/BabyDiary.jsx'));
-const DiaryList = lazy(() => import('../components/baby-diary/DiaryList.jsx'));
-const DiaryListPhoto = lazy(() => import('../components/baby-diary/DiaryListPhoto.jsx'));
-const DiaryWrite = lazy(() => import('../components/baby-diary/DiaryWrite.jsx'));
-const DiaryView = lazy(() => import('../components/baby-diary/DiaryView.jsx'));
+const DiaryList = lazy(() => import('../components/baby-diary/diary-list/DiaryList.jsx'));
+const DiaryListPhoto = lazy(() => import('../components/baby-diary/diary-list-photo/DiaryLIstPhoto.jsx'));
+const DiaryWrite = lazy(() => import('../components/baby-diary/diray-write/DiaryWrite.jsx'));
+const DiaryView = lazy(() => import('../components/baby-diary/diary-view/DiaryView.jsx'));
 const WeeklyReport = lazy(() => import('../components/weekly-report/WeeklyReport.jsx'));
 const GrowthAnalysis = lazy(() => import('../components/growth-analysis/GrowthAnalysis.jsx'));
 const MyPage = lazy(() => import('../components/my-page/MyPage.jsx'));
-const ChildRegister = lazy(() => import('../components/my-page/ChildRegister.jsx'));
+const ChildRegister = lazy(() => import('../components/child-regist/ChildRegister.jsx'));
 
 function AppRouter() {
     return (
