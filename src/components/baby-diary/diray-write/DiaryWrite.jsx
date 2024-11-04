@@ -1,8 +1,8 @@
 import './DiaryWrite.css';
-import {useEffect, useRef, useState} from "react";
-import {checkNull, checkOnlyNumber} from "../../../utils/Validator.js";
-import {ValidateMessage} from "../../../utils/ValidateMessage.js";
-import {RECORD_CREATE} from "../../../routes/ApiPath.js";
+import { useEffect, useRef, useState } from "react";
+import { checkNull, checkOnlyNumber } from "../../../utils/Validator.js";
+import { ValidateMessage } from "../../../utils/ValidateMessage.js";
+import { RECORD_CREATE } from "../../../routes/ApiPath.js";
 import axios from "axios";
 
 const DiaryWrite = () => {
@@ -16,27 +16,40 @@ const DiaryWrite = () => {
     const [title, setTitle] = useState();
     const [content, setContent] = useState();
     const [uploadImages, setUploadImages] = useState([]);
-    const [uploadImagesTag, setUploadImagesTag] = useState();
+    const [uploadImagesTag, setUploadImagesTag] = useState([]);
     const [uploadVideo, setUploadVideo] = useState(null);
 
     const inputImage = useRef(null);
     const inputVideo = useRef(null);
 
     useEffect(() => {
-        setUploadImagesTag(uploadImages.map((image, index) => (
-            <div className="upload-box" key={index}>
-                <img src={image} alt={`uploaded ${index}`} />
-            </div>
-        )));
-    }, [uploadImages]);
+        // 미리보기 URL 해제
+        return () => {
+            uploadImages.forEach(image => {
+                URL.revokeObjectURL(image.preview);
+            });
+            if (uploadVideo) {
+                URL.revokeObjectURL(uploadVideo.preview);
+            }
+        };
+    }, [uploadImages, uploadVideo]);
 
     function handleInputImage() {
         inputImage.current.click();
     }
 
     function handleUploadImages() {
-        if (inputImage.current.files != null) {
-            setUploadImages(prev => [...prev, URL.createObjectURL(inputImage.current.files[0])]);
+        if (inputImage.current.files && inputImage.current.files[0]) {
+            const imageFile = inputImage.current.files[0];
+            const preview = URL.createObjectURL(imageFile);
+
+            setUploadImages(prev => [...prev, { file: imageFile, preview }]);
+            setUploadImagesTag(prev => [
+                ...prev,
+                <div className="upload-box" key={prev.length}>
+                    <img src={preview} alt={`uploaded ${prev.length}`} />
+                </div>
+            ]);
         }
     }
 
@@ -45,12 +58,15 @@ const DiaryWrite = () => {
     }
 
     function handleUploadVideo() {
-        if (inputVideo.current.files != null) {
-            setUploadVideo(URL.createObjectURL(inputVideo.current.files[0]));
+        if (inputVideo.current.files && inputVideo.current.files[0]) {
+            const videoFile = inputVideo.current.files[0];
+            const preview = URL.createObjectURL(videoFile);
+
+            setUploadVideo({ file: videoFile, preview });
         }
     }
 
-    function handleDiarySubmit(event) {
+    async function handleDiarySubmit(event) {
         event.preventDefault();
 
         if (checkNull(height) || checkNull(weight) || checkNull(title) || checkNull(content)) {
@@ -65,17 +81,36 @@ const DiaryWrite = () => {
             return;
         }
 
-        const diary = {
-            height: height,
-            weight: weight,
-            title: title,
-            content: content,
-            recordDate: todayDateString
+        // FormData 생성
+        const formData = new FormData();
+        formData.append('height', height);
+        formData.append('weight', weight);
+        formData.append('content', content);
+        formData.append('title', title);
+        formData.append('recordDate', todayDateString);  // RecordDTO에 맞춘 필드 이름
+
+        // 이미지 파일 추가
+        uploadImages.forEach(({ file }) => {
+            formData.append('images', file);
+        });
+
+        // 비디오 파일 추가
+        if (uploadVideo) {
+            formData.append('video', uploadVideo.file);
         }
 
-        let {data} = axios.post(RECORD_CREATE, {diary, uploadImages, uploadVideo});
-
-
+        try {
+            const response = await axios.post(RECORD_CREATE, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            alert('일기가 성공적으로 등록되었습니다.');
+            console.log('Response:', response.data);
+        } catch (error) {
+            alert('일기 등록에 실패했습니다.');
+            console.error('Error:', error);
+        }
     }
 
     return (
@@ -95,7 +130,7 @@ const DiaryWrite = () => {
 
             <div className="upload-section">
                 <label>사진</label>
-                    <div className="upload-image-box">
+                <div className="upload-image-box">
                     {uploadImagesTag}
                     {uploadImages.length >= 5 ?
                         '' :
@@ -113,8 +148,8 @@ const DiaryWrite = () => {
                     <div className="upload-box" aria-label="영상 업로드" onClick={handleInputVideo}>+</div>
                     :
                     <div className="upload-box">
-                        <video width="100%">
-                            <source src={uploadVideo} />
+                        <video width="100%" controls>
+                            <source src={uploadVideo.preview} type="video/mp4" />
                         </video>
                     </div>
                 }
@@ -123,16 +158,14 @@ const DiaryWrite = () => {
             </div>
 
             <textarea className="textarea" rows="1" placeholder="일기 제목을 작성해주세요." aria-label="일기 제목 입력"
-                      value={title} onChange={(e) => {setTitle(e.target.value)}}>
+                      value={title} onChange={(e) => {setTitle(e.target.value)}} />
 
-            </textarea>
             <textarea className="textarea" rows="5" placeholder="일기를 작성해주세요."
                       maxLength="500" aria-label="일기 내용 입력"
-                      value={content} onChange={(e) => {setContent(e.target.value)}}>
-            </textarea>
+                      value={content} onChange={(e) => {setContent(e.target.value)}} />
             <small>0/500자</small>
 
-            <button className="submit-btn" aria-label="일기 등록" onClick={e => handleDiarySubmit(e)}>등록하기</button>
+            <button className="submit-btn" aria-label="일기 등록" onClick={handleDiarySubmit}>등록하기</button>
         </div>
     );
 };
