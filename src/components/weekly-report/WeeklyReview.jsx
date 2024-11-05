@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import './WeeklyReport.css';
-import KakaoMap from "../kakao-map/KakaoMap";
+import KakaoMap from "../kakao-map/KakaoMap.jsx";
 import ProgressBar from "../ProgressBar/ProgressBar";
 
 const { kakao } = window;

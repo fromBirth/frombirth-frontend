@@ -4,5 +4,6 @@ npm install date-fns
 npm install chart.js react-chartjs-2
 npm install @mui/material @emotion/react @emotion/styled
 npm install env-cmd
+npm install --save react-hook-geolocation
 npm i react-kakao-maps-sdk
 npm i react-icons
