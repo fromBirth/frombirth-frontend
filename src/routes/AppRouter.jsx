@@ -15,6 +15,7 @@ import '/src/components/common/Common.css';
 import DiarySearch from "../components/baby-diary/DiarySearch.jsx";
 import ProtectedRoute from '../routes/ProtectedRoute.jsx';
 import AppContext from "../contexts/AppProvider.jsx";
+import TestLogin from "../components/login/TestLogin.jsx";
 
 // React.lazy를 사용하여 동적 import로 각 페이지를 로딩하여 초기 로딩 속도 최적화
 const Login = lazy(() => import('../components/login/Login.jsx'));
@@ -37,7 +38,7 @@ function AppRouter() {
             <Routes>
                 {/* 로그인 페이지 */}
                 <Route path={PATHS.LOGIN} element={<Login />} />
-
+                <Route path='/testLogin' element={<TestLogin />} />
                 {/* 기본 경로에서 메인 대시보드 화면으로 리다이렉트 */}
                 <Route path="/" element={<Navigate to={PATHS.DASHBOARD} />} />
 
