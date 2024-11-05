@@ -4,7 +4,7 @@ export const AppContext = createContext(null);
 
 
 export const AppProvider = ({ children }) => {
-    const [user, setUser] = useState({ email: 'example@example.com', userId: '12345' });
+    const [user, setUser] = useState({ email: 'example@example.com', userId: '19' });
 
 
     return (
