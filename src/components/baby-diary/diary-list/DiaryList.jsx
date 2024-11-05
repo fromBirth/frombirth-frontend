@@ -26,7 +26,7 @@ const DiaryList = () => {
             </div>
 
             {/*{isBoard && <DiaryListBoard diaryList={diaryList} />}*/}
-            {!isBoard && <DiaryListPhoto diaryList={diaryList} />}
+            {/*{!isBoard && <DiaryListPhoto diaryList={diaryList} />}*/}
 
             <div className="entry">
                 <div className="entry-title">10.11 두근거리는 금요일</div>
