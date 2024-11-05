@@ -42,7 +42,7 @@ const WeeklyReport = () => {
                 <KakaoMap/>
             </div>
 
-            <Loader/>
+            {/*<Loader/>*/}
         </>
     );
 };
