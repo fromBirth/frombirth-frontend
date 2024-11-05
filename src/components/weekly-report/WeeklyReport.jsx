@@ -1,10 +1,8 @@
 /* src/components/dashboard/WeeklyReport.jsx */
 
 import './WeeklyReport.css';
-import {useEffect} from "react";
 import KakaoMap from "../kakao-map/KakaoMap";
 import ProgressBar from "../ProgressBar/ProgressBar";
-import Loader from "../loader/Loader.jsx";
 
 const {kakao} = window;
 
@@ -42,7 +40,6 @@ const WeeklyReport = () => {
                 <KakaoMap/>
             </div>
 
-            <Loader/>
         </>
     );
 };
