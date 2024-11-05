@@ -81,13 +81,19 @@ const DiaryWrite = () => {
             return;
         }
 
+        const recordDTO = {
+            childId: '',
+            height: height,
+            weight: weight,
+            title: title,
+            content: content,
+            recordDate: todayDateString
+        }
         // FormData 생성
         const formData = new FormData();
-        formData.append('height', height);
-        formData.append('weight', weight);
-        formData.append('content', content);
-        formData.append('title', title);
-        formData.append('recordDate', todayDateString);  // RecordDTO에 맞춘 필드 이름
+
+        // recordDTO 추가
+        formData.append('recordDTO', new Blob([JSON.stringify(recordDTO)], {type: 'application/json'}));
 
         // 이미지 파일 추가
         uploadImages.forEach(({ file }) => {
