@@ -14,28 +14,15 @@ const DiarySearch = () => {
     };
 
     return (
-        <div className="search-page">
-            <div className="search-header">
-                <div className="search-input-container">
-                    <FaSearch className="search-icon" />
-                    <input
-                        type="text"
-                        placeholder="일기 검색하기"
-                        value={query}
-                        onChange={handleInputChange}
-                    />
-                </div>
-            </div>
-            <div className="search-results">
-                {searchResults.length === 0 ? (
-                    <p className="no-results">검색결과가 없습니다.</p>
-                ) : (
-                    searchResults.map((result, index) => (
-                        <div key={index} className="result-item">
-                            {result}
-                        </div>
-                    ))
-                )}
+        <div className="search-header">
+            <div className="search-input-container">
+                <FaSearch className="search-icon" />
+                <input
+                    type="text"
+                    placeholder="일기 검색하기"
+                    value={query}
+                    onChange={handleInputChange}
+                />
             </div>
         </div>
     );

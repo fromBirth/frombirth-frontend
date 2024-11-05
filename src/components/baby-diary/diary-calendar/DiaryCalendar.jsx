@@ -35,6 +35,16 @@ const Calendar = () => {
         return days.map(day => <div key={day} className="day">{day}</div>);
     };
 
+    const handleCalendarClick = (day) => {
+        const inputDate = new Date(day);
+        const today = new Date();
+
+        if (inputDate.setHours(0, 0, 0, 0) > today.setHours(0, 0, 0, 0)) {
+            return;
+        }
+
+    };
+
     const renderDates = () => {
         const monthStart = startOfMonth(currentMonth);
         const monthEnd = endOfMonth(monthStart);
@@ -54,6 +64,7 @@ const Calendar = () => {
                 <div
                     key={formattedDate}
                     className={`date-cell ${isInCurrentMonth ? '' : 'disabled'}`}
+                    onClick={() => handleCalendarClick(formattedDate)}
                 >
                     <span className={`date-number ${isToday ? 'highlighted' : ''}`}>{format(day, 'd')}</span>
                     <div className="date-image-container">

@@ -1,23 +1,32 @@
 import './DiaryList.css';
+import {useEffect, useState} from "react";
+import DiaryListBoard from "../diary-list-board/DiaryListBoard.jsx";
+import DiaryListPhoto from "../diary-list-photo/DiaryLIstPhoto.jsx";
+import {getDiaries} from "../DiaryCommonFunction.js";
 
 const DiaryList = () => {
+    const [isBoard, setIsBoard] = useState(true);
+    const [diaryList, setDiaryList] = useState([]);
+
+    useEffect(() => {
+        setDiaryList(getDiaries(''));
+    }, []);
+
     return (
         <div className="container">
-            <div className="header">
-                <img src="profile-placeholder.png" alt="Profile Picture" />
-                <div>
-                    <h2>홍길동 - 0개월 12일 (만 0세)</h2>
-                    <span>▼</span>
+            <div className="tab-bar">
+                <div className={"tab " + (isBoard ? "active" : "")}
+                     onClick={() => {setIsBoard(true)}}>
+                    전체
                 </div>
-                <div style={{ marginLeft: "auto" }}>
-                    <span>🔍 ⋮</span>
+                <div className={"tab " + (!isBoard ? "active" : "")}
+                     onClick={() => {setIsBoard(false)}}>
+                    사진
                 </div>
             </div>
 
-            <div className="tab-bar">
-                <div className="tab active">전체</div>
-                <div className="tab">사진</div>
-            </div>
+            {/*{isBoard && <DiaryListBoard diaryList={diaryList} />}*/}
+            {/*{!isBoard && <DiaryListPhoto diaryList={diaryList} />}*/}
 
             <div className="entry">
                 <div className="entry-title">10.11 두근거리는 금요일</div>

@@ -41,7 +41,8 @@ function Login() {
                 // 필요 시 사용자 정보를 상태에 저장하거나 추가 동작 수행
                 setUser({
                     userId: data.userId,
-                    email: data.email
+                    email: data.email,
+                    childList: data.childList,
                 });
                 let newaccessToken = Cookies.get('accessToken');
                 let newrefreshToken = Cookies.get('refreshToken');

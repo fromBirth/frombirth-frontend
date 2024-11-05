@@ -19,6 +19,7 @@ import TestLogin from "../components/login/TestLogin.jsx";
 
 // React.lazy를 사용하여 동적 import로 각 페이지를 로딩하여 초기 로딩 속도 최적화
 const Login = lazy(() => import('../components/login/Login.jsx'));
+const CheckChildExist = lazy(() => import('./CheckChildExist.jsx'));
 const Dashboard = lazy(() => import('../components/dashboard/Dashboard.jsx'));
 const BabyDiary = lazy(() => import('../components/baby-diary/BabyDiary.jsx'));
 const DiaryList = lazy(() => import('../components/baby-diary/diary-list/DiaryList.jsx'));
