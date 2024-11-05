@@ -1,66 +1,96 @@
-/* src/components/dashboard/WeeklyReport.jsx */
+import React, { useEffect, useState } from 'react';
+import './WeeklyReview.css';
 
-import React, { useEffect } from 'react';
-import './WeeklyReport.css';
-import KakaoMap from "../kakao-map/KakaoMap.jsx";
-import ProgressBar from "../ProgressBar/ProgressBar";
-
-const { kakao } = window;
 
 const WeeklyReview = () => {
-    // DotLottiePlayer 내부에서 사용하는 useEffect
+    const [isLoading, setIsLoading] = useState(true); // 분석 중 여부 상태
+    const [isVisible, setIsVisible] = useState(false); // 이미지 표시 여부 상태
+
     useEffect(() => {
         const script = document.createElement('script');
         script.src = "https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs";
         script.type = "module";
         document.body.appendChild(script);
 
+        // 5초 후에 분석 완료 상태로 전환
+        const loadingTimer = setTimeout(() => {
+            setIsLoading(false); // 분석 완료로 상태 전환
+
+            // 분석 완료 화면이 뜬 1초 후 이미지 표시
+            setTimeout(() => {
+                setIsVisible(true);
+            }, 1000);
+        }, 5000);
+
         return () => {
             document.body.removeChild(script);
+            clearTimeout(loadingTimer);
         };
     }, []);
+    const handleClick = () => {
+        window.location.href = '/weeklyreport'; // '/weeklyreport' 페이지로 이동
+    };
+
 
     return (
         <>
-            <div className="date-range">
-                2024년 10월 3주<br/>2024.10.14 (월) ~ 2024.10.14 (월)
-            </div>
+        <div className="date-range">2024년 10월 3주<br/>2024.10.14 (월) ~ 2024.10.14 (월)</div>
+    <div>
+        {isLoading && (
+            // "분석중" 화면 - 5초 후 사라짐
+                <div className="animation-before-container">
+                    <dotlottie-player
+                        src="https://lottie.host/e8f565b5-614b-4df1-93b4-69ea3dacf7b8/heX9dTmYtK.json"
+                        background="transparent"
+                        speed="1.5"
+                        className="lottie-player-before"
+                        autoplay
+                        loop
+                    ></dotlottie-player>
 
-            <div className="report-content">
-                이번 주에 아기가 분유도 잘 먹어서 기쁘셨을 것 같아요. 활발하게 성장하는 모습을 보니 더욱 뿌듯하셨겠죠. 하지만 유치원에서 산만하다는 피드백을 듣고 걱정이 되실 수도 있을 것 같아요.
-                집중력을 기를 수 있도록, 집에서 조용한 놀이 시간을 자주 가져보는 것도 큰 도움이 될 거예요. 너무 큰 걱정은 하지 마시고, 아이의 속도에 맞춰 따뜻하게 응원해 주세요. 앞으로 점점 더
-                나아질 테니, 조금 더 지켜봐 주세요.
-            </div>
+                    {/* 분석중 이미지 */}
+                    <img
+                        src="/src/assets/img/baby.png"
+                        alt="Baby Loading"
+                        className="baby-before-image"
+                    />
 
-            <div className="analysis-section">
-                <h3>일기 분석 결과 위험성 정도</h3>
-                <div className="progress-bar">
-                    <div className="low-risk"></div>
-                    <div className="high-risk"></div>
-                    <ProgressBar value={30} />
+                    {/* "분석중" 텍스트 */}
+                    <div className="text-before-container loading-text">
+                        <h3 className="heading">AI 분석중</h3>
+                        <p className="subheading">AI 주간보고를 생성중입니다. <br/> 잠시만 기다려주세요!</p>
+                    </div>
                 </div>
+            )}
 
-                <h3>영상분석 결과 위험성 정도</h3>
-                <div className="progress-bar">
-                    <div className="low-risk"></div>
-                    <div className="high-risk" style={{ width: '20%' }}></div>
-                    <ProgressBar value={30} />
+            {!isLoading && (
+                // "분석완료" 화면 - 5초 후 나타남
+                <div className="animation-container fade-in">
+                    <dotlottie-player
+                        src="https://lottie.host/4fecb26b-0f58-4aad-8670-b269ce580153/WnHWwsFr3b.json"
+                        background="transparent"
+                        speed="1.5"
+                        className="lottie-player"
+                        autoplay
+                        loop={false}
+                    ></dotlottie-player>
+
+                    {/* 분석완료 이미지 */}
+                    <img
+                        src="/src/assets/img/baby_face3.png"
+                        alt="Baby Complete"
+                        className={`baby-image ${isVisible ? 'visible' : ''}`}
+                    />
+
+                    {/* "분석완료" 텍스트 및 버튼 */}
+                    <div className={`text-container ${isVisible ? 'fade-in' : 'fade-out'}`}>
+                        <h3 className="heading">AI 분석완료</h3>
+                        <p className="subheading">생성된 AI주간보고를 확인해보세요.</p>
+                        <button className="action-button" onClick={handleClick} >확인하기</button>
+                    </div>
                 </div>
-            </div>
-
-            <div className="map-section">
-                <h3>근처 병원 정보</h3>
-                <KakaoMap />
-            </div>
-
-            <dotlottie-player
-                src="https://lottie.host/4fecb26b-0f58-4aad-8670-b269ce580153/WnHWwsFr3b.json"
-                background="transparent"
-                speed="1"
-                style={{ width: '300px', height: '300px' }}
-                loop
-                autoplay
-            ></dotlottie-player>
+            )}
+        </div>
         </>
     );
 };

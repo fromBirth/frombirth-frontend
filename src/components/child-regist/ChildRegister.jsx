@@ -138,7 +138,7 @@ const ChildRegister = () => {
         return true;
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateInput()) {
             return;
@@ -150,14 +150,14 @@ const ChildRegister = () => {
             birthDate: inputBirthYear + '-' + numberAddZero(inputBirthMonth, 2) + '-' + numberAddZero(inputBirthDate, 2),
             gender: inputGender,
             bloodType: inputBlood,
-            birthTime: (inputAmPm === 'AM' ? numberAddZero(inputHour, 2) : inputHour + 12) + ':' + numberAddZero(inputMinute, 2) + ':00',
+            birthTime: ((inputAmPm === 'AM') ? numberAddZero(inputHour, 2) : numberAddZero(parseInt(inputHour) + 12, 2)) + ':' + numberAddZero(inputMinute, 2) + ':00',
             birthHeight: inputHeight,
             birthWeight: inputWeight
         }
 
         const formData = new FormData();
         formData.append('childrenDTO', new Blob([JSON.stringify(child)], {type: 'application/json'}));
-        formData.append('file', profile);
+        formData.append('profile', profile);
 
         console.log(child);
         console.log(profile);
@@ -165,13 +165,18 @@ const ChildRegister = () => {
             console.log(pair[0] + ', ' + pair[1]);
         }
 
-        let { data } = axios.post(CHILDREN_CREATE, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            withCredentials: true}
-        );
-        console.log(data);
+        try {
+            // 서버에 POST 요청
+            const response = await axios.post(CHILDREN_CREATE, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                withCredentials: true
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     function handleImageUpload() {

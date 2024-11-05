@@ -1,7 +1,7 @@
 /* src/components/dashboard/WeeklyReport.jsx */
 
 import './WeeklyReport.css';
-import KakaoMap from "../kakao-map/KakaoMap.jsx";
+import KakaoMap from "../kakao-map/KakaoMap";
 import ProgressBar from "../ProgressBar/ProgressBar";
 
 const WeeklyReport = () => {
