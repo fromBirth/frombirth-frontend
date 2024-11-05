@@ -4,11 +4,16 @@ import { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../routes/paths.js';
+import { CiSearch } from "react-icons/ci";
+import { CiBoxList } from "react-icons/ci";
+import { CiCalendarDate } from "react-icons/ci";
+import DiarySearch from "../baby-diary/diary-search/DiarySearch.jsx";
 
 const Header = () => {
     const location = useLocation();
     const navigate = useNavigate(); // useNavigate 훅 추가
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     const dropdownRef = useRef(null); // 드롭다운 참조 생성
 
     // 드롭다운 토글 함수
@@ -35,6 +40,7 @@ const Header = () => {
 
     // 0.2초 지연 후 경로 이동 함수
     const handleNavigation = (path) => {
+        setIsSearchOpen(false);
         setTimeout(() => {
             navigate(path); // 지정된 경로로 이동
         }, 200); // 0.2초 지연
@@ -47,18 +53,37 @@ const Header = () => {
         }, 200);
     };
 
+    const handleSearchLayout = () => {
+        setIsSearchOpen(!isSearchOpen);
+    }
+
     // 경로에 따라 표시할 헤더 내용 분기
     const renderHeaderContent = () => {
         const profilePaths = [
             '/dashboard',
-            '/babydiary',
-            '/diarylist',
-            '/diarylistphoto',
             '/weeklyreport',
             '/growthanalysis',
         ];
 
-        if (profilePaths.includes(location.pathname)) {
+        const diaryPaths = [
+            '/babydiary',
+            '/diarylist',
+            '/diarylistphoto'
+        ];
+
+        const showSearchIcon = diaryPaths.includes(location.pathname) && (
+                <button onClick={handleSearchLayout}><CiSearch /></button>
+        );
+
+        const showListIcon = (diaryPaths.includes(location.pathname)) && (
+            <button onClick={
+                () => handleNavigation(location.pathname === '/diarylist' ?  '/babydiary' : 'diarylist')}
+            >
+                {location.pathname === '/diarylist' ?  <CiCalendarDate /> : <CiBoxList />}
+            </button>
+        )
+
+        if (profilePaths.includes(location.pathname) || diaryPaths.includes(location.pathname)) {
             // profilePaths에 있는 경로라면 프로필 표시
             return (
                 <div className="profile-wrap" ref={dropdownRef}>
@@ -80,6 +105,8 @@ const Header = () => {
                             ></i>
                         </div>
                     </div>
+                        {showSearchIcon}
+                        {showListIcon}
 
                     {/* 드롭다운 메뉴 */}
                     {isDropdownOpen && (
@@ -94,6 +121,9 @@ const Header = () => {
                             </div>
                         </div>
                     )}
+
+                    {/* 검색창 열기*/}
+                    {isSearchOpen && (<DiarySearch/>)}
                 </div>
             );
         } else {
