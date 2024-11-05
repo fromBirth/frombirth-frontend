@@ -168,7 +168,8 @@ const ChildRegister = () => {
         let { data } = axios.post(CHILDREN_CREATE, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
-            }}
+            },
+            withCredentials: true}
         );
         console.log(data);
     }

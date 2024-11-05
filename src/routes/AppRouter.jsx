@@ -1,7 +1,7 @@
 /* src/routes/AppRouter.jsx */
-
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 // React Router의 Routes와 Route 컴포넌트를 사용해 라우팅 구성
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate,useLocation  } from 'react-router-dom';
 // React에서 컴포넌트를 동적 로딩할 수 있도록 Suspense와 lazy를 사용
 import { useContext,Suspense, lazy } from 'react';
 // PATHS 객체를 import하여 경로를 상수로 관리
@@ -15,9 +15,11 @@ import '/src/components/common/Common.css';
 import DiarySearch from "../components/baby-diary/diary-search/DiarySearch.jsx";
 import ProtectedRoute from '../routes/ProtectedRoute.jsx';
 import AppContext from "../contexts/AppProvider.jsx";
+import TestLogin from "../components/login/TestLogin.jsx";
 
 // React.lazy를 사용하여 동적 import로 각 페이지를 로딩하여 초기 로딩 속도 최적화
 const Login = lazy(() => import('../components/login/Login.jsx'));
+const CheckChildExist = lazy(() => import('./CheckChildExist.jsx'));
 const Dashboard = lazy(() => import('../components/dashboard/Dashboard.jsx'));
 const BabyDiary = lazy(() => import('../components/baby-diary/BabyDiary.jsx'));
 const DiaryList = lazy(() => import('../components/baby-diary/diary-list/DiaryList.jsx'));
@@ -32,13 +34,20 @@ const ChildRegister = lazy(() => import('../components/child-regist/ChildRegiste
 
 function AppRouter() {
     const { user } = useContext(AppContext);
+    const location = useLocation();
     return (
         // Suspense로 동적 로딩 중 스피너 화면 표시
         <Suspense fallback={<Spinner />}>
-            <Routes>
+            <TransitionGroup>
+                <CSSTransition
+                    key={location.key}
+                    classNames="page"
+                    timeout={300}  // 애니메이션 지속 시간 (ms)
+                >
+            <Routes location={location}>
                 {/* 로그인 페이지 */}
                 <Route path={PATHS.LOGIN} element={<Login />} />
-
+                <Route path='/testLogin' element={<TestLogin />} />
                 {/* 기본 경로에서 메인 대시보드 화면으로 리다이렉트 */}
                 <Route path="/" element={<Navigate to={PATHS.DASHBOARD} />} />
 
@@ -70,6 +79,8 @@ function AppRouter() {
                     </Route>
                 </Route>
             </Routes>
+                </CSSTransition>
+            </TransitionGroup>
         </Suspense>
     );
 }
