@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'; // useParams 훅을 사용하여 URL에서 ID 가져오기
 import './ChildRegister.css';
 import {
@@ -9,9 +9,9 @@ import { REGEXP } from "../../utils/RegularExpression.js";
 import { getLastDateByMonth, numberAddZero } from "../../utils/Util.js";
 import axios from "axios";
 import { CHILDREN_CREATE, CHILDREN_GET_CHILD } from '../../routes/ApiPath.js';
-import { FaCameraRetro } from "react-icons/fa";
 import AppContext from "../../contexts/AppProvider.jsx";
 import basic_profile from '../../assets/img/basic_profile.png';
+import useFileUpload from "../../hooks/useFileUpload";
 
 const ChildRegister = () => {
     const { user } = useContext(AppContext);
@@ -30,9 +30,6 @@ const ChildRegister = () => {
     const [inputMinute, setInputMinute] = useState('');
     const [inputHeight, setInputHeight] = useState('');
     const [inputWeight, setInputWeight] = useState('');
-    const [profile, setProfile] = useState();
-    const [profileSrc, setProfileSrc] = useState(basic_profile);
-    const uploadImg = useRef(null);
     const [isFormComplete, setIsFormComplete] = useState(false);
 
     const [datePlaceholder, setDatePlaceholder] = useState({
@@ -42,6 +39,15 @@ const ChildRegister = () => {
         hour: '',
         minute: ''
     });
+
+    //이미지 처리용 커스텀 훅 사용
+    const {
+        files: profileImages,
+        previewUrls: profilePreviews,
+        handleFileChange,
+        triggerFileInput,
+        fileInputRef
+    } = useFileUpload([], 1, 'image', basic_profile);
 
     useEffect(() => {
         // 필수 필드들이 모두 채워졌는지 확인
@@ -81,7 +87,7 @@ const ChildRegister = () => {
                     setInputMinute(data.birthTime.split(':')[1]);
                     setInputHeight(data.birthHeight);
                     setInputWeight(data.birthWeight);
-                    setProfileSrc(data.profileImageUrl || '/img/basic_profile.png');
+                    handleFileChange(data.profileImageUrl);
                 })
                 .catch(error => {
                     console.error('Error fetching child data:', error);
@@ -108,13 +114,7 @@ const ChildRegister = () => {
         });
     }, []);
 
-    // useEffect(() => {
-    //     handleDefaultImage();
-    // }, []);
 
-    // useEffect(() => {
-    //     setProfileSrc(URL.createObjectURL(profile));
-    // }, [profile]);
 
     const validateInputName = () => {
         if (checkNull(inputName)) {
@@ -209,6 +209,13 @@ const ChildRegister = () => {
         else if (validateInputBirthTime(inputHour, inputMinute) !== 'ok') {
             errorMessage = validateInputBirthTime(inputHour, inputMinute);
         }
+        // 신체 정보 인증
+        else if (validateInputBodySize(inputHeight) !== 'ok') {
+            errorMessage = validateInputBodySize(inputHeight);
+        }
+        else if (validateInputBodySize(inputWeight) !== 'ok') {
+            errorMessage = validateInputBodySize(inputWeight);
+        }
         // 추가적인 검증은 필요에 따라 추가
 
         if (errorMessage) {
@@ -236,11 +243,11 @@ const ChildRegister = () => {
         }
 
         const formData = new FormData();
-        formData.append('childrenDTO', new Blob([JSON.stringify(child)], { type: 'application/json' }));
-        formData.append('profile', profile);
+        formData.append('childrenDTO', new Blob([JSON.stringify(child)], {type: 'application/json'}));
+        formData.append('profile', profileImages[0]);
 
         console.log(child);
-        console.log(profile);
+        console.log(profileImages[0]);
         for (const pair of formData.entries()) {
             console.log(pair[0] + ', ' + pair[1]);
         }
@@ -258,273 +265,236 @@ const ChildRegister = () => {
         }
     }
 
-    function handleImageUpload() {
-        if (window.AndroidFileChooser) {
-            window.AndroidFileChooser.openFileChooser();
-        } else {
-            uploadImg.current.click(); // 웹에서는 기존의 파일 선택 열기
-        }
-    }
-
-    function handlePreview() {
-        if (uploadImg.current?.files != null) {
-            const file = uploadImg.current.files[0];
-            setProfile(file); // S3 업로드용 파일 설정
-            setProfileSrc(URL.createObjectURL(file)); // 미리보기 이미지 설정
-        }
-    }
-
-    // 안드로이드 파일 처리
-    window.handleBase64Image = function(base64String, fileName, mimeType) {
-        const byteCharacters = atob(base64String);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: mimeType });
-
-        // Blob을 File 객체로 변환하여 파일명과 MIME 타입을 유지
-        const file = new File([blob], fileName, { type: mimeType });
-        setProfile(file);
-        setProfileSrc(URL.createObjectURL(file)); // 미리보기 업데이트
-    };
-
-    // async function handleDefaultImage() {
-    //     const response = await fetch('/img/basic_profile.png'); // 기본 이미지 경로
-    //     const blob = await response.blob();
-    //     const defaultFile = new File([blob], 'basic_profile.png', { type: blob.type });
-    //     setProfile(defaultFile);
-    //     console.log(profile);
-    // }
-
-    return (<div className="container">
-        <div className="profile-wrap">
-            <div className="profile-pic">
-                <img src={profileSrc} className="profile-image" alt="" />
-                <div className="camera-icon">
-                    <button onClick={handleImageUpload}><i class="bi bi-camera-fill"></i></button>
+    return (
+        <div className="container">
+            <div className="profile-wrap">
+                <div className="profile-pic">
+                    {profilePreviews[0] && <img src={profilePreviews[0]} alt="프로필 이미지 미리보기" />}
+                    <div className="camera-icon">
+                        <button onClick={triggerFileInput}><i className="bi bi-camera-fill"></i></button>
+                    </div>
+                    <input style={{display: 'none'}} accept="image/*" onChange={handleFileChange} type="file" ref={fileInputRef}/>
                 </div>
-                <input style={{ display: 'none' }} accept="image/*" onChange={handlePreview} ref={uploadImg} type="file" />
             </div>
-        </div>
-        <form className="profile-edit-form">
-            <label className="title">
-                <span>이름</span>
-                <span className="required">*</span>
-            </label>
-            <input
-                type="text"
-                id="name"
-                placeholder="이름을 입력해주세요."
-                required
-                onChange={(e) => setInputName(e.target.value)}
-                value={inputName}
-            />
 
-            <label className="title">
-                <span>생년월일</span>
-                <span className="required">*</span>
-            </label>
-            <div className="flex-row">
-                <div className="date-input_wrap">
-                    <input
-                        type="number"
-                        placeholder={datePlaceholder.year}
-                        min="1900"
-                        max="2099"
-                        required
-                        onChange={(e) => setInputBirthYear(e.target.value)}
-                        value={inputBirthYear}
-                    />
-                    <label>년</label>
+            <form className="profile-edit-form">
+                <label className="title">
+                    <span>이름</span>
+                    <span className="required">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="이름을 입력해주세요."
+                    required
+                    onChange={(e) => setInputName(e.target.value)}
+                    value={inputName}
+                />
+
+                <label className="title">
+                    <span>생년월일</span>
+                    <span className="required">*</span>
+                </label>
+                <div className="flex-row">
+                    <div className="date-input_wrap">
+                        <input
+                            type="number"
+                            placeholder={datePlaceholder.year}
+                            min="1900"
+                            max="2099"
+                            required
+                            onChange={(e) => setInputBirthYear(e.target.value)}
+                            value={inputBirthYear}
+                        />
+                        <label>년</label>
+                    </div>
+                    <div className="date-input_wrap">
+                        <input
+                            type="number"
+                            placeholder={datePlaceholder.month}
+                            min="1"
+                            max="12"
+                            required
+                            onChange={(e) => setInputBirthMonth(e.target.value)}
+                            value={inputBirthMonth}
+                        />
+                        <label>월</label>
+                    </div>
+                    <div className="date-input_wrap">
+                        <input
+                            type="number"
+                            placeholder={datePlaceholder.date}
+                            min="1"
+                            max="31"
+                            required
+                            onChange={(e) => setInputBirthDate(e.target.value)}
+                            value={inputBirthDate}
+                        />
+                        <label>일</label>
+                    </div>
                 </div>
-                <div className="date-input_wrap">
+
+                <label className="title">
+                    <span>성별</span>
+                    <span className="required">*</span>
+                </label>
+                <div className="gender">
+                    <input
+                        type="radio"
+                        id="male"
+                        name="gender"
+                        value="M"
+                        required
+                        checked={inputGender === 'M'}
+                        onChange={(e) => setInputGender(e.target.value)}
+                    />
+                    <label htmlFor="male">
+                        <i className="bi bi-gender-male"></i> 남자아이
+                    </label>
+                    <input
+                        type="radio"
+                        id="female"
+                        name="gender"
+                        value="W"
+                        required
+                        checked={inputGender === 'W'}
+                        onChange={(e) => setInputGender(e.target.value)}
+                    />
+                    <label htmlFor="female">
+                        <i className="bi bi-gender-female"></i> 여자아이
+                    </label>
+                </div>
+
+                <label className="title">
+                    <span>혈액형</span>
+                    <span className="required">*</span>
+                </label>
+                <div className="blood-type">
+                    <input
+                        type="radio"
+                        id="a"
+                        name="blood"
+                        required
+                        value="a"
+                        checked={inputBlood === 'a'}
+                        onChange={(e) => setInputBlood(e.target.value)}
+                    />
+                    <label htmlFor="a">A형</label>
+                    <input
+                        type="radio"
+                        id="b"
+                        name="blood"
+                        required
+                        value="b"
+                        checked={inputBlood === 'b'}
+                        onChange={(e) => setInputBlood(e.target.value)}
+                    />
+                    <label htmlFor="b">B형</label>
+                    <input
+                        type="radio"
+                        id="o"
+                        name="blood"
+                        required
+                        value="o"
+                        checked={inputBlood === 'o'}
+                        onChange={(e) => setInputBlood(e.target.value)}
+                    />
+                    <label htmlFor="o">O형</label>
+                    <input
+                        type="radio"
+                        id="ab"
+                        name="blood"
+                        required
+                        value="ab"
+                        checked={inputBlood === 'ab'}
+                        onChange={(e) => setInputBlood(e.target.value)}
+                    />
+                    <label htmlFor="ab">AB형</label>
+                </div>
+
+                <label className="title">
+                    <span>출생시간</span>
+                    <span className="required">*</span>
+                </label>
+                <div className="flex-row">
+                    <div className="birth-time">
+                        <input
+                            type="radio"
+                            id="am"
+                            name="birth-time"
+                            required
+                            value="AM"
+                            checked={inputAmPm === 'AM'}
+                            onChange={(e) => setInputAmPm(e.target.value)}
+                        />
+                        <label htmlFor="am">오전</label>
+                        <input
+                            type="radio"
+                            id="pm"
+                            name="birth-time"
+                            required
+                            value="PM"
+                            checked={inputAmPm === 'PM'}
+                            onChange={(e) => setInputAmPm(e.target.value)}
+                        />
+                        <label htmlFor="pm">오후</label>
+                    </div>
                     <input
                         type="number"
-                        placeholder={datePlaceholder.month}
-                        min="1"
+                        id="hour"
+                        placeholder={datePlaceholder.hour}
+                        min="0"
                         max="12"
                         required
-                        onChange={(e) => setInputBirthMonth(e.target.value)}
-                        value={inputBirthMonth}
+                        value={inputHour}
+                        onChange={(e) => setInputHour(e.target.value)}
                     />
-                    <label>월</label>
-                </div>
-                <div className="date-input_wrap">
+                    <label htmlFor="hour">시</label>
                     <input
                         type="number"
-                        placeholder={datePlaceholder.date}
-                        min="1"
-                        max="31"
+                        id="minute"
+                        placeholder={datePlaceholder.minute}
+                        min="0"
+                        max="59"
                         required
-                        onChange={(e) => setInputBirthDate(e.target.value)}
-                        value={inputBirthDate}
+                        value={inputMinute}
+                        onChange={(e) => setInputMinute(e.target.value)}
                     />
-                    <label>일</label>
+                    <label htmlFor="minute">분</label>
                 </div>
-            </div>
 
-            <label className="title">
-                <span>성별</span>
-                <span className="required">*</span>
-            </label>
-            <div className="gender">
-                <input
-                    type="radio"
-                    id="male"
-                    name="gender"
-                    value="M"
-                    required
-                    checked={inputGender === 'M'}
-                    onChange={(e) => setInputGender(e.target.value)}
-                />
-                <label htmlFor="male">
-                    <i className="bi bi-gender-male"></i> 남자아이
+                <label className="title">
+                    <span>출생 키/몸무게</span>
                 </label>
-                <input
-                    type="radio"
-                    id="female"
-                    name="gender"
-                    value="W"
-                    required
-                    checked={inputGender === 'W'}
-                    onChange={(e) => setInputGender(e.target.value)}
-                />
-                <label htmlFor="female">
-                    <i className="bi bi-gender-female"></i> 여자아이
-                </label>
-            </div>
-
-            <label className="title">
-                <span>혈액형</span>
-                <span className="required">*</span>
-            </label>
-            <div className="blood-type">
-                <input
-                    type="radio"
-                    id="a"
-                    name="blood"
-                    required
-                    value="a"
-                    checked={inputBlood === 'a'}
-                    onChange={(e) => setInputBlood(e.target.value)}
-                />
-                <label htmlFor="a">A형</label>
-                <input
-                    type="radio"
-                    id="b"
-                    name="blood"
-                    required
-                    value="b"
-                    checked={inputBlood === 'b'}
-                    onChange={(e) => setInputBlood(e.target.value)}
-                />
-                <label htmlFor="b">B형</label>
-                <input
-                    type="radio"
-                    id="o"
-                    name="blood"
-                    required
-                    value="o"
-                    checked={inputBlood === 'o'}
-                    onChange={(e) => setInputBlood(e.target.value)}
-                />
-                <label htmlFor="o">O형</label>
-                <input
-                    type="radio"
-                    id="ab"
-                    name="blood"
-                    required
-                    value="ab"
-                    checked={inputBlood === 'ab'}
-                    onChange={(e) => setInputBlood(e.target.value)}
-                />
-                <label htmlFor="ab">AB형</label>
-            </div>
-
-            <label className="title">
-                <span>출생시간</span>
-                <span className="required">*</span>
-            </label>
-            <div className="flex-row">
-                <div className="birth-time">
+                <div className="flex-row">
                     <input
-                        type="radio"
-                        id="am"
-                        name="birth-time"
+                        type="number"
+                        id="length"
+                        placeholder="50.0"
                         required
-                        value="AM"
-                        checked={inputAmPm === 'AM'}
-                        onChange={(e) => setInputAmPm(e.target.value)}
+                        value={inputHeight}
+                        onChange={(e) => setInputHeight(e.target.value)}
                     />
-                    <label htmlFor="am">오전</label>
+                    <label htmlFor="length">cm</label>
                     <input
-                        type="radio"
-                        id="pm"
-                        name="birth-time"
+                        type="number"
+                        id="weight"
+                        placeholder="3.5"
                         required
-                        value="PM"
-                        checked={inputAmPm === 'PM'}
-                        onChange={(e) => setInputAmPm(e.target.value)}
+                        value={inputWeight}
+                        onChange={(e) => setInputWeight(e.target.value)}
                     />
-                    <label htmlFor="pm">오후</label>
+                    <label htmlFor="weight">kg</label>
                 </div>
-                <input
-                    type="number"
-                    id="hour"
-                    placeholder={datePlaceholder.hour}
-                    min="0"
-                    max="12"
-                    required
-                    value={inputHour}
-                    onChange={(e) => setInputHour(e.target.value)}
-                />
-                <label htmlFor="hour">시</label>
-                <input
-                    type="number"
-                    id="minute"
-                    placeholder={datePlaceholder.minute}
-                    min="0"
-                    max="59"
-                    required
-                    value={inputMinute}
-                    onChange={(e) => setInputMinute(e.target.value)}
-                />
-                <label htmlFor="minute">분</label>
-            </div>
 
-            <label className="title">
-                <span>출생 키/몸무게</span>
-            </label>
-            <div className="flex-row">
-                <input
-                    type="number"
-                    id="length"
-                    placeholder="50.0"
-                    required
-                    value={inputHeight}
-                    onChange={(e) => setInputHeight(e.target.value)}
-                />
-                <label htmlFor="length">cm</label>
-                <input
-                    type="number"
-                    id="weight"
-                    placeholder="3.5"
-                    required
-                    value={inputWeight}
-                    onChange={(e) => setInputWeight(e.target.value)}
-                />
-                <label htmlFor="weight">kg</label>
-            </div>
+                <button type="submit" onClick={(e) => handleSubmit(e)}
+                        className={`submit-btn ${isFormComplete ? 'active' : ''}`}>
+                    {childId ? '수정하기' : '등록하기'}
+                </button>
+            </form>
 
-            <button type="submit" onClick={(e) => handleSubmit(e)}
-                className={`submit-btn ${isFormComplete ? 'active' : ''}`}>
-                {childId ? '수정하기' : '등록하기'}
-            </button>
-        </form>
-
-    </div>);
+        </div>
+    );
 };
 
 export default ChildRegister;
