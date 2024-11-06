@@ -19,7 +19,7 @@ html, body { font-family: "Pretendard", sans-serif; height: 100%; margin: 0; pad
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; touch-action: manipulation; }
 a { text-decoration: none; color: inherit; }
 ul, li, ol, dl, dd { list-style: none; margin: 0; }
-img { max-width: 100%; height: auto; border: 0; }
+img {border: 0; }
 table { border-collapse: collapse; border-spacing: 0; }
 td, th { padding: 0; }
 input[type="checkbox"] { cursor: pointer; }
@@ -52,23 +52,3 @@ input::placeholder { color: #888; }
 85% { opacity: 1; }
 100% { opacity: 0; }
  }
-
-/* 페이지 전환 애니메이션 */
-.page-enter {
- opacity: 0;
- transform: translateX(100%);
-}
-.page-enter-active {
- opacity: 1;
- transform: translateX(0);
- transition: opacity 300ms, transform 300ms;
-}
-.page-exit {
- opacity: 1;
- transform: translateX(0);
-}
-.page-exit-active {
- opacity: 0;
- transform: translateX(-100%);
- transition: opacity 300ms, transform 300ms;
-}
