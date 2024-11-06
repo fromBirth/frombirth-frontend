@@ -69,6 +69,16 @@ const Dashboard = () => {
                     <i className="bi bi-chevron-right"></i>
                 </div>
             </section>
+
+            <Link
+                to="/login"
+                style={{
+                    fontSize: '12px',
+                    color: 'gray',
+                }}
+            >
+                로그인
+            </Link>
         </div>
     );
 };
