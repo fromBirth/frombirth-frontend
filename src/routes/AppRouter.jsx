@@ -2,7 +2,7 @@
 // React Router의 Routes와 Route 컴포넌트를 사용해 라우팅 구성
 import { Routes, Route, Navigate  } from 'react-router-dom';
 // React에서 컴포넌트를 동적 로딩할 수 있도록 Suspense와 lazy를 사용
-import { useContext,Suspense, lazy } from 'react';
+import {useContext, Suspense, lazy, useEffect} from 'react';
 // PATHS 객체를 import하여 경로를 상수로 관리
 import { PATHS } from './paths';
 // 전체 레이아웃 컴포넌트로, 로그인이 필요한 페이지의 공통 레이아웃으로 사용
@@ -35,7 +35,6 @@ const ChildRegister = lazy(() => import('../components/child-regist/ChildRegiste
 
 function AppRouter() {
     const { user } = useContext(AppContext);
-
 
     return (
         // Suspense로 동적 로딩 중 스피너 화면 표시

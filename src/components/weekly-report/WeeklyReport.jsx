@@ -4,8 +4,6 @@ import './WeeklyReport.css';
 import KakaoMap from "../kakao-map/KakaoMap";
 import ProgressBar from "../ProgressBar/ProgressBar";
 
-const {kakao} = window;
-
 const WeeklyReport = () => {
 
 
@@ -39,7 +37,6 @@ const WeeklyReport = () => {
                 <h3>근처 병원 정보</h3>
                 <KakaoMap/>
             </div>
-
         </>
     );
 };

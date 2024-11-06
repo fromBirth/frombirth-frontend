@@ -42,7 +42,6 @@ function Login() {
                 setUser({
                     userId: data.userId,
                     email: data.email,
-                    childList: data.childList,
                 });
                 let newaccessToken = Cookies.get('accessToken');
                 let newrefreshToken = Cookies.get('refreshToken');
