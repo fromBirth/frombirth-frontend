@@ -20,6 +20,8 @@ export const PATHS = {
     // AI주간보고 페이지 경로
     WEEKLY_REPORT: "/weeklyreport",
     WEEKLY_REVIEW: "/weeklyreview",
+    REVIEW_WAITING: "/reviewWaiting",
+
 
     // 성장 분석 페이지 경로
     GROWTH_ANALYSIS: "/growthanalysis",

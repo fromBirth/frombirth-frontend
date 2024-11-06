@@ -15,6 +15,7 @@ import '/src/components/common/Common.css';
 import DiarySearch from "../components/baby-diary/diary-search/DiarySearch.jsx";
 import ProtectedRoute from '../routes/ProtectedRoute.jsx';
 import AppContext from "../contexts/AppProvider.jsx";
+import ReviewWaiting from "../components/weekly-report/ReviewWaiting.jsx";
 
 // React.lazy를 사용하여 동적 import로 각 페이지를 로딩하여 초기 로딩 속도 최적화
 const Login = lazy(() => import('../components/login/Login.jsx'));
@@ -59,6 +60,8 @@ function AppRouter() {
                         {/* WeeklyReport 페이지 */}
                         <Route path={PATHS.WEEKLY_REPORT} element={<WeeklyReport />} />
                         <Route path={PATHS.WEEKLY_REVIEW} element={<WeeklyReview />} />
+                        <Route path={PATHS.REVIEW_WAITING} element={<ReviewWaiting />} />
+
 
 
                         {/* GrowthAnalysis 페이지 */}
