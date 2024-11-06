@@ -74,6 +74,7 @@ function AppRouter() {
                         {/* MyPage 관련 페이지 */}
                         <Route path={PATHS.MY_PAGE} element={<MyPage />} />
                         <Route path={PATHS.CHILD_REGISTER} element={<ChildRegister />} />
+                        <Route path={PATHS.CHILD_EDIT} element={<ChildRegister />} />
                     </Route>
                 </Route>
             </Routes>
