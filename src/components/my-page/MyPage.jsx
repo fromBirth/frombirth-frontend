@@ -18,7 +18,14 @@ const MyPage = () => {
     const handleAddChildClick = () => {
         setTimeout(() => {
             navigate(PATHS.CHILD_REGISTER);
-        }, 200); // 0.2초 지연
+        }, 200);
+    };
+
+    // 특정 아이의 수정 페이지로 이동하는 함수
+    const handleChildClick = (childId) => {
+        setTimeout(() => {
+            navigate(`${PATHS.CHILD_REGISTER}/${childId}`);
+        }, 200);
     };
 
     return (
@@ -46,7 +53,7 @@ const MyPage = () => {
                         </div>
                         <small className="child-age">0개월 12일</small>
                     </div>
-                    <div className="child-card">
+                    <div className="child-card" onClick={() => handleChildClick("2")}>
                         <img src={basic_profile} alt="Child Image" className="child-image" />
                         <div className="child-name">
                             홍길동

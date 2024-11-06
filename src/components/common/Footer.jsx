@@ -26,7 +26,7 @@ const Footer = () => {
             <div onClick={() => handleNavigation(PATHS.BABY_DIARY)} className={`btn-menu ${activePath.startsWith(PATHS.BABY_DIARY) ? 'active' : ''}`}>
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
-                        <img src={`/src/assets/img/icon_menu_diary${activePath === PATHS.BABY_DIARY ? '_on' : ''}.svg`} className="icon diary" alt="육아일기 아이콘" />
+                        <img src={`/src/assets/img/icon_menu_diary${activePath.startsWith(PATHS.BABY_DIARY) ? '_on' : ''}.svg`} className="icon diary" alt="육아일기 아이콘" />
                     </div>
                     <span>육아일기</span>
                 </div>

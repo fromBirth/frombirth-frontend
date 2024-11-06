@@ -1,19 +1,22 @@
-.container .header {font-size: 1.5rem; margin-bottom: 1rem;}
+/* 날짜 이동 */
+.date-navigator { display: flex; align-items: center; justify-content: center; position: relative; padding: 10px 0; } 
+.date-navigator .nav-section { display: flex; align-items: center; font-size: 1.5em; } 
+.date-navigator .nav-section .nav-button { border: none; background: none; margin: 0 15px; } 
+.date-navigator .nav-section .nav-button i { padding: 7px 9px 7px 7px; color: #333; } 
+.date-navigator .nav-section .nav-button i:active { background-color: var(--background-color); border-radius: 50%; } 
+.date-navigator .nav-section .current-date { font-weight: 500; color: #333; } 
+.date-navigator .today-button { font-size: 1.1em; color: #333; background: none; border: none; cursor: pointer; position: absolute; right: 0; top: 50%; transform: translateY(-50%); padding: 4px 7px; border-radius: 20px; } 
+.date-navigator .today-button:active { background-color: var(--background-color); } 
 
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.1rem; width: 100%; }
-
-.day { display: flex; justify-content: center; align-items: center; color: #888; font-weight: bold; } 
-
-.date-cell { display: flex; flex-direction: column; align-items: center; justify-content: space-between; width: 100%; cursor: pointer; } 
-
-.date-number { font-weight: bold; color: #333; font-size: 1rem;
- margin: 0 auto;
- text-align: center;
-}
-
-.date-image-container { width: 3rem; height: 3rem; border-radius: 50%; background-color: #f0f0f0; /* Background color for cells without images */
- display: flex; justify-content: center; align-items: center; } 
-
-.date-image { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; } 
-
-.highlighted { background-color: #1e90ff; color: white; font-weight: bold; border-radius: 30%; width: 30%; height: 30%; align-self: center}
+/* 달력 */
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.1rem; } 
+.calendar-grid.weekdays { border-bottom: 1.5px solid #ddd; } 
+.calendar-grid .day { display: flex; justify-content: center; align-items: center; color: #888; font-weight: 400; padding: 5px 0; } 
+.calendar-grid .date-cell { display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4px 0; gap: 2px; } 
+.calendar-grid .date-cell.selected .date-number { background-color: #1e90ff; color: white; } 
+.calendar-grid .date-cell:not(.selected).today .date-number { color: #1e90ff; font-weight: 500; } 
+.calendar-grid .date-cell.outside-month { visibility: hidden; } 
+.calendar-grid .date-cell .date-number { font-weight: 400; color: #222; font-size: 0.9rem; margin: 0 auto; text-align: center; border-radius: 11px; padding: 1px 8px; } 
+.calendar-grid .date-cell .date-image-container { width: 2.6em; height: 2.6em; border-radius: 50%; background-color: #e7e7e7; display: flex; justify-content: center; align-items: center; } 
+.calendar-grid .date-cell .date-image-container .date-image { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; } 
+.calendar-grid .date-cell.future-date .date-image-container { background-color: #fafafa; } 

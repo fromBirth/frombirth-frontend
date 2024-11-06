@@ -6,13 +6,14 @@
 .layout { display: flex; flex-direction: column; align-items: center; max-width: 500px; width: 100%; height: 100vh; margin: 0 auto; } 
 
 /* 헤더 스타일 */
-.layout .header { width: 100%; padding: 12px 10px 5px; position: sticky; top: 0; z-index: 10; background-color: white;}
+.layout .header { display: flex; flex-direction: column; width: 100%; padding: 12px 10px 5px; position: sticky; top: 0; z-index: 10; background-color: white; } 
+.layout .header .header-inner { display: flex; } 
 
 /* 페이지 정보가 있는 헤더 */
 .layout .header .page-header { display: flex; align-items: center; position: relative; padding: 5px 0; width: 100%; } 
-.layout .header .page-header i { position: absolute; left: 0; font-size: 1.2rem; cursor: pointer; padding: 7px 9px 7px 7px; } 
+.layout .header .page-header i { position: absolute; left: 0; font-size: 1.2em; cursor: pointer; padding: 7px 9px 7px 7px; } 
 .layout .header .page-header i:active { background-color: var(--background-color); border-radius: 50%; } 
-.layout .header .page-header span { margin: 0 auto; font-size: 1.3rem; font-weight: 500; text-align: center; } 
+.layout .header .page-header span { margin: 0 auto; font-size: 1.3em; font-weight: 500; text-align: center; } 
 
 /* 아이 정보가 있는 헤더 */
 .layout .header .profile-wrap { position: relative; display: inline-block; } 
@@ -21,19 +22,28 @@
 .layout .header .profile-wrap .btn-profile .profile-img-wrap { width: 40px; display: flex; } 
 .layout .header .profile-wrap .btn-profile .profile-img-wrap img { width: 40px; height: 40px; border-radius: 50%; margin-right: 8px; } 
 .layout .header .profile-wrap .btn-profile:active .profile-info-wrap { transform: scale(0.99); transition: transform 0.2s ease; } 
-.layout .header .profile-wrap .btn-profile .profile-info-wrap b.name { font-size: 1.3rem; font-weight: 600; color:#333; } 
-.layout .header .profile-wrap .btn-profile .profile-info-wrap span.info { font-size: 1.0rem; font-weight: 400; color:#777; margin-right: 4px; } 
+.layout .header .profile-wrap .btn-profile .profile-info-wrap b.name { font-size: 1.3em; font-weight: 600; color:#333; } 
+.layout .header .profile-wrap .btn-profile .profile-info-wrap span.info { font-size: 1.0em; font-weight: 400; color:#777; margin-right: 4px; } 
 .layout .header .profile-wrap .btn-profile .profile-info-wrap i.icon { transition: transform 0.3s ease; display: inline-block; color:#777; } 
 .layout .header .profile-wrap .btn-profile .profile-info-wrap i.icon.rotate { transform: rotate(180deg); } 
 .layout .header .profile-wrap .dropdown-menu { display: flex; flex-direction: column; gap: 5px; position: absolute; top: 90%; right: 0; background-color: white; border-radius: 10px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); padding: 6px; z-index: 1000; } 
-.layout .header .profile-wrap .dropdown-item { padding: 10px 10px; cursor: pointer; font-size: 1.1rem; color: #222; font-weight: 400; border-radius: 9px; transition: background-color 0.2s; } 
+.layout .header .profile-wrap .dropdown-item { padding: 10px 10px; cursor: pointer; font-size: 1.1em; color: #222; font-weight: 400; border-radius: 9px; transition: background-color 0.2s; } 
 .layout .header .profile-wrap .dropdown-item:active,
 .layout .header .profile-wrap .dropdown-item.active { background-color: var(--background-color); } 
 .layout .header .profile-wrap .dropdown-item a { display: flex; } 
-.layout .header .profile-wrap .dropdown-item i { margin-left: 3px; font-size: 1.2rem; } 
+.layout .header .profile-wrap .dropdown-item i { margin-left: 3px; font-size: 1.2em; } 
+
+/* 아이 정보 옆 검색/리스트/캘린더 아이콘(육아일기 메뉴) */
+.layout .header .page-btn { flex:1; display: inline-flex; justify-content: flex-end; padding-right: 5px; } 
+.layout .header .page-btn .btn-icon { display: flex; align-items: center; } 
+.layout .header .page-btn .btn-icon i { font-size: 1.5em; padding: 7px 9px 7px 9px; color:#777 } 
+.layout .header .page-btn .btn-icon i.bi-search { font-size: 1.4em; } 
+.layout .header .page-btn .btn-icon i.bi-list-ul { font-size: 1.7em; padding: 9px 9px 5px 9px; } 
+.layout .header .page-btn .btn-icon i.bi-calendar-date { font-size: 1.7em; } 
+.layout .header .page-btn .btn-icon i:active { background-color: var(--background-color); border-radius: 50%; } 
 
 /* 콘텐츠 영역 */
-.layout .content { flex-grow: 1; width: 100%; overflow-y: auto; padding: 0 20px; padding-bottom: 70px; }
+.layout .content { flex-grow: 1; width: 100%; overflow-y: auto; padding: 0 20px; padding-bottom: 80px; } 
 
 /* footer */
 .layout .footer { width: 100%; background-color: #fcfcfc; border-top: 0.1px solid #e0e0e0; position: fixed; bottom: 0; z-index: 10; max-width: 500px; display: flex; justify-content: space-around; } 
