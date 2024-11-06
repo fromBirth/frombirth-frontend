@@ -180,15 +180,36 @@ const ChildRegister = () => {
     }
 
     function handleImageUpload() {
-        uploadImg.current.click();
+        if (window.AndroidFileChooser) {
+            window.AndroidFileChooser.openFileChooser();
+        } else {
+            uploadImg.current.click(); // 웹에서는 기존의 파일 선택 열기
+        }
     }
 
     function handlePreview() {
         if (uploadImg.current?.files != null) {
-            setProfile(uploadImg.current.files[0]);
-            setProfileSrc(URL.createObjectURL(uploadImg.current.files[0]));
+            const file = uploadImg.current.files[0];
+            setProfile(file); // S3 업로드용 파일 설정
+            setProfileSrc(URL.createObjectURL(file)); // 미리보기 이미지 설정
         }
     }
+
+    // 안드로이드 파일 처리
+    window.handleBase64Image = function(base64String, fileName, mimeType) {
+        const byteCharacters = atob(base64String);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: mimeType });
+
+        // Blob을 File 객체로 변환하여 파일명과 MIME 타입을 유지
+        const file = new File([blob], fileName, { type: mimeType });
+        setProfile(file);
+        setProfileSrc(URL.createObjectURL(file)); // 미리보기 업데이트
+    };
 
     // async function handleDefaultImage() {
     //     const response = await fetch('/img/basic_profile.png'); // 기본 이미지 경로
