@@ -1,15 +1,14 @@
-/* src/components/login/Login.jsx */
-
-import './Login.css'
-import kakaoSymbol from '../../assets/img/kakaoSymbol.svg'
-import { Link,useNavigate } from "react-router-dom";
-import {useEffect, useContext,useState} from "react";
-import AppContext from '../../contexts/AppProvider.jsx';
+import {useState, useContext, useEffect} from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../../contexts/AppProvider';
+import { PATHS } from '../../routes/paths.js';
+import { SPRING_BASE_URL } from '../../routes/ApiPath.js';
 import Cookies from 'js-cookie';
-import {SPRING_BASE_URL} from "../../routes/ApiPath.js";
 
-function Login() {
-
+function TestLogin() {
+    const [userId, setUserId] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
     const { setUser } = useContext(AppContext); // 사용자 정보 설정을 위한 Context 사용
     const [isFetching, setIsFetching] = useState(false);
@@ -41,8 +40,7 @@ function Login() {
                 // 필요 시 사용자 정보를 상태에 저장하거나 추가 동작 수행
                 setUser({
                     userId: data.userId,
-                    email: data.email,
-                    childList: data.childList,
+                    email: data.email
                 });
                 let newaccessToken = Cookies.get('accessToken');
                 let newrefreshToken = Cookies.get('refreshToken');
@@ -50,7 +48,7 @@ function Login() {
                     window.Android.receiveTokens(newaccessToken, newrefreshToken);
                 }
                 // 메인 페이지로 이동
-                navigate("/dashboard");
+                navigate("/");
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -60,9 +58,7 @@ function Login() {
 
 // 리프레시 토큰을 사용하여 새로운 액세스 토큰 요청
     function refreshToken() {
-        // 기존 accessToken 쿠키 삭제
-        Cookies.remove('accessToken', { path: '/' });
-        return fetch(SPRING_BASE_URL + '/auth/refresh', {
+        return fetch(SPRING_BASE_URL+'/auth/refresh', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -71,31 +67,16 @@ function Login() {
         })
             .then(response => {
                 if (response.ok) {
-                    return response.text(); // 응답이 텍스트 형식일 경우
+                    console.log('Access token refreshed');
                 } else {
                     throw new Error('Refresh token invalid or expired');
                 }
-            })
-            .then(text => {
-                if (text.startsWith('{')) {
-                    // 응답이 JSON이라면 JSON으로 파싱
-                    const data = JSON.parse(text);
-                 
-
-
-
-
-                } else {
-                    console.log(text); // 응답이 텍스트인 경우 그대로 로그에 출력
-                }
-                console.log('Access token refreshed and stored');
             })
             .catch(error => {
                 console.error('Refresh token error:', error);
                 // 로그인 페이지로 리디렉션
             });
     }
-
     useEffect(() => {
         if (window.Kakao && !window.Kakao.isInitialized()) {
             window.Kakao.init('66231e0e83f9f6009c0eb6c52aadb80b');
@@ -108,46 +89,46 @@ function Login() {
             window.Android.receiveTokens(accessToken, refreshToken);
         }
         // 토큰이 존재하는 경우 백엔드로 검증 요청
-        if (accessToken && refreshToken && !isFetching) {
+        if (accessToken && refreshToken ) {
             fetchProtectedData().finally(() => setIsFetching(true));
         }
     }, [isFetching]);
 
 
-    const handleKakaoLogin = () => {
-        window.Kakao.Auth.authorize({
-            redirectUri: SPRING_BASE_URL+'/api/kakao/callback', // 리다이렉트 URI 설정
-        });
+
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setError('');
+
+        // 백엔드의 /auth/test-login 엔드포인트로 POST 요청 보내기
+        window.location.href = `${SPRING_BASE_URL}/auth/test-login?userId=${userId}`;
     };
 
 
+
+
     return (
-        <div className="login-wrap">
-            <div className="logo-text">
-                <p className="title">프롬버스</p>
-                <p className="subtitle">from birth : 탄생부터 성장까지</p>
-                <p className="description">육아 기록 및 발달장애 진단 앱</p>
-                <Link
-                    to="/"
-                    style={{
-                        fontSize: '12px',
-                        color: 'gray',
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                    }}
-                >
-                    메인으로
-                </Link>
-            </div>
-            <button onClick={handleKakaoLogin}>
-                <div className="kakao-button">
-                    <img src={kakaoSymbol} alt="KaKaoLoginImg" />
-                    <span>카카오로 시작하기</span>
+        <div className="test-login-container">
+            <h2>테스트 로그인</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="userId">User ID:</label>
+                    <input
+                        type="text"
+                        id="userId"
+                        value={userId}
+                        onChange={(e) => setUserId(e.target.value)}
+                        required
+                        placeholder="Enter your User ID"
+                    />
                 </div>
-            </button>
+                <button type="submit">로그인</button>
+            </form>
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 }
 
-export default Login;
+export default TestLogin;
