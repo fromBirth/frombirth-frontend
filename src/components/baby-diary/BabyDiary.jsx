@@ -3,8 +3,13 @@
 import Calendar from "./diary-calendar/DiaryCalendar.jsx";
 
 import './BabyDiary.css';
+import {useEffect} from "react";
 
 const BabyDiary = () => {
+
+    useEffect(() => {
+
+    }, []);
 
     return (
         <>

@@ -8,7 +8,10 @@ import { CiSearch } from "react-icons/ci";
 import { CiBoxList } from "react-icons/ci";
 import { CiCalendarDate } from "react-icons/ci";
 import DiarySearch from "../baby-diary/diary-search/DiarySearch.jsx";
-import AppContext from "../../contexts/AppProvider.jsx"; // AppContext 가져오기
+import AppContext from "../../contexts/AppProvider.jsx";
+import axios from "axios";
+import {CHILDREN_LIST_BY_USER} from "../../routes/ApiPath.js";
+import log from "eslint-plugin-react/lib/util/log.js"; // AppContext 가져오기
 
 const Header = () => {
     const location = useLocation();
@@ -17,6 +20,39 @@ const Header = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const dropdownRef = useRef(null); // 드롭다운 참조 생성
+    const {user, setUser} = useContext(AppContext);
+    const [selectedChild, setSelectedChild] = useState(null);
+    const [childList, setChildList] = useState([]);
+
+
+    // 로컬스토리지에 선택된 아이 없으면 선택 및 저장
+    useEffect(() => {
+        const fetchChildList = async () => {
+            const {data} = await axios.get(CHILDREN_LIST_BY_USER + user.userId);
+            setChildList(data);
+        };
+        fetchChildList();
+    }, [user.userId]);
+
+    useEffect(() => {
+        if (childList.length < 1) return;
+
+        setUser(prev => ({ ...prev, childList }));
+        if (!localStorage.getItem('selectedChild')) {
+            const lastChildId = childList[childList.length - 1]?.childId;
+            if (lastChildId) {
+                setSelectedChild(lastChildId);
+                // localStorage.setItem('selectedChild', lastChildId);
+            }
+        }
+    }, [childList, setUser]);
+
+    useEffect(() => {
+        if (selectedChild == null) return;
+
+        localStorage.setItem('selectedChild', selectedChild);
+        // 추가로 selectedChild 값이 바뀔 때 실행하고 싶은 로직이 있다면 여기에 작성합니다.
+    }, [selectedChild]);
 
     // 드롭다운 토글 함수
     const toggleDropdown = () => {
@@ -85,36 +121,97 @@ const Header = () => {
             </button>
         )
 
+        function calculateAgeInMonthsAndDays(birthday) {
+            const today = new Date();
+            const birthDate = new Date(birthday);
+
+            let months = (today.getFullYear() - birthDate.getFullYear()) * 12 + (today.getMonth() - birthDate.getMonth());
+            let days = today.getDate() - birthDate.getDate();
+
+            // Adjust if days are negative
+            if (days < 0) {
+                months -= 1;
+                const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+
+            return months + '개월 ' + days + '일 ' ;
+        }
+
+        function calculateAge(birthday) {
+            const today = new Date();
+            const birthDate = new Date(birthday);
+
+            let age = today.getFullYear() - birthDate.getFullYear();
+
+            // 생일이 아직 지나지 않았으면 나이에서 1을 뺍니다.
+            if (
+                today.getMonth() < birthDate.getMonth() ||
+                (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())
+            ) {
+                age--;
+            }
+
+            return age;
+        }
+
+        const drawSelectedChildProfile = () => {
+            if (!Object.keys(user).includes('childList')) return;
+
+            const selectedChildId = Number(selectedChild || localStorage.getItem('selectedChild'));
+            const item = user.childList.find(({childId}) => childId === selectedChildId);
+            const calculateBirthMonth = calculateAgeInMonthsAndDays(item.birthDate);
+            const calculatedAge = calculateAge(item.birthDate);
+
+            return (
+                <div className="btn-profile" onClick={toggleDropdown}>
+                    <div className="profile-img-wrap">
+                        <img
+                            src={item.profilePicture}
+                            alt="Profile Picture"
+                            className="profile-image"
+                        />
+                    </div>
+                    <div className="profile-info-wrap">
+                        <b className="name">{item.name}</b>{' '}
+                        <span className="info">·
+                            {calculateBirthMonth}
+                            (만 {calculatedAge}세)
+                                </span>
+                        <i
+                            className={`bi bi-chevron-down icon ${
+                                isDropdownOpen ? 'rotate' : ''
+                            }`}
+                        ></i>
+                    </div>
+                </div>
+            )
+        }
+
+
         if (profilePaths.includes(location.pathname) || diaryPaths.includes(location.pathname)) {
             // profilePaths에 있는 경로라면 프로필 표시
             return (
                 <div className="profile-wrap" ref={dropdownRef}>
-                    <div className="btn-profile" onClick={toggleDropdown}>
-                        <div className="profile-img-wrap">
-                            <img
-                                src="/src/assets/img/profile_male.png"
-                                alt="Profile Picture"
-                                className="profile-image"
-                            />
-                        </div>
-                        <div className="profile-info-wrap">
-                            <b className="name">홍길동</b>{' '}
-                            <span className="info">· 0개월 12일 (만 0세)</span>
-                            <i
-                                className={`bi bi-chevron-down icon ${
-                                    isDropdownOpen ? 'rotate' : ''
-                                }`}
-                            ></i>
-                        </div>
-                    </div>
-                        {showSearchIcon}
-                        {showListIcon}
+                    {drawSelectedChildProfile()}
+                    {showSearchIcon}
+                    {showListIcon}
 
                     {/* 드롭다운 메뉴 */}
                     {isDropdownOpen && (
                         <div className="dropdown-menu">
-                            <div className="dropdown-item active">홍길동</div>
-                            <div className="dropdown-item">홍길순</div>
+                            {user.childList?.map(item => (
+                                <div
+                                    className={
+                                    `dropdown-item ${item.childId === localStorage.getItem('selectedChild') 
+                                        ? 'active' : ''}`}
+                                    key={item.childId}
+                                    onClick={() => setSelectedChild(item.childId)}
+                                >
+                                    {item.name}
+                                </div>
+                                ))
+                            }
                             <div
                                 className="dropdown-item"
                                 onClick={() => handleNavigation(PATHS.CHILD_REGISTER)}
