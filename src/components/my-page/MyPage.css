@@ -1,17 +1,31 @@
-.login-info, .child-management { margin-bottom: 20px; } 
+.container.menu_mypage { padding-top: 20px; } 
+.container.menu_mypage h3 { font-size: 1.1em; font-weight: 500; color: #333; margin-bottom: 10px; } 
 
-.login-info h3, .child-management h3 { font-size: 14px; color: #333; margin-bottom: 10px; } 
+/* 로그인 정보 */
+.menu_mypage .login-info { margin-bottom: 40px; } 
+.menu_mypage .login-info .email_wrap { display: flex; align-items: center; font-size: 0.9em; color: #555; margin: 15px 0 10px; } 
+.menu_mypage .login-info .email_wrap img { width: 22px; height: 22px; margin-right: 10px; } 
+.menu_mypage .login-info .email_wrap .email_info { display: flex; flex-direction: column; flex: 1; gap:3px; font-size: 1.1em; font-weight: 400; color: #666; } 
+.menu_mypage .login-info .email_wrap .logout { font-size: 1.1em; color: #f78e1e; font-weight: 600; } 
 
-.email { display: flex; align-items: center; font-size: 14px; color: #555; margin-bottom: 10px; } 
+/* 내 아이 관리 */
+.menu_mypage .child-management .child-cards { display: flex; gap: 15px; padding: 5px; flex-wrap: wrap; } 
+.menu_mypage .child-management .child-cards .child-card { flex-basis: calc(33.33% - 10px); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 15px; padding: 15px 5px; background-color: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); } 
+.menu_mypage .child-management .child-cards .child-card:active { background-color: #fafafa; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); } 
+.menu_mypage .child-management .child-cards .child-card .child-image { width: 50px; height: 50px; border-radius: 50%; } 
+.menu_mypage .child-management .child-cards .child-card .child-name { display: flex; align-items: center; font-weight: bold; margin-top: 10px; } 
+.menu_mypage .child-management .child-cards .child-card .child-name .current-label { background-color: #f78e1e; color: white; border-radius: 10px; padding: 2px 5px; margin: 0 2px 0 5px; font-size: 0.6em; font-weight: 400; } 
+.menu_mypage .child-management .child-cards .child-card .child-age { color: #999; font-size: 0.8em; margin-top: 5px; } 
 
-.email img { width: 20px; height: 20px; margin-right: 10px; } 
+/* 현재 활성화 카드 */
+.menu_mypage .child-management .child-cards .child-card.active-child { background-color: #ffc78b20; box-shadow: 0 2px 4px rgb(235 111 0 / 20%); } 
 
-.logout { font-size: 14px; color: #f78e1e; text-align: right; cursor: pointer; } 
+/* 추가 카드 */
+.menu_mypage .child-management .child-cards .child-card.add-child { background-color: #fafafa; } 
+.menu_mypage .child-management .child-cards .child-card.add-child .add-icon { font-size: 2.5em; color: #ccc; } 
+.menu_mypage .child-management .child-cards .child-card.add-child .add-text { color: #888; font-weight: 500; } 
+.menu_mypage .child-management .child-cards .child-card.add-child:active { background-color: #f1f1f1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); } 
+.menu_mypage .child-management .child-cards .child-card.add-child:active .add-icon { color: #aaa; } 
+.menu_mypage .child-management .child-cards .child-card.add-child:active .add-text { color: #666; } 
 
-.child-cards { display: flex; gap: 10px; } 
 
-.child-card { width: 45%; padding: 10px; text-align: center; font-size: 12px; color: #555; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); } 
-
-.child-card img { width: 40px; height: 40px; border-radius: 50%; margin-bottom: 5px; } 
-
-.active-child { background-color: #fff5f5; color: #f78e1e; } 
