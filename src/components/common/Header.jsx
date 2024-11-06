@@ -1,6 +1,6 @@
 /* src/components/common/Header.jsx */
 
-import { useState, useEffect, useRef } from 'react';
+import {useState, useEffect, useRef, useContext} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../routes/paths.js';
@@ -8,10 +8,12 @@ import { CiSearch } from "react-icons/ci";
 import { CiBoxList } from "react-icons/ci";
 import { CiCalendarDate } from "react-icons/ci";
 import DiarySearch from "../baby-diary/diary-search/DiarySearch.jsx";
+import AppContext from "../../contexts/AppProvider.jsx"; // AppContext 가져오기
 
 const Header = () => {
     const location = useLocation();
     const navigate = useNavigate(); // useNavigate 훅 추가
+    const { pageTitle } = useContext(AppContext); // context에서 pageTitle 가져오기
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const dropdownRef = useRef(null); // 드롭다운 참조 생성
@@ -117,7 +119,7 @@ const Header = () => {
                                 className="dropdown-item"
                                 onClick={() => handleNavigation(PATHS.CHILD_REGISTER)}
                             >
-                                아이등록하기 <i className="bi bi-person-plus"></i>
+                                아이 등록하기 <i className="bi bi-person-plus"></i>
                             </div>
                         </div>
                     )}
@@ -131,7 +133,7 @@ const Header = () => {
             return (
                 <div className="page-header">
                     <i className="bi bi-chevron-left" onClick={handleGoBack}></i>
-                    <span>내 정보</span>
+                    <span>{pageTitle || '내 정보'}</span> {/* 제목 표시 */}
                 </div>
             );
         }
