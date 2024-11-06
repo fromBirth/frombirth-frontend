@@ -2,6 +2,7 @@
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { PATHS } from "../../routes/paths.js";
 
 const Footer = () => {
     const location = useLocation();
@@ -22,42 +23,42 @@ const Footer = () => {
 
     return (
         <footer className="footer">
-            <div onClick={() => handleNavigation('/babydiary')} className={`btn-menu ${activePath.startsWith('/babydiary') ? 'active' : ''}`}>
+            <div onClick={() => handleNavigation(PATHS.BABY_DIARY)} className={`btn-menu ${activePath.startsWith(PATHS.BABY_DIARY) ? 'active' : ''}`}>
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
-                        <img src={`/src/assets/img/icon_menu_diary${activePath === '/babydiary' ? '_on' : ''}.svg`} className="icon diary" alt="육아일기 아이콘" />
+                        <img src={`/src/assets/img/icon_menu_diary${activePath.startsWith(PATHS.BABY_DIARY) ? '_on' : ''}.svg`} className="icon diary" alt="육아일기 아이콘" />
                     </div>
                     <span>육아일기</span>
                 </div>
             </div>
-            <div onClick={() => handleNavigation('/weeklyreport')} className={`btn-menu ${activePath.startsWith('/weeklyreport') ? 'active' : ''}`}>
+            <div onClick={() => handleNavigation(PATHS.WEEKLY_REPORT)} className={`btn-menu ${activePath.startsWith(PATHS.WEEKLY_REPORT) ? 'active' : ''}`}>
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
-                        <img src={`/src/assets/img/icon_menu_report${activePath.startsWith('/weeklyreport') ? '_on' : ''}.svg`} className="icon report" alt="주간보고 아이콘" />
+                        <img src={`/src/assets/img/icon_menu_report${activePath.startsWith(PATHS.WEEKLY_REPORT) ? '_on' : ''}.svg`} className="icon report" alt="주간보고 아이콘" />
                     </div>
                     <span>AI 주간보고</span>
                 </div>
             </div>
-            <div onClick={() => handleNavigation('/dashboard')} className={`btn-menu ${activePath.startsWith('/dashboard') ? 'active' : ''}`}>
+            <div onClick={() => handleNavigation(PATHS.DASHBOARD)} className={`btn-menu ${activePath.startsWith(PATHS.DASHBOARD) ? 'active' : ''}`}>
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
-                        <img src={`/src/assets/img/icon_menu_main${activePath.startsWith('/dashboard') ? '_on' : ''}.svg`} className="icon main" alt="메인 아이콘" />
+                        <img src={`/src/assets/img/icon_menu_main${activePath.startsWith(PATHS.DASHBOARD) ? '_on' : ''}.svg`} className="icon main" alt="메인 아이콘" />
                     </div>
                     <span>메인</span>
                 </div>
             </div>
-            <div onClick={() => handleNavigation('/growthanalysis')} className={`btn-menu ${activePath.startsWith('/growthanalysis') ? 'active' : ''}`}>
+            <div onClick={() => handleNavigation(PATHS.GROWTH_ANALYSIS)} className={`btn-menu ${activePath.startsWith(PATHS.GROWTH_ANALYSIS) ? 'active' : ''}`}>
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
-                        <img src={`/src/assets/img/icon_menu_growth${activePath.startsWith('/growthanalysis') ? '_on' : ''}.svg`} className="icon growth" alt="성장분석 아이콘" />
+                        <img src={`/src/assets/img/icon_menu_growth${activePath.startsWith(PATHS.GROWTH_ANALYSIS) ? '_on' : ''}.svg`} className="icon growth" alt="성장분석 아이콘" />
                     </div>
                     <span>성장분석</span>
                 </div>
             </div>
-            <div onClick={() => handleNavigation('/mypage')} className={`btn-menu ${activePath.startsWith('/mypage') ? 'active' : ''}`}>
+            <div onClick={() => handleNavigation(PATHS.MY_PAGE)} className={`btn-menu ${activePath.startsWith(PATHS.MY_PAGE) ? 'active' : ''}`}>
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
-                        <img src={`/src/assets/img/icon_menu_mypage${activePath.startsWith('/mypage') ? '_on' : ''}.svg`} className="icon mypage" alt="내정보 아이콘" />
+                        <img src={`/src/assets/img/icon_menu_mypage${activePath.startsWith(PATHS.MY_PAGE) ? '_on' : ''}.svg`} className="icon mypage" alt="내정보 아이콘" />
                     </div>
                     <span>내정보</span>
                 </div>

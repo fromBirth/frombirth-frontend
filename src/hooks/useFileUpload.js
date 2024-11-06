@@ -22,6 +22,11 @@ const useFileUpload = (initialFiles = [], maxFiles = 1, fileType = 'image', defa
         }
     };
 
+    const loadPreviewFromUrl = (url) => {
+        setFiles([]); // 이전 파일 목록 초기화
+        setPreviewUrls([url]); // URL을 미리보기로 설정
+    };
+
     const triggerFileInput = () => {
         fileInputRef.current?.click();
     };
@@ -43,7 +48,8 @@ const useFileUpload = (initialFiles = [], maxFiles = 1, fileType = 'image', defa
         triggerFileInput,
         fileInputRef,
         acceptType,
-        removeFile
+        removeFile,
+        loadPreviewFromUrl
     };
 };
 

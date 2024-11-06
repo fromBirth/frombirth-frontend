@@ -53,7 +53,7 @@ function AppRouter() {
                         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
 
                         {/* BabyDiary 관련 페이지 */}
-                        <Route path={PATHS.BABY_DIARY} element={<BabyDiary />} />
+                        <Route path={`${PATHS.BABY_DIARY}/:date?`} element={<BabyDiary />} />
                         <Route path={PATHS.DIARY_LIST} element={<DiaryList />} />
                         <Route path={PATHS.DIARY_LIST_PHOTO} element={<DiaryListPhoto />} />
                         <Route path={PATHS.DIARY_WRITE} element={<DiaryWrite />} />
@@ -65,15 +65,12 @@ function AppRouter() {
                         <Route path={PATHS.WEEKLY_REVIEW} element={<WeeklyReview />} />
                         <Route path={PATHS.REVIEW_WAITING} element={<ReviewWaiting />} />
 
-
-
                         {/* GrowthAnalysis 페이지 */}
                         <Route path={PATHS.GROWTH_ANALYSIS} element={<GrowthAnalysis />} />
 
                         {/* MyPage 관련 페이지 */}
                         <Route path={PATHS.MY_PAGE} element={<MyPage />} />
-                        <Route path={PATHS.CHILD_REGISTER} element={<ChildRegister />} />
-                        <Route path={PATHS.CHILD_EDIT} element={<ChildRegister />} />
+                        <Route path={`${PATHS.CHILD_REGISTER}/:childId?`} element={<ChildRegister />} />
                     </Route>
                 </Route>
             </Routes>

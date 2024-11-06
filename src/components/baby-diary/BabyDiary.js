@@ -7,13 +7,8 @@ import imageEx03 from '../../assets/img/imageEx03.png';
 import imageEx04 from '../../assets/img/imageEx04.png';
 
 import './BabyDiary.css';
-import {useEffect} from "react";
 
 const BabyDiary = () => {
-
-    useEffect(() => {
-
-    }, []);
 
     return (
         <>

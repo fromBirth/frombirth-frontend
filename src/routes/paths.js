@@ -22,12 +22,10 @@ export const PATHS = {
     WEEKLY_REVIEW: "/weeklyreview",
     REVIEW_WAITING: "/reviewWaiting",
 
-
     // 성장 분석 페이지 경로
     GROWTH_ANALYSIS: "/growthanalysis",
 
     // 내정보 섹션 경로들
     MY_PAGE: "/mypage",                     // 마이페이지 메인 경로
-    CHILD_REGISTER: "/mypage/register",     // 아이 정보 등록 페이지 경로
-    CHILD_EDIT: "/mypage/register/:childId",     // 아이 정보 수정 페이지 경로
+    CHILD_REGISTER: "/mypage/register",     // 아이 정보 등록/수정 페이지 경로
 };
