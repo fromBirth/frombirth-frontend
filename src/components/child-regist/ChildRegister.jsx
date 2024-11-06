@@ -46,7 +46,8 @@ const ChildRegister = () => {
         previewUrls: profilePreviews,
         handleFileChange,
         triggerFileInput,
-        fileInputRef
+        fileInputRef,
+        loadPreviewFromUrl
     } = useFileUpload([], 1, 'image', basic_profile);
 
     useEffect(() => {
@@ -87,7 +88,7 @@ const ChildRegister = () => {
                     setInputMinute(data.birthTime.split(':')[1]);
                     setInputHeight(data.birthHeight);
                     setInputWeight(data.birthWeight);
-                    handleFileChange(data.profileImageUrl);
+                    loadPreviewFromUrl(data.profilePicture);
                 })
                 .catch(error => {
                     console.error('Error fetching child data:', error);
@@ -208,13 +209,6 @@ const ChildRegister = () => {
         // 출생시간 검증
         else if (validateInputBirthTime(inputHour, inputMinute) !== 'ok') {
             errorMessage = validateInputBirthTime(inputHour, inputMinute);
-        }
-        // 신체 정보 인증
-        else if (validateInputBodySize(inputHeight) !== 'ok') {
-            errorMessage = validateInputBodySize(inputHeight);
-        }
-        else if (validateInputBodySize(inputWeight) !== 'ok') {
-            errorMessage = validateInputBodySize(inputWeight);
         }
         // 추가적인 검증은 필요에 따라 추가
 
