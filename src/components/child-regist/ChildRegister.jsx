@@ -1,3 +1,5 @@
+/* src/components/child-regist/ChildRegister.jsx */
+
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'; // useParams 훅을 사용하여 URL에서 ID 가져오기
 import './ChildRegister.css';
@@ -180,13 +182,10 @@ const ChildRegister = () => {
     }
 
     const validateInputBodySize = (inputSize) => {
-        if (checkNull(inputSize)) {
-            return '신체정보를 ' + ValidateMessage.NO_INPUT;
-        }
-        if (checkOnlyNumber(inputSize)) {
+        if (inputSize && checkOnlyNumber(inputSize)) {
             return '신체정보는 ' + ValidateMessage.HAS_STR;
         }
-        if (checkLength(inputSize)) {
+        if (inputSize && checkLength(inputSize)) {
             return '신체정보는 ' + ValidateMessage.HAS_SPACE;
         }
 
