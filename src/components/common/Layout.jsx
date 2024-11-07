@@ -16,7 +16,7 @@ function Layout() {
 
     // 라우터 변경 시 활성화 상태 업데이트
     useEffect(() => {
-        window.showToast("페이지 로드");
+        // window.showToast("페이지 로드");
     }, [location]);
 
     // useEffect(() => {
