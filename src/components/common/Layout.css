@@ -23,6 +23,7 @@
 .layout .header .profile-wrap .btn-profile .profile-img-wrap img { width: 40px; height: 40px; border-radius: 50%; margin-right: 8px; } 
 .layout .header .profile-wrap .btn-profile:active .profile-info-wrap { transform: scale(0.99); transition: transform 0.2s ease; } 
 .layout .header .profile-wrap .btn-profile .profile-info-wrap b.name { font-size: 1.3em; font-weight: 600; color:#333; } 
+.layout .header .profile-wrap .btn-profile .profile-info-wrap span.dot { margin:0 4px 0 2px; color:#777 } 
 .layout .header .profile-wrap .btn-profile .profile-info-wrap span.info { font-size: 1.0em; font-weight: 400; color:#777; margin-right: 4px; } 
 .layout .header .profile-wrap .btn-profile .profile-info-wrap i.icon { transition: transform 0.3s ease; display: inline-block; color:#777; } 
 .layout .header .profile-wrap .btn-profile .profile-info-wrap i.icon.rotate { transform: rotate(180deg); } 
