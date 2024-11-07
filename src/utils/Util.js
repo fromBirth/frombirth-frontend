@@ -1,4 +1,6 @@
 import {checkLeapYear} from "./Validator.js";
+import {useContext} from "react";
+import AppContext from "../contexts/AppProvider.jsx";
 
 export const getLastDateByMonth = (month, year) => {
     const daysInMonth = [31, checkLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -56,4 +58,8 @@ export function calculateAge(birthday) {
     }
 
     return age;
+}
+
+export const getSelectedChild = (user) => {
+    return user.childList.find((child) => child.childId === Number(localStorage.getItem('selectedChild')));
 }

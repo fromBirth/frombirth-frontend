@@ -3,8 +3,15 @@
 import { Link } from 'react-router-dom';
 
 import './Dashboard.css';
+import {useContext} from "react";
+import AppContext from "../../contexts/AppProvider.jsx";
+import {getAmPmHourMinuteByLocalTime, getSelectedChild} from "../../utils/Util.js";
 
 const Dashboard = () => {
+    const {user} = useContext(AppContext);
+    const selectedChild = getSelectedChild(user);
+    const {isAm, hour, minute} = getAmPmHourMinuteByLocalTime(selectedChild.birthTime);
+
     return (
         <div className="main-content">
             <section className="info-section">
@@ -12,19 +19,19 @@ const Dashboard = () => {
                 <div className="info-details">
                     <div className="info-item">
                         <span className="label">성별</span>
-                        <span className="value">남자</span>
+                        <span className="value">{selectedChild.gender === 'M' ? '남자' : '여자'}</span>
                     </div>
                     <div className="info-item">
                         <span className="label">혈액형</span>
-                        <span className="value">A형</span>
+                        <span className="value">{selectedChild.bloodType}</span>
                     </div>
                     <div className="info-item">
                         <span className="label">생년월일</span>
-                        <span className="value">2024.10.01</span>
+                        <span className="value">{selectedChild.birthDate}</span>
                     </div>
                     <div className="info-item">
                         <span className="label">탄생시간</span>
-                        <span className="value">오후 05시 30분</span>
+                        <span className="value">{`${isAm === 'AM' ? '오전' : '오후'} ${Number(hour)}시 ${Number(minute)}분`}</span>
                     </div>
                 </div>
             </section>
