@@ -3,6 +3,7 @@ import UseKakaoMap from "./useKakaoMap";
 import { useEffect, useState } from "react";
 import useGeolocation from "react-hook-geolocation";
 import markerImage from '../../assets/img/marker_temp.svg'
+import log from "eslint-plugin-react/lib/util/log.js";
 
 const KakaoMap = () => {
     const geolocation = useGeolocation();
@@ -13,6 +14,10 @@ const KakaoMap = () => {
     const [keyword, setKeyword] = useState('');
 
     UseKakaoMap();
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((pos) => log(pos));
+    }, []);
 
     useEffect(() => {
         if (geolocation.latitude && geolocation.longitude) {

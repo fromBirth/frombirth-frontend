@@ -7,11 +7,13 @@ import AppContext from "../../contexts/AppProvider.jsx";
 import { PATHS } from "../../routes/paths.js";
 import kakao_icon from '../../assets/img/kakao.png';
 import basic_profile from '../../assets/img/basic_profile.png';
+import {calculateAgeInMonthsAndDays} from "../../utils/Util.js";
 
 const MyPage = () => {
     const { user } = useContext(AppContext);
     const { setPageTitle } = useContext(AppContext); // context에서 setPageTitle 가져오기
     const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅
+    const selectedChild = user.childList.find((child) => child.childId === Number(localStorage.getItem("selectedChild")));
     setPageTitle('내정보');
 
     // 아이 추가 클릭 시 이동할 함수
@@ -44,22 +46,27 @@ const MyPage = () => {
 
             <div className="child-management">
                 <h3>내 아이 관리</h3>
+
                 <div className="child-cards">
-                    <div className="child-card active-child">
-                        <img src={basic_profile} alt="Child Image" className="child-image" />
+                    <div className="child-card active-child" onClick={() => handleChildClick(selectedChild.childId)}>
+                        <img src={selectedChild.profilePicture} alt="Child Image" className="child-image"/>
                         <div className="child-name">
                             <span className="current-label">현재</span>
-                            홍길동
+                            {selectedChild.name}
                         </div>
-                        <small className="child-age">0개월 12일</small>
+                        <small className="child-age">{calculateAgeInMonthsAndDays(selectedChild.birthDate)}</small>
                     </div>
-                    <div className="child-card" onClick={() => handleChildClick("2")}>
-                        <img src={basic_profile} alt="Child Image" className="child-image" />
-                        <div className="child-name">
-                            홍길동
+                    {user.childList.map((child) => (child.childId !== Number(localStorage.getItem("selectedChild")) ?
+                        <div className="child-card" key={child.childId} onClick={() => handleChildClick(child.childId)}>
+                            <img src={child.profilePicture} alt="Child Image" className="child-image"/>
+                            <div className="child-name">
+                                {child.name}
+                            </div>
+                            <small className="child-age">{calculateAgeInMonthsAndDays(child.birthDate)}</small>
                         </div>
-                        <small className="child-age">22개월 42일</small>
-                    </div>
+                            :
+                            ''
+                    ))}
                     <div className="child-card add-child" onClick={handleAddChildClick}>
                         <div className="add-icon">+</div>
                         <div className="add-text">아이추가</div>

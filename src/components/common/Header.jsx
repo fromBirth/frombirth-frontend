@@ -8,6 +8,7 @@ import AppContext from "../../contexts/AppProvider.jsx";
 import axios from "axios";
 import {CHILDREN_LIST_BY_USER} from "../../routes/ApiPath.js";
 import basic_profile from '../../assets/img/basic_profile.png';
+import {calculateAge, calculateAgeInMonthsAndDays} from "../../utils/Util.js";
 
 const Header = () => {
     const location = useLocation();
@@ -34,7 +35,7 @@ const Header = () => {
         if (childList.length < 1) return;
 
         setUser(prev => ({ ...prev, childList }));
-        if (!localStorage.getItem('selectedChild')) {
+        if (!localStorage.getItem('selectedChild') || !childList.find((item) => item.childId === localStorage.getItem('selectedChild'))) {
             const lastChildId = childList[childList.length - 1]?.childId;
             if (lastChildId) {
                 setSelectedChild(lastChildId);
@@ -92,42 +93,11 @@ const Header = () => {
     }
 
 
-    function calculateAgeInMonthsAndDays(birthday) {
-        const today = new Date();
-        const birthDate = new Date(birthday);
 
-        let months = (today.getFullYear() - birthDate.getFullYear()) * 12 + (today.getMonth() - birthDate.getMonth());
-        let days = today.getDate() - birthDate.getDate();
-
-        // Adjust if days are negative
-        if (days < 0) {
-            months -= 1;
-            const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
-            days += prevMonth.getDate();
-        }
-
-        return months + '개월 ' + days + '일 ' ;
-    }
-
-    function calculateAge(birthday) {
-        const today = new Date();
-        const birthDate = new Date(birthday);
-
-        let age = today.getFullYear() - birthDate.getFullYear();
-
-        // 생일이 아직 지나지 않았으면 나이에서 1을 뺍니다.
-        if (
-            today.getMonth() < birthDate.getMonth() ||
-            (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())
-        ) {
-            age--;
-        }
-
-        return age;
-    }
 
     const drawSelectedChildProfile = () => {
         if (!Object.keys(user).includes('childList')) return;
+        console.log(user);
 
         const selectedChildId = Number(selectedChild || localStorage.getItem('selectedChild'));
         const item = user.childList.find(({childId}) => childId === selectedChildId);
