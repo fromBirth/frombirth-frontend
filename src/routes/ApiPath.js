@@ -15,4 +15,14 @@ export const RECORD_CHILD_ALL_BODY_SIZE = SPRING_RECORD_BASE + '/all/body';
 export const RECORD_CREATE = SPRING_RECORD_BASE + '/create';
 export const RECORD_DETAIL = SPRING_RECORD_BASE + '/child/';
 
+
+//weekly-report 컨트롤러 주소
+export const SPRING_REPORT_BASE =SPRING_BASE_URL + '/api/reports';
+export const REPORT_CHILD_ALL_REPORT = SPRING_REPORT_BASE + '/all';
+export const REPORT_CHILD_REPORT = SPRING_REPORT_BASE + '/report';
+export const REPORT_CREATE = SPRING_REPORT_BASE + '/create';
+export const REPORT_DELETE = SPRING_REPORT_BASE + '/DELETE';
+
+
+
 export const KAKAO_MAP = import.meta.env.VITE_KAKAO_MAP;
