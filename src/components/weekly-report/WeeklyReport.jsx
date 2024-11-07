@@ -7,8 +7,6 @@ import { REPORT_CHILD_ALL_REPORT, REPORT_CHILD_REPORT } from '../../routes/ApiPa
 import prev from '../../assets/img/prev-button.png';
 import next from '../../assets/img/next-button.png';
 
-
-
 // 주간 날짜 범위 계산 함수
 const getWeekRange = (date) => {
     const dayOfWeek = date.getDay(); // 일요일=0, 월요일=1, ..., 토요일=6
@@ -44,49 +42,50 @@ const WeeklyReport = () => {
     const [selectedReport, setSelectedReport] = useState(null); // 선택된 보고서 상태
     const [reports, setReports] = useState([]); // 보고서 리스트 상태
     const [weekRange, setWeekRange] = useState(""); // 주간 날짜 범위 상태
-    const [currentWeekStart, setCurrentWeekStart] = useState(null); // 현재 주 시작 날짜 (이용해서 이전 주로 이동)
+    const [currentReportIndex, setCurrentReportIndex] = useState(null); // 현재 선택된 보고서 인덱스
     const childId = 56; // 예시 childId (실제로는 부모 컴포넌트에서 이 값을 전달하거나 컨텍스트로 관리할 수 있음)
 
-    useEffect(() => {
-        const script = document.createElement('script');
-        script.src = "https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs";
-        script.type = "module";
-        document.body.appendChild(script);
-    }, []); // 빈 배열을 사용하여 컴포넌트 마운트 시에만 실행
+    // 월요일 오전 9시 이후인지 체크하는 함수
+    const checkIfAvailable = () => {
+        const now = new Date();
+        const dayOfWeek = now.getDay();
+        const hour = now.getHours();
+        if (dayOfWeek === 1 && hour >= 9) {
+            setIsAvailable(true); // 월요일 9시 이후
+        } else if (dayOfWeek > 1 || (dayOfWeek === 1 && hour < 9)) {
+            setIsAvailable(false); // 월요일 9시 전이나 다른 요일
+        }
+    };
 
     useEffect(() => {
+        checkIfAvailable(); // 월요일 9시 여부 확인
+
         // 데이터가 없을 때, getAllReports API 호출하여 데이터 불러오기
         const fetchReports = async () => {
             try {
                 const response = await axios.get(`${REPORT_CHILD_ALL_REPORT}/${childId}`);
                 console.log("response.data:", response.data); // 응답 데이터 전체를 확인합니다.
 
-                // response.data가 배열이고, 길이가 0보다 크다면 처리
                 if (Array.isArray(response.data) && response.data.length > 0) {
                     console.log("reports:", response.data); // 실제 reports 배열 내용 확인
 
-                    // reports를 상태에 설정
-                    setReports(response.data);
+                    // reports를 상태에 설정하고, 최신 보고서부터 역순으로 정렬
+                    const sortedReports = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    setReports(sortedReports);
 
-                    // 가장 최신 보고서 찾기 (최대 reportId)
-                    const latestReport = response.data.reduce((max, report) =>
-                        (report.reportId >= max.reportId ? report : max), response.data[0]);
+                    // 가장 최신 보고서를 선택
+                    const latestReport = sortedReports[0];
+                    setSelectedReport(latestReport);
+                    setCurrentReportIndex(0); // 현재 선택된 보고서 인덱스 설정
 
-                    // 최신 보고서 ID를 사용하여 해당 보고서 불러오기
-                    fetchReportById(latestReport.reportId);
-
-                    // 최신 보고서의 createdAt 날짜 기준으로 주간 범위 설정
+                    // 주간 날짜 범위 계산 및 설정
                     const createdAt = new Date(latestReport.createdAt);
                     const { start, end } = getWeekRange(createdAt);
-
                     setWeekRange(`${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월 <br/> ${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
-                    setCurrentWeekStart(createdAt); // 현재 주 시작 날짜 설정
                 } else {
                     console.error("보고서가 없습니다.");
                     setIsDataAvailable(false);
                 }
-
-                setIsDataAvailable(true); // 데이터가 있다면 true로 설정
             } catch (error) {
                 console.error("데이터를 불러오는 데 실패했습니다:", error);
                 setIsDataAvailable(false);
@@ -94,7 +93,7 @@ const WeeklyReport = () => {
         };
 
         fetchReports(); // 컴포넌트 마운트 시에 데이터 불러오기
-    }, [childId]); // childId가 변경될 때마다 호출
+    }, [childId]);
 
     // 선택된 보고서를 불러오는 함수
     const fetchReportById = async (reportId) => {
@@ -106,55 +105,31 @@ const WeeklyReport = () => {
         }
     };
 
-    // 이전 주 데이터로 이동하는 함수
-    const loadPreviousWeek = () => {
-        if (currentWeekStart) {
-            const previousWeekStart = new Date(currentWeekStart);
-            previousWeekStart.setDate(previousWeekStart.getDate() - 7); // 이전 주로 이동
-            setCurrentWeekStart(previousWeekStart); // currentWeekStart 업데이트
+    // 이전 보고서로 이동하는 함수
+    const loadPreviousReport = () => {
+        if (currentReportIndex < reports.length - 1) { // 현재 보고서보다 과거 보고서로 이동
+            const previousReport = reports[currentReportIndex + 1];
+            setSelectedReport(previousReport); // 이전 보고서로 업데이트
+            setCurrentReportIndex(currentReportIndex + 1); // 인덱스 업데이트
 
-            // 이전 주의 보고서 필터링
-            const { start, end } = getWeekRange(previousWeekStart);
-            setWeekRange(`${previousWeekStart.getFullYear()}년 ${previousWeekStart.getMonth() + 1}월 <br/> ${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
-
-            // 필터링: 주어진 날짜 범위에 해당하는 보고서만 보여주기
-            const previousWeekReports = reports.filter(report => {
-                const reportDate = new Date(report.createdAt);
-                const { start, end } = getWeekRange(previousWeekStart);
-                return reportDate >= new Date(start) && reportDate <= new Date(end);
-            });
-
-            if (previousWeekReports.length > 0) {
-                setSelectedReport(previousWeekReports[0]); // 첫 번째 보고서 선택
-            } else {
-                setSelectedReport(null); // 없으면 null로 설정
-            }
+            // 이전 보고서 기준으로 주간 범위 업데이트
+            const createdAt = new Date(previousReport.createdAt);
+            const { start, end } = getWeekRange(createdAt);
+            setWeekRange(`${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월 <br/> ${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
         }
     };
 
-    // 다음 주 데이터로 이동하는 함수
-    const loadNextWeek = () => {
-        if (currentWeekStart) {
-            const nextWeekStart = new Date(currentWeekStart);
-            nextWeekStart.setDate(nextWeekStart.getDate() + 7); // 다음 주로 이동
-            setCurrentWeekStart(nextWeekStart); // currentWeekStart 업데이트
+    // 다음 보고서로 이동하는 함수
+    const loadNextReport = () => {
+        if (currentReportIndex > 0) { // 현재 보고서보다 최신 보고서로 이동
+            const nextReport = reports[currentReportIndex - 1];
+            setSelectedReport(nextReport); // 다음 보고서로 업데이트
+            setCurrentReportIndex(currentReportIndex - 1); // 인덱스 업데이트
 
-            // 다음 주의 보고서 필터링
-            const { start, end } = getWeekRange(nextWeekStart);
-            setWeekRange(`${nextWeekStart.getFullYear()}년 ${nextWeekStart.getMonth() + 1}월 <br/> ${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
-
-            // 필터링: 주어진 날짜 범위에 해당하는 보고서만 보여주기
-            const nextWeekReports = reports.filter(report => {
-                const reportDate = new Date(report.createdAt);
-                const { start, end } = getWeekRange(nextWeekStart);
-                return reportDate >= new Date(start) && reportDate <= new Date(end);
-            });
-
-            if (nextWeekReports.length > 0) {
-                setSelectedReport(nextWeekReports[0]); // 첫 번째 보고서 선택
-            } else {
-                setSelectedReport(null); // 없으면 null로 설정
-            }
+            // 다음 보고서 기준으로 주간 범위 업데이트
+            const createdAt = new Date(nextReport.createdAt);
+            const { start, end } = getWeekRange(createdAt);
+            setWeekRange(`${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월 <br/> ${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
         }
     };
 
@@ -165,17 +140,27 @@ const WeeklyReport = () => {
 
     return (
         <>
-            <div className="date-range" dangerouslySetInnerHTML={{ __html: weekRange }}></div> {/* 동적으로 계산된 주간 날짜 범위 */}
+            <div className="week-button">
+                {/* 이전 보고서로 이동 버튼 */}
+                <button
+                    className="previous-week-button"
+                    onClick={loadPreviousReport}
+                    style={{ visibility: currentReportIndex < reports.length - 1 ? 'visible' : 'hidden' }}
+                >
+                    <img src={prev} style={{ width: '38px', height: '30px' }} alt="prev" />
+                </button>
 
-            {/* 이전 주로 이동 버튼 */}
-            <button className="previous-week-button" onClick={loadPreviousWeek}>
-                <img src={prev} style={"width=30px"} alt="prev"/>
-            </button>
+                <div className="date-range" dangerouslySetInnerHTML={{ __html: weekRange }}></div> {/* 동적으로 계산된 주간 날짜 범위 */}
 
-            {/* 다음 주로 이동 버튼 */}
-            <button className="next-week-button" onClick={loadNextWeek}>
-                <img src={next} alt="next"/>
-            </button>
+                {/* 다음 보고서로 이동 버튼 */}
+                <button
+                    className="next-week-button"
+                    onClick={loadNextReport}
+                    style={{ visibility: currentReportIndex > 0 ? 'visible' : 'hidden' }}
+                >
+                    <img src={next} style={{ width: '38px', height: '30px' }} alt="next" />
+                </button>
+            </div>
 
             {/* 데이터가 없으면 review-box를 보여주고, 그렇지 않으면 기존의 report-content 등을 보여줌 */}
             {isDataAvailable ? (
@@ -212,10 +197,8 @@ const WeeklyReport = () => {
                     </div>
                 </div>
             ) : (
-                // 데이터가 없을 때 review-box를 표시
                 <div className="review-box">
                     {!isAvailable ? (
-                        // 월요일 오전 9시 이전에는 disabled-box 표시
                         <div className="disabled-box">
                             <div className="icon-container">
                                 <span className="clock-icon" role="img" aria-label="Clock">🕒</span>
@@ -223,7 +206,6 @@ const WeeklyReport = () => {
                             <p className="text">AI 주간보고 생성은 <br /> 매주 월요일 9시부터 가능합니다.</p>
                         </div>
                     ) : (
-                        // 월요일 오전 9시 이후에는 enabled-box 표시
                         <div className="enabled-box">
                             <div className="icon-container">
                                 <dotlottie-player
