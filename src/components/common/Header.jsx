@@ -104,7 +104,7 @@ const Header = () => {
         const showListIcon = (location.pathname.startsWith('/babydiary') || location.pathname.startsWith('/diarylist')) && (
             <button onClick={
                 () => handleNavigation(location.pathname.startsWith('/diarylist') ? '/babydiary' : 'diarylist')}
-                className="btn-icon btn-viewtype"
+                    className="btn-icon btn-viewtype"
             >
                 {location.pathname === '/diarylist' ? <i className="bi bi-calendar-date"></i> : <i className="bi bi-list-ul"></i>}
             </button>
