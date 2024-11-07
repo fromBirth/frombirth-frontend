@@ -1,11 +1,12 @@
 
-.calendar-nav { display: flex; justify-content: space-between; align-items: center; font-size: 16px; margin: 20px 0; } 
-.calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; } 
-.calendar div { display: flex; justify-content: center; align-items: center; width: 100%; padding-top: 100%; position: relative; background-color: #f0f0f0; border-radius: 50%; cursor: pointer; } 
-.calendar div img { position: absolute; top: 50%; left: 50%; width: 80%; height: 80%; border-radius: 50%; transform: translate(-50%, -50%); } 
-.highlighted { background-color: #1e90ff; color: white; font-weight: bold; } 
-.diary-entry { margin-top: 20px; } 
-.diary-entry h3 { font-size: 14px; color: #333; margin-bottom: 5px; } 
-.diary-text { font-size: 14px; color: #555; margin-bottom: 10px; } 
-.diary-images { display: flex; gap: 5px; } 
-.diary-images img { width: 70px; height: 70px; border-radius: 5px; } 
+/* 육아일기 */
+.diary-container { margin: 0 -20px; } 
+
+/* 육아일기 - 일기 영역 */
+.diary-container .diary-wrap { margin-top: 10px; border-top: 5px solid #f1f1f1; padding:15px 15px; } 
+.diary-container .diary-wrap .date { font-size: 1em; color: #555; font-weight: 500; margin-bottom: 9px; } 
+.diary-container .diary-wrap .title { font-size: 1.4em; color: #333; font-weight: 700; margin-bottom: 6px; } 
+.diary-container .diary-wrap .text { font-size: 1.2em; color: #555; font-weight: 400; line-height: 1.4em; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; } 
+.diary-container .diary-wrap .images { display: flex; gap: 5px; } 
+.diary-container .diary-wrap .images img { width: 20%; border-radius: 0px; } 
+

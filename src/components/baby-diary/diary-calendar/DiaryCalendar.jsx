@@ -91,7 +91,7 @@ const Calendar = () => {
     };
 
     return (
-        <div className="container">
+        <div className="calendar-wrap">
 
             {/* 날짜 이동 */}
             <div className="date-navigator">

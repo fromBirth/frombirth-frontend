@@ -2,13 +2,12 @@
 
 import { useState, useEffect, useRef, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import { PATHS } from '../../routes/paths.js';
-import { CiCalendarDate } from "react-icons/ci";
 import DiarySearch from "../baby-diary/diary-search/DiarySearch.jsx";
 import AppContext from "../../contexts/AppProvider.jsx";
 import axios from "axios";
 import {CHILDREN_LIST_BY_USER} from "../../routes/ApiPath.js";
+import basic_profile from '../../assets/img/basic_profile.png';
 
 const Header = () => {
     const location = useLocation();
@@ -140,14 +139,15 @@ const Header = () => {
             <div className="btn-profile" onClick={toggleDropdown}>
                 <div className="profile-img-wrap">
                     <img
-                        src={item.profilePicture}
+                        src={item.profilePicture && !item.profilePicture.toLowerCase().includes('null') ? item.profilePicture : basic_profile}
                         alt="Profile Picture"
                         className="profile-image"
                     />
                 </div>
                 <div className="profile-info-wrap">
                     <b className="name">{item.name}</b>{' '}
-                    <span className="info">·
+                    <span className="dot">·</span>
+                    <span className="info">
                         {calculateBirthMonth}
                         (만 {calculatedAge}세)
                         </span>
@@ -190,8 +190,7 @@ const Header = () => {
             '/diarylistphoto'
         ];
 
-
-        if (profilePaths.includes(location.pathname) || diaryPaths.includes(location.pathname)) {
+        if (profilePaths.some(path => location.pathname.startsWith(path)) || diaryPaths.some(path => location.pathname.startsWith(path))) {
             // profilePaths에 있는 경로라면 프로필 표시
             return (
                 <>
