@@ -9,9 +9,7 @@ import basic_profile from '../../../assets/img/basic_profile.png';
 
 // Sample image data for specific dates
 const imageDates = {
-    '2024-11-01': basic_profile,
     '2024-11-03': basic_profile,
-    '2024-11-0': basic_profile,
     '2024-11-05': basic_profile,
 };
 
