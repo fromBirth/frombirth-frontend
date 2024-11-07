@@ -12,6 +12,6 @@ export default function UseKakaoMap() {
          * @참고 https://apis.map.kakao.com/web/guide/
          */
         appkey: KAKAO_MAP,
-        libraries: ["services","clusterer", "drawing" ]
+        libraries: ["services"]
     });
 }
