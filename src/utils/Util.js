@@ -1,6 +1,4 @@
 import {checkLeapYear} from "./Validator.js";
-import {useContext} from "react";
-import AppContext from "../contexts/AppProvider.jsx";
 
 export const getLastDateByMonth = (month, year) => {
     const daysInMonth = [31, checkLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -60,6 +58,14 @@ export function calculateAge(birthday) {
     return age;
 }
 
-export const getSelectedChild = (user) => {
-    return user.childList.find((child) => child.childId === Number(localStorage.getItem('selectedChild')));
+export const getSelectedChild = (selectedChildId, childList) => {
+    return childList.find((child) => child.childId === Number(selectedChildId));
+}
+
+export function formatDateToYYYYMMDD(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
 }

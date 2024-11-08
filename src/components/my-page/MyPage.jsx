@@ -2,18 +2,18 @@
 
 import './MyPage.css';
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AppContext from "../../contexts/AppProvider.jsx";
 import { PATHS } from "../../routes/paths.js";
 import kakao_icon from '../../assets/img/kakao.png';
 import basic_profile from '../../assets/img/basic_profile.png';
-import { calculateAgeInMonthsAndDays } from "../../utils/Util.js";
+import {calculateAgeInMonthsAndDays, getSelectedChild} from "../../utils/Util.js";
 
 const MyPage = () => {
-    const { user } = useContext(AppContext);
+    const { user, selectedChildId, childList } = useContext(AppContext);
     const { setPageTitle } = useContext(AppContext); // context에서 setPageTitle 가져오기
     const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅
-    const selectedChild = user.childList.find((child) => child.childId === Number(localStorage.getItem("selectedChild")));
+    const selectedChild = getSelectedChild(selectedChildId, childList);
     setPageTitle('내정보');
 
     // 아이 추가 클릭 시 이동할 함수
@@ -57,7 +57,7 @@ const MyPage = () => {
                         </div>
                         <small className="child-age">{calculateAgeInMonthsAndDays(selectedChild.birthDate)}</small>
                     </div>
-                    {user.childList.map((child) => (child.childId !== Number(localStorage.getItem("selectedChild")) ?
+                    {childList.map((child) => (child.childId !== Number(selectedChildId) ?
                         <div className="child-card" key={child.childId} onClick={() => handleChildClick(child.childId)}>
                             <img src={child.profilePicture && !child.profilePicture.toLowerCase().includes('null') ? child.profilePicture : basic_profile}
                                 alt="Child Image" className="child-image" />

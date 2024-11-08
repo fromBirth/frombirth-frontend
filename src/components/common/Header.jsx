@@ -5,10 +5,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PATHS } from '../../routes/paths.js';
 import DiarySearch from "../baby-diary/diary-search/DiarySearch.jsx";
 import AppContext from "../../contexts/AppProvider.jsx";
-import axios from "axios";
-import {CHILDREN_LIST_BY_USER} from "../../routes/ApiPath.js";
 import basic_profile from '../../assets/img/basic_profile.png';
-import {calculateAge, calculateAgeInMonthsAndDays} from "../../utils/Util.js";
+import {calculateAge, calculateAgeInMonthsAndDays, getSelectedChild} from "../../utils/Util.js";
 
 const Header = () => {
     const location = useLocation();
@@ -17,39 +15,19 @@ const Header = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const dropdownRef = useRef(null); // 드롭다운 참조 생성
-    const {user, setUser} = useContext(AppContext);
-    const [selectedChild, setSelectedChild] = useState(null);
-    const [childList, setChildList] = useState([]);
-
-
-    // 로컬스토리지에 선택된 아이 없으면 선택 및 저장
-    useEffect(() => {
-        const fetchChildList = async () => {
-            const {data} = await axios.get(CHILDREN_LIST_BY_USER + user.userId);
-            setChildList(data);
-        };
-        fetchChildList();
-    }, [user.userId]);
+    const {
+        selectedChildId,
+        setSelectedChildId,
+        childList
+    } = useContext(AppContext);
 
     useEffect(() => {
-        if (childList.length < 1) return;
+        if (selectedChildId == null) return;
 
-        setUser(prev => ({ ...prev, childList }));
-        if (!localStorage.getItem('selectedChild') || !childList.find((item) => item.childId === localStorage.getItem('selectedChild'))) {
-            const lastChildId = childList[childList.length - 1]?.childId;
-            if (lastChildId) {
-                setSelectedChild(lastChildId);
-            }
-        }
-    }, [childList, setUser]);
-
-    useEffect(() => {
-        if (selectedChild == null) return;
-
-        localStorage.setItem('selectedChild', selectedChild);
+        localStorage.setItem('selectedChildId', selectedChildId);
         // drawSelectedChildProfile();
         // 추가로 selectedChild 값이 바뀔 때 실행하고 싶은 로직이 있다면 여기에 작성합니다.
-    }, [selectedChild]);
+    }, [selectedChildId]);
 
     // 드롭다운 토글 함수
     const toggleDropdown = () => {
@@ -92,16 +70,10 @@ const Header = () => {
         setIsSearchOpen(!isSearchOpen);
     }
 
-
-
-
     const drawSelectedChildProfile = () => {
-        if (!Object.keys(user).includes('childList')) return;
-        console.log(user);
+        if (childList == null || childList.length === 0) return;
 
-        const selectedChildId = Number(selectedChild || localStorage.getItem('selectedChild'));
-        const item = user.childList.find(({childId}) => childId === selectedChildId);
-        console.log(item);
+        const item = getSelectedChild(selectedChildId, childList);
         const calculateBirthMonth = calculateAgeInMonthsAndDays(item.birthDate);
         const calculatedAge = calculateAge(item.birthDate);
 
@@ -171,13 +143,13 @@ const Header = () => {
                             {/* 드롭다운 메뉴 */}
                             {isDropdownOpen && (
                                 <div className="dropdown-menu">
-                                    {user.childList?.map(item => (
+                                    {childList?.map(item => (
                                         <div
                                             className={
-                                            `dropdown-item ${item.childId === localStorage.getItem('selectedChild') 
+                                            `dropdown-item ${item.childId === selectedChildId 
                                                 ? 'active' : ''}`}
                                             key={item.childId}
-                                            onClick={() => setSelectedChild(item.childId)}
+                                            onClick={() => setSelectedChildId(item.childId)}
                                         >
                                             {item.name}
                                         </div>

@@ -8,8 +8,8 @@ import AppContext from "../../contexts/AppProvider.jsx";
 import {getAmPmHourMinuteByLocalTime, getSelectedChild} from "../../utils/Util.js";
 
 const Dashboard = () => {
-    const {user} = useContext(AppContext);
-    const selectedChild = getSelectedChild(user);
+    const {selectedChildId, childList} = useContext(AppContext);
+    const selectedChild = getSelectedChild(selectedChildId, childList);
     const {isAm, hour, minute} = getAmPmHourMinuteByLocalTime(selectedChild.birthTime);
 
     return (
