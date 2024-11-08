@@ -6,7 +6,7 @@
 .layout { display: flex; flex-direction: column; align-items: center; max-width: 500px; width: 100%; height: 100vh; margin: 0 auto; } 
 
 /* 헤더 스타일 */
-.layout .header { display: flex; flex-direction: column; width: 100%; padding: 12px 10px 5px; position: sticky; top: 0; z-index: 10; background-color: white; } 
+.layout .header { display: flex; flex-direction: column; width: 100%; padding: 8px 8px 5px; position: sticky; top: 0; z-index: 10; background-color: white; }
 .layout .header .header-inner { display: flex; } 
 
 /* 페이지 정보가 있는 헤더 */
@@ -17,7 +17,7 @@
 
 /* 아이 정보가 있는 헤더 */
 .layout .header .profile-wrap { position: relative; display: inline-block; } 
-.layout .header .profile-wrap .btn-profile { cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border-radius: 10px; padding:3px 7px } 
+.layout .header .profile-wrap .btn-profile { cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border-radius: 10px; padding:3px 3px }
 .layout .header .profile-wrap .btn-profile:active { background-color: var(--background-color); } 
 .layout .header .profile-wrap .btn-profile .profile-img-wrap { width: 40px; display: flex; } 
 .layout .header .profile-wrap .btn-profile .profile-img-wrap img { width: 40px; height: 40px; border-radius: 50%; margin-right: 8px; } 
@@ -35,9 +35,9 @@
 .layout .header .profile-wrap .dropdown-item i { margin-left: 3px; font-size: 1.2em; } 
 
 /* 아이 정보 옆 검색/리스트/캘린더 아이콘(육아일기 메뉴) */
-.layout .header .page-btn { flex:1; display: inline-flex; justify-content: flex-end; padding-right: 5px; } 
+.layout .header .page-btn { flex:1; display: inline-flex; justify-content: flex-end; }
 .layout .header .page-btn .btn-icon { display: flex; align-items: center; } 
-.layout .header .page-btn .btn-icon i { font-size: 1.5em; padding: 7px 9px 7px 9px; color:#777 } 
+.layout .header .page-btn .btn-icon i { font-size: 1.5em; padding: 7px 9px 7px 9px; color:#555 }
 .layout .header .page-btn .btn-icon i.bi-search { font-size: 1.4em; } 
 .layout .header .page-btn .btn-icon i.bi-list-ul { font-size: 1.7em; padding: 9px 9px 5px 9px; } 
 .layout .header .page-btn .btn-icon i.bi-calendar-date { font-size: 1.7em; } 

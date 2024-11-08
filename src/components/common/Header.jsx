@@ -134,11 +134,11 @@ const Header = () => {
     const renderHeaderContent = () => {
 
         // 검색 아이콘 표시 조건
-        const showSearchIcon = (location.pathname.startsWith('/babydiary') || location.pathname.startsWith('/diarylist')) && (
+        const showSearchIcon = (location.pathname.startsWith('/diarylist')) && (
             <button onClick={handleSearchLayout} className="btn-icon btn-search"><i className="bi bi-search"></i></button>
         );
 
-        // 리스트 아이콘 표시 조건
+        // 캘린더or리스트 아이콘 표시 조건
         const showListIcon = (location.pathname.startsWith('/babydiary') || location.pathname.startsWith('/diarylist')) && (
             <button onClick={
                 () => handleNavigation(location.pathname.startsWith('/diarylist') ? '/babydiary' : 'diarylist')}
@@ -185,7 +185,7 @@ const Header = () => {
                                     }
                                     <div
                                         className="dropdown-item"
-                                        onClick={() => handleNavigation(PATHS.CHILD_REGISTER)}
+                                        onClick={() => handleNavigation(PATHS.MY_PAGE.CHILD_REGISTER)}
                                     >
                                         아이 등록하기 <i className="bi bi-person-plus"></i>
                                     </div>

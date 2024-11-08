@@ -41,7 +41,7 @@ const BabyDiary = () => {
     // 일기 작성 버튼 클릭 시 실행되는 함수
     const handleWriteDiary = () => {
         setTimeout(() => {
-            navigate(PATHS.DIARY_WRITE);
+            navigate(PATHS.BABY_DIARY.WRITE);
         }, 200);
     };
 

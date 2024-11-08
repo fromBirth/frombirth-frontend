@@ -18,7 +18,6 @@ import TestLogin from "../components/login/TestLogin.jsx";
 
 // React.lazy를 사용하여 동적 import로 각 페이지를 로딩하여 초기 로딩 속도 최적화
 const Login = lazy(() => import('../components/login/Login.jsx'));
-const CheckChildExist = lazy(() => import('./CheckChildExist.jsx'));
 const Dashboard = lazy(() => import('../components/dashboard/Dashboard.jsx'));
 const BabyDiary = lazy(() => import('../components/baby-diary/BabyDiary.jsx'));
 const DiaryList = lazy(() => import('../components/baby-diary/diary-list/DiaryList.jsx'));
@@ -52,23 +51,23 @@ function AppRouter() {
                         <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
 
                         {/* BabyDiary 관련 페이지 */}
-                        <Route path={`${PATHS.BABY_DIARY}/:date?`} element={<BabyDiary />} />
-                        <Route path={PATHS.DIARY_LIST} element={<DiaryList />} />
-                        <Route path={PATHS.DIARY_LIST_PHOTO} element={<DiaryListPhoto />} />
-                        <Route path={PATHS.DIARY_WRITE} element={<DiaryWrite />} />
-                        <Route path={PATHS.DIARY_VIEW} element={<DiaryView />} />
-                        <Route path={PATHS.DIARY_SEARCH} element={<DiarySearch />} />
+                        <Route path={`${PATHS.BABY_DIARY.MAIN}/:date?`} element={<BabyDiary />} />
+                        <Route path={PATHS.BABY_DIARY.LIST} element={<DiaryList />} />
+                        <Route path={PATHS.BABY_DIARY.LIST_PHOTO} element={<DiaryListPhoto />} />
+                        <Route path={PATHS.BABY_DIARY.WRITE} element={<DiaryWrite />} />
+                        <Route path={PATHS.BABY_DIARY.VIEW} element={<DiaryView />} />
+                        <Route path={PATHS.BABY_DIARY.SEARCH} element={<DiarySearch />} />
 
                         {/* WeeklyReport 페이지 */}
-                        <Route path={PATHS.WEEKLY_REPORT} element={<WeeklyReport />} />
-                        <Route path={PATHS.WEEKLY_REVIEW} element={<WeeklyReview />} />
+                        <Route path={PATHS.WEEKLY_REPORT.MAIN} element={<WeeklyReport />} />
+                        <Route path={PATHS.WEEKLY_REPORT.REVIEW} element={<WeeklyReview />} />
 
                         {/* GrowthAnalysis 페이지 */}
                         <Route path={PATHS.GROWTH_ANALYSIS} element={<GrowthAnalysis />} />
 
                         {/* MyPage 관련 페이지 */}
-                        <Route path={PATHS.MY_PAGE} element={<MyPage />} />
-                        <Route path={`${PATHS.CHILD_REGISTER}/:childId?`} element={<ChildRegister />} />
+                        <Route path={PATHS.MY_PAGE.MAIN} element={<MyPage />} />
+                        <Route path={`${PATHS.MY_PAGE.CHILD_REGISTER}/:childId?`} element={<ChildRegister />} />
                     </Route>
                 </Route>
             </Routes>
