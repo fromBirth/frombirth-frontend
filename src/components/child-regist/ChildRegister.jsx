@@ -15,7 +15,7 @@ import {
     numberAddZero
 } from "../../utils/Util.js";
 import axios from "axios";
-import { CHILDREN_CREATE, CHILDREN_GET_CHILD } from '../../routes/ApiPath.js';
+import { CHILDREN_CREATE } from '../../routes/ApiPath.js';
 import AppContext from "../../contexts/AppProvider.jsx";
 import basic_profile from '../../assets/img/basic_profile.png';
 import useFileUpload from "../../hooks/useFileUpload";
@@ -270,7 +270,9 @@ const ChildRegister = () => {
         <div className="container">
             <div className="profile-wrap">
                 <div className="profile-pic">
-                    {profilePreviews[0] && <img src={profilePreviews[0]} alt="프로필 이미지 미리보기" />}
+                    {profilePreviews[0] && <img
+                                                src={profilePreviews[0] && !profilePreviews[0].toLowerCase().includes('null') ? profilePreviews[0] : basic_profile}
+                                                alt="프로필 이미지 미리보기" />}
                     <div className="camera-icon">
                         <button onClick={triggerFileInput}><i className="bi bi-camera-fill"></i></button>
                     </div>
