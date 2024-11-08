@@ -1,7 +1,7 @@
 /* src/components/child-regist/ChildRegister.jsx */
 
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // useParams 훅을 사용하여 URL에서 ID 가져오기
+import {useNavigate, useParams} from 'react-router-dom'; // useParams 훅을 사용하여 URL에서 ID 가져오기
 import './ChildRegister.css';
 import {
     checkDate, checkHasSpace, checkHour, checkLength, checkMinute, checkMonth, checkNull, checkOnlyNumber
@@ -19,9 +19,10 @@ import { CHILDREN_CREATE } from '../../routes/ApiPath.js';
 import AppContext from "../../contexts/AppProvider.jsx";
 import basic_profile from '../../assets/img/basic_profile.png';
 import useFileUpload from "../../hooks/useFileUpload";
+import {PATHS} from "../../routes/paths.js";
 
 const ChildRegister = () => {
-    const { user, childList, setChildList, setPageTitle } = useContext(AppContext);
+    const { user, childList, setChildList, setPageTitle, setSelectedChildId } = useContext(AppContext);
 
     const { childId } = useParams(); // URL에서 아이 ID 가져오기
     const limitNameLength = 2;
@@ -37,6 +38,7 @@ const ChildRegister = () => {
     const [inputHeight, setInputHeight] = useState('');
     const [inputWeight, setInputWeight] = useState('');
     const [isFormComplete, setIsFormComplete] = useState(false);
+    const navigate = useNavigate();
 
     const [datePlaceholder, setDatePlaceholder] = useState({
         year: '',
@@ -121,8 +123,6 @@ const ChildRegister = () => {
             minute
         });
     }, []);
-
-
 
     const validateInputName = () => {
         if (checkNull(inputName)) {
@@ -216,7 +216,13 @@ const ChildRegister = () => {
         }
         // 추가적인 검증은 필요에 따라 추가
 
-        // else if ()
+        else if (
+            (inputHeight && validateInputBodySize(inputHeight) !== 'ok')
+            ||
+            (inputWeight && validateInputBodySize(inputWeight) !== 'ok')
+        ) {
+            errorMessage = validateInputBodySize(inputWeight);
+        }
 
         if (errorMessage) {
             window.showToast(errorMessage); // 첫 번째 오류 메시지만 표시
@@ -231,7 +237,7 @@ const ChildRegister = () => {
             return;
         }
 
-        const child = {
+        let child = {
             userId: user.userId,
             name: inputName,
             birthDate: inputBirthYear + '-' + numberAddZero(inputBirthMonth, 2) + '-' + numberAddZero(inputBirthDate, 2),
@@ -241,6 +247,7 @@ const ChildRegister = () => {
             birthHeight: inputHeight,
             birthWeight: inputWeight
         }
+        if (childId) child.childId = childId;
 
         const formData = new FormData();
         formData.append('childrenDTO', new Blob([JSON.stringify(child)], {type: 'application/json'}));
@@ -260,6 +267,15 @@ const ChildRegister = () => {
                 }, withCredentials: true
             });
             console.log(response.data);
+            const newChild = response.data;
+            const copyChildList = childList.slice();
+            const index = copyChildList.findIndex((item) => item.childId === newChild.childId);
+
+            if (index < 0) copyChildList.push(newChild);
+            else copyChildList[index] = newChild;
+            setChildList(copyChildList);
+            setSelectedChildId(newChild.childId);
+            navigate(PATHS.DASHBOARD);
         } catch (error) {
             console.error('Error:', error);
         }
