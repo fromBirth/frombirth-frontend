@@ -8,7 +8,12 @@ import {
 } from "../../utils/Validator.js";
 import { ValidateMessage } from "../../utils/ValidateMessage.js";
 import { REGEXP } from "../../utils/RegularExpression.js";
-import { getLastDateByMonth, numberAddZero } from "../../utils/Util.js";
+import {
+    getAmPmHourMinuteByLocalTime,
+    getLastDateByMonth,
+    getYearMonthDateByLocalDate,
+    numberAddZero
+} from "../../utils/Util.js";
 import axios from "axios";
 import { CHILDREN_CREATE, CHILDREN_GET_CHILD } from '../../routes/ApiPath.js';
 import AppContext from "../../contexts/AppProvider.jsx";
@@ -76,25 +81,26 @@ const ChildRegister = () => {
         if (childId) {
             // 아이 ID가 있을 때, 수정 모드로 데이터 불러오기
             setPageTitle('아이 정보 수정'); // 아이디가 있을 경우 제목을 '수정'으로 설정
-            axios.get(`${CHILDREN_GET_CHILD}/${childId}`)
-                .then(response => {
-                    const data = response.data;
-                    setInputName(data.name);
-                    setInputBirthYear(data.birthYear);
-                    setInputBirthMonth(data.birthMonth);
-                    setInputBirthDate(data.birthDate);
-                    setInputGender(data.gender);
-                    setInputBlood(data.bloodType);
-                    setInputAmPm(data.birthTime.includes('AM') ? 'AM' : 'PM');
-                    setInputHour(data.birthTime.split(':')[0]);
-                    setInputMinute(data.birthTime.split(':')[1]);
-                    setInputHeight(data.birthHeight);
-                    setInputWeight(data.birthWeight);
-                    loadPreviewFromUrl(data.profilePicture);
-                })
-                .catch(error => {
-                    console.error('Error fetching child data:', error);
-                });
+
+            let selectedChild = user.childList.find((child) => child.childId === Number(localStorage.getItem('selectedChild')));
+            setInputName(selectedChild.name);
+            setInputGender(selectedChild.gender);
+            setInputBlood(selectedChild.bloodType);
+            setInputHeight(selectedChild.birthHeight);
+            setInputWeight(selectedChild.birthWeight);
+            loadPreviewFromUrl(selectedChild.profilePicture);
+
+            let {year, month, date} = getYearMonthDateByLocalDate(selectedChild.birthDate);
+            console.log(getYearMonthDateByLocalDate(selectedChild.birthDate));
+            setInputBirthYear(year);
+            setInputBirthMonth(month + '');
+            setInputBirthDate(date + '');
+
+            let {isAm, hour, minute} = getAmPmHourMinuteByLocalTime(selectedChild.birthTime);
+            setInputAmPm(isAm);
+            setInputHour(hour);
+            setInputMinute(minute);
+
         } else {
             setPageTitle('아이 정보 등록'); // 아이디가 없을 경우 제목을 '등록'으로 설정
         }
@@ -210,6 +216,8 @@ const ChildRegister = () => {
             errorMessage = validateInputBirthTime(inputHour, inputMinute);
         }
         // 추가적인 검증은 필요에 따라 추가
+
+        // else if ()
 
         if (errorMessage) {
             window.showToast(errorMessage); // 첫 번째 오류 메시지만 표시
