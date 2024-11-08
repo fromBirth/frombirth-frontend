@@ -15,7 +15,7 @@ import {
     numberAddZero
 } from "../../utils/Util.js";
 import axios from "axios";
-import { CHILDREN_CREATE, CHILDREN_GET_CHILD } from '../../routes/ApiPath.js';
+import { CHILDREN_CREATE } from '../../routes/ApiPath.js';
 import AppContext from "../../contexts/AppProvider.jsx";
 import basic_profile from '../../assets/img/basic_profile.png';
 import useFileUpload from "../../hooks/useFileUpload";

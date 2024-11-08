@@ -2,7 +2,7 @@
 
 import './MyPage.css';
 import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AppContext from "../../contexts/AppProvider.jsx";
 import { PATHS } from "../../routes/paths.js";
 import kakao_icon from '../../assets/img/kakao.png';

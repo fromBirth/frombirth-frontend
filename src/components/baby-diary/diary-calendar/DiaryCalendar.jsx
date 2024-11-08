@@ -1,6 +1,6 @@
 /* src/components/baby-diary/diary-calendar/DiaryCalendar.jsx */
 
-import React, {useContext, useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import './DiaryCalendar.css';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, isAfter } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
@@ -11,10 +11,10 @@ import AppContext from "../../../contexts/AppProvider.jsx";
 import {formatDateToYYYYMMDD} from "../../../utils/Util.js";
 
 // Sample image data for specific dates
-const imageDates = {
-    '2024-11-03': basic_profile,
-    '2024-11-05': basic_profile,
-};
+// const imageDates = {
+//     '2024-11-03': basic_profile,
+//     '2024-11-05': basic_profile,
+// };
 
 const Calendar = () => {
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ const Calendar = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null); // 현재 선택된 날짜를 저장하는 상태
     const [diaryList, setDiaryList] = useState([]);
-    const {selectedChildId, childList} = useContext(AppContext);
+    const {selectedChildId} = useContext(AppContext);
 
     useEffect(() => {
         let data = getDiariesByMonth(selectedChildId, formatDateToYYYYMMDD(currentMonth));
