@@ -1,3 +1,5 @@
+/* src/components/baby-diary/diary-write/DiaryWrite.jsx */
+
 import './DiaryWrite.css';
 import { useState, useEffect, useContext } from "react";
 import { useParams } from 'react-router-dom';
@@ -10,7 +12,7 @@ import AppContext from "../../../contexts/AppProvider.jsx";
 
 const DiaryWrite = () => {
     const { date: dateParam } = useParams(); // URL에서 date 파라미터 가져오기
-    const { setPageTitle } = useContext(AppContext); // setPageTitle 가져오기
+    const { setPageTitle, selectedChildId } = useContext(AppContext); // setPageTitle 가져오기
 
     // dateParam이 있으면 해당 날짜를, 없으면 오늘 날짜로 설정
     const today = new Date();
@@ -22,6 +24,7 @@ const DiaryWrite = () => {
     const [weight, setWeight] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [isButtonActive, setIsButtonActive] = useState(false); // 버튼 활성화 상태
 
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
     const dayOfWeek = daysOfWeek[new Date(date).getDay()]; // 요일 계산
@@ -30,6 +33,15 @@ const DiaryWrite = () => {
     useEffect(() => {
         setPageTitle(`${date} (${dayOfWeek})`);
     }, [date, dayOfWeek, setPageTitle]);
+
+    // 제목과 내용 작성 상태에 따라 버튼 활성화
+    useEffect(() => {
+        if (title.trim() && content.trim()) {
+            setIsButtonActive(true);
+        } else {
+            setIsButtonActive(false);
+        }
+    }, [title, content]);
 
     // 이미지 및 비디오 파일 업로드 훅 설정
     const {
@@ -53,20 +65,20 @@ const DiaryWrite = () => {
     async function handleDiarySubmit(event) {
         event.preventDefault();
 
-        if (checkNull(height) || checkNull(weight) || checkNull(title) || checkNull(content)) {
+        if (checkNull(title) || checkNull(content)) {
             return;
         }
-        if (checkOnlyNumber(height)) {
+        if (!checkNull(height) && checkOnlyNumber(height)) {
             alert('키는' + ValidateMessage.HAS_STR);
             return;
         }
-        if (checkOnlyNumber(weight)) {
+        if (!checkNull(weight) && checkOnlyNumber(weight)) {
             alert('무게는' + ValidateMessage.HAS_STR);
             return;
         }
 
         const recordDTO = {
-            childId: '', // childId 설정 필요
+            childId: selectedChildId,
             height: height,
             weight: weight,
             title: title,
@@ -83,12 +95,14 @@ const DiaryWrite = () => {
             formData.append('images', file);
         });
 
+        console.log(123);
         // 비디오 파일 추가
         if (uploadVideo) {
             formData.append('video', uploadVideo);
         }
 
         try {
+            console.log(1234);
             const response = await axios.post(RECORD_CREATE, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -105,7 +119,7 @@ const DiaryWrite = () => {
     return (
         <div className="container menu_diarywrite">
             <div className="section record-size">
-                <label class="title"><span>키/몸무게</span></label>
+                <label className="title"><span>키/몸무게</span></label>
                 <div className="input-row">
                     <input type="number" placeholder="50" min="0" max="200" aria-label="키 입력"
                         value={height} onChange={(e) => setHeight(e.target.value)}
@@ -119,7 +133,7 @@ const DiaryWrite = () => {
             </div>
 
             <div className="section">
-                <label class="title"><span>사진</span></label>
+                <label className="title"><span>사진</span></label>
                 <div className="upload-image-box">
                     {uploadImagesPreviews.map((preview, index) => (
                         <div className="upload-box" key={index}>
@@ -138,7 +152,7 @@ const DiaryWrite = () => {
             </div>
 
             <div className="section">
-                <label class="title"><span>영상</span><small>발달장애 진단용</small></label>
+                <label className="title"><span>영상</span><small>발달장애 진단용</small></label>
                 {uploadVideoPreview == null ? (
                     <div className="upload-box add" aria-label="영상 업로드" onClick={triggerVideoInput}>
                         <span className="add-icon">+</span>
@@ -156,7 +170,7 @@ const DiaryWrite = () => {
             </div>
 
             <div className="section">
-                <label class="title"><span>일기 제목</span><span class="required">*</span></label>
+                <label className="title"><span>일기 제목</span><span className="required">*</span></label>
                 <input
                     type="text"
                     className="input record-title"
@@ -168,14 +182,14 @@ const DiaryWrite = () => {
             </div>
 
             <div className="section record-content">
-                <label class="title"><span>일기 내용</span><span class="required">*</span></label>
-                <textarea className="textarea record-content" rows="8" placeholder="일기를 내용을 작성해주세요." maxLength="500" aria-label="일기 내용 입력"
+                <label className="title"><span>일기 내용</span><span className="required">*</span></label>
+                <textarea className="textarea record-content" rows="8" placeholder="일기 내용을 작성해주세요." maxLength="500" aria-label="일기 내용 입력"
                     value={content} onChange={(e) => setContent(e.target.value)}
                 />
                 <small className="content-len">{content.length}/500자</small>
             </div>
 
-            <button className="submit-btn" aria-label="일기 등록" onClick={handleDiarySubmit}>등록하기</button>
+            <button className={`submit-btn ${isButtonActive ? 'active' : ''}`} aria-label="일기 등록" onClick={handleDiarySubmit} disabled={!isButtonActive}>등록하기</button>
         </div >
     );
 };
