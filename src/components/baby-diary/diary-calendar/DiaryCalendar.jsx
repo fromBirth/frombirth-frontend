@@ -1,11 +1,14 @@
 /* src/components/baby-diary/diary-calendar/DiaryCalendar.jsx */
 
-import React, { useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './DiaryCalendar.css';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, isAfter } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from "../../../routes/paths.js";
 import basic_profile from '../../../assets/img/basic_profile.png';
+import {getDiariesByMonth} from "../DiaryCommonFunction.js";
+import AppContext from "../../../contexts/AppProvider.jsx";
+import {formatDateToYYYYMMDD} from "../../../utils/Util.js";
 
 // Sample image data for specific dates
 const imageDates = {
@@ -16,8 +19,17 @@ const imageDates = {
 const Calendar = () => {
     const navigate = useNavigate();
     const today = new Date();
-    const [currentMonth, setCurrentMonth] = React.useState(new Date());
+    const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(null); // 현재 선택된 날짜를 저장하는 상태
+    const [diaryList, setDiaryList] = useState([]);
+    const {selectedChildId, childList} = useContext(AppContext);
+
+    useEffect(() => {
+        let data = getDiariesByMonth(selectedChildId, formatDateToYYYYMMDD(currentMonth));
+        if (data == null) return;
+        setDiaryList(data);
+        console.log(data);
+    }, [currentMonth, selectedChildId]);
 
     // 이전 달로 이동하는 함수
     const handlePreviousMonth = () => {
@@ -65,7 +77,7 @@ const Calendar = () => {
             const isToday = isSameDay(day, today);
             const isFuture = isAfter(day, today);
             const isSelected = formattedDate === selectedDate; // 현재 날짜가 선택된 날짜인지 확인
-            const imageSrc = imageDates[formattedDate];
+            const imageSrc = diaryList.find((diary) => diary.recordDate === formattedDate);
 
             dateCells.push(
                 <div

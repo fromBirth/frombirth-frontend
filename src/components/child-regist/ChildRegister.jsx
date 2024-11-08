@@ -10,7 +10,7 @@ import { ValidateMessage } from "../../utils/ValidateMessage.js";
 import { REGEXP } from "../../utils/RegularExpression.js";
 import {
     getAmPmHourMinuteByLocalTime,
-    getLastDateByMonth,
+    getLastDateByMonth, getSelectedChild,
     getYearMonthDateByLocalDate,
     numberAddZero
 } from "../../utils/Util.js";
@@ -21,10 +21,9 @@ import basic_profile from '../../assets/img/basic_profile.png';
 import useFileUpload from "../../hooks/useFileUpload";
 
 const ChildRegister = () => {
-    const { user } = useContext(AppContext);
+    const { user, childList, setChildList, setPageTitle } = useContext(AppContext);
 
     const { childId } = useParams(); // URL에서 아이 ID 가져오기
-    const { setPageTitle } = useContext(AppContext); // context에서 setPageTitle 가져오기
     const limitNameLength = 2;
     const [inputName, setInputName] = useState('');
     const [inputBirthYear, setInputBirthYear] = useState('');
@@ -82,7 +81,7 @@ const ChildRegister = () => {
             // 아이 ID가 있을 때, 수정 모드로 데이터 불러오기
             setPageTitle('아이 정보 수정'); // 아이디가 있을 경우 제목을 '수정'으로 설정
 
-            let selectedChild = user.childList.find((child) => child.childId === Number(localStorage.getItem('selectedChild')));
+            let selectedChild = getSelectedChild(childId, childList);
             setInputName(selectedChild.name);
             setInputGender(selectedChild.gender);
             setInputBlood(selectedChild.bloodType);
@@ -376,8 +375,8 @@ const ChildRegister = () => {
                         id="a"
                         name="blood"
                         required
-                        value="a"
-                        checked={inputBlood === 'a'}
+                        value="A"
+                        checked={inputBlood === 'A'}
                         onChange={(e) => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="a">A형</label>
@@ -386,8 +385,8 @@ const ChildRegister = () => {
                         id="b"
                         name="blood"
                         required
-                        value="b"
-                        checked={inputBlood === 'b'}
+                        value="B"
+                        checked={inputBlood === 'B'}
                         onChange={(e) => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="b">B형</label>
@@ -396,8 +395,8 @@ const ChildRegister = () => {
                         id="o"
                         name="blood"
                         required
-                        value="o"
-                        checked={inputBlood === 'o'}
+                        value="O"
+                        checked={inputBlood === 'O'}
                         onChange={(e) => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="o">O형</label>
@@ -406,8 +405,8 @@ const ChildRegister = () => {
                         id="ab"
                         name="blood"
                         required
-                        value="ab"
-                        checked={inputBlood === 'ab'}
+                        value="AB"
+                        checked={inputBlood === 'AB'}
                         onChange={(e) => setInputBlood(e.target.value)}
                     />
                     <label htmlFor="ab">AB형</label>

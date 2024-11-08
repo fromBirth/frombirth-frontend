@@ -3,10 +3,9 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { AppContext } from '../contexts/AppProvider.jsx';
 import {PATHS} from "./paths.js";
 const CheckChildExist = () => {
-    const { user } = useContext(AppContext);
+    const { childList } = useContext(AppContext);
 
-    if (!user.childList || user.childList.length < 1) {
-        console.log(user);
+    if (!childList || childList.length < 1) {
         return <Navigate to={PATHS.CHILD_REGISTER} replace />;
     }
 

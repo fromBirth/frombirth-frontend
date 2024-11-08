@@ -10,3 +10,8 @@ export const getDiaries = (childId) => {
     let {data} = axios.get(RECORD_CHILD_ALL_RECORD + childId);
     return data;
 }
+
+export const getDiariesByMonth = (childId, month) => {
+    let {data} = axios.get(RECORD_CHILD_ALL_RECORD + childId + '/' + month);
+    return data;
+}
