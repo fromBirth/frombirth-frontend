@@ -42,7 +42,7 @@ const GrowthAnalysis = () => {
     }, []);
 
     return (
-        <>
+        <div className="container menu_growth">
             <div className="tabs">
                 <div onClick={() => handleGrowthTabs('height')}
                      className={`tab ${activeTab === 'height' ? 'active' : ''}`}>
@@ -56,9 +56,9 @@ const GrowthAnalysis = () => {
 
             <div className="section-title">3개월 전</div>
             <div className="highlight-text">
-                {childName} 님의 {activeTab === 'height' ? '키':'몸무게'}는
-                <span style={{ color: '#f78e1e' }}>
-                    {' '}평균 {activeTab === 'height' ? childHeight+' cm' : childWeight + ' kg'}
+                {childName} 님의 {activeTab === 'height' ? '키' : '몸무게'}는
+                <span style={{color: '#f78e1e'}}>
+                    {' '}평균 {activeTab === 'height' ? childHeight + ' cm' : childWeight + ' kg'}
                 </span> 이에요 ✏️
             </div>
 
@@ -79,7 +79,7 @@ const GrowthAnalysis = () => {
                     label={activeTab}
                 />
             </div>
-        </>
+        </div>
     );
 };
 

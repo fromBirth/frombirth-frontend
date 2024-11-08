@@ -9,7 +9,7 @@
 .calendar-wrap .date-navigator .today-button:active { background-color: var(--background-color); } 
 
 /* 달력 */
-.calendar-wrap .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.1rem; } 
+.calendar-wrap .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.1rem;padding: 5px 5px 10px; }
 /* .calendar-wrap .calendar-grid.weekdays { }  */
 .calendar-wrap .calendar-grid .day { display: flex; justify-content: center; align-items: center; color: #888; font-weight: 400; padding: 5px 0; } 
 .calendar-wrap .calendar-grid .date-cell { display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 4px 0; gap: 2px; } 

@@ -1,3 +1,5 @@
+/* src/components/baby-diary/diary-list-board/DiaryListBoard.jsx */
+
 import './DiaryListBoard.css';
 
 const diaryBoardFormat = (diary) => {
@@ -17,15 +19,21 @@ const diaryBoardFormat = (diary) => {
     );
 }
 
-const DiaryListBoard = (diaryList) => {
-
+const DiaryListBoard = ({ diaryList }) => {
     return (
         <div>
-            {diaryList.map((diary) => {
-                diaryBoardFormat(diary);
-            })}
+            {Array.isArray(diaryList) ? (
+                diaryList.map((diary, index) => (
+                    <div key={index}>
+                        {/* diary 항목 렌더링 */}
+                    </div>
+                ))
+            ) : (
+                <p>등록된 일기가 없어요.</p>
+            )}
         </div>
     );
-}
+};
+
 
 export default DiaryListBoard;
