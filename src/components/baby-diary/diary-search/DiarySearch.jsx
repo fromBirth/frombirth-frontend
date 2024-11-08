@@ -1,3 +1,5 @@
+/* src/components/baby-diary/diary-search/DiarySearch.jsx */
+
 import  { useState } from 'react';
 import './DiarySearch.css';
 import { FaSearch } from 'react-icons/fa';

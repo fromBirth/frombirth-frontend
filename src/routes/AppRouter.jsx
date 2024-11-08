@@ -1,8 +1,8 @@
 /* src/routes/AppRouter.jsx */
 // React Router의 Routes와 Route 컴포넌트를 사용해 라우팅 구성
-import { Routes, Route, Navigate  } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 // React에서 컴포넌트를 동적 로딩할 수 있도록 Suspense와 lazy를 사용
-import {useContext, Suspense, lazy, useEffect} from 'react';
+import { useContext, Suspense, lazy, useEffect } from 'react';
 // PATHS 객체를 import하여 경로를 상수로 관리
 import { PATHS } from './paths';
 // 전체 레이아웃 컴포넌트로, 로그인이 필요한 페이지의 공통 레이아웃으로 사용
@@ -54,7 +54,7 @@ function AppRouter() {
                         <Route path={`${PATHS.BABY_DIARY.MAIN}/:date?`} element={<BabyDiary />} />
                         <Route path={PATHS.BABY_DIARY.LIST} element={<DiaryList />} />
                         <Route path={PATHS.BABY_DIARY.LIST_PHOTO} element={<DiaryListPhoto />} />
-                        <Route path={PATHS.BABY_DIARY.WRITE} element={<DiaryWrite />} />
+                        <Route path={`${PATHS.BABY_DIARY.WRITE}/:date?`} element={<DiaryWrite />} />
                         <Route path={PATHS.BABY_DIARY.VIEW} element={<DiaryView />} />
                         <Route path={PATHS.BABY_DIARY.SEARCH} element={<DiarySearch />} />
 
