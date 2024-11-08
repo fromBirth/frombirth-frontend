@@ -81,25 +81,6 @@ const ChildRegister = () => {
         if (childId) {
             // 아이 ID가 있을 때, 수정 모드로 데이터 불러오기
             setPageTitle('아이 정보 수정'); // 아이디가 있을 경우 제목을 '수정'으로 설정
-            // axios.get(`${CHILDREN_GET_CHILD + childId}`)
-            //     .then(response => {
-            //         const data = response.data;
-            //         setInputName(data.name);
-            //         setInputBirthYear(data.birthYear);
-            //         setInputBirthMonth(data.birthMonth);
-            //         setInputBirthDate(data.birthDate);
-            //         setInputGender(data.gender);
-            //         setInputBlood(data.bloodType);
-            //         setInputAmPm(data.birthTime.includes('AM') ? 'AM' : 'PM');
-            //         setInputHour(data.birthTime.split(':')[0]);
-            //         setInputMinute(data.birthTime.split(':')[1]);
-            //         setInputHeight(data.birthHeight);
-            //         setInputWeight(data.birthWeight);
-            //         loadPreviewFromUrl(data.profilePicture);
-            //     })
-            //     .catch(error => {
-            //         console.error('Error fetching child data:', error);
-            //     });
 
             let selectedChild = user.childList.find((child) => child.childId === Number(localStorage.getItem('selectedChild')));
             setInputName(selectedChild.name);
@@ -235,6 +216,8 @@ const ChildRegister = () => {
             errorMessage = validateInputBirthTime(inputHour, inputMinute);
         }
         // 추가적인 검증은 필요에 따라 추가
+
+        // else if ()
 
         if (errorMessage) {
             window.showToast(errorMessage); // 첫 번째 오류 메시지만 표시
