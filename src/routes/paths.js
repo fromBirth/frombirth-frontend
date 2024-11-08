@@ -10,22 +10,27 @@ export const PATHS = {
     DASHBOARD: "/dashboard",
 
     // 육아 일기 섹션 경로들
-    BABY_DIARY: "/babydiary",            // 육아 일기 메인 경로
-    DIARY_LIST: "/diarylist",            // 일기 목록 페이지 경로
-    DIARY_LIST_PHOTO: "/diarylistphoto", // 사진으로 보는 일기 목록 경로
-    DIARY_WRITE: "/diarywrite",          // 일기 작성 페이지 경로
-    DIARY_VIEW: "/diaryview",            // 일기 상세 페이지 경로
-    DIARY_SEARCH: "/diarysearch",        // 일기 검색 페이지 경로
+    BABY_DIARY: {
+        MAIN: "/babydiary",               // 육아 일기 메인 경로
+        LIST: "/diarylist",               // 일기 목록 페이지 경로
+        LIST_PHOTO: "/diarylistphoto",    // 사진으로 보는 일기 목록 경로
+        WRITE: "/diarywrite",             // 일기 작성 페이지 경로
+        VIEW: "/diaryview",               // 일기 상세 페이지 경로
+        SEARCH: "/diarysearch",           // 일기 검색 페이지 경로
+    },
 
-    // AI주간보고 페이지 경로
-    WEEKLY_REPORT: "/weeklyreport",
-    WEEKLY_REVIEW: "/weeklyreview",
-    REVIEW_WAITING: "/reviewWaiting",
+    // AI 주간보고 페이지 경로들
+    WEEKLY_REPORT: {
+        MAIN: "/weeklyreport",            // 주간보고 메인 경로
+        REVIEW: "/weeklyreview",          // 주간보고 리뷰 경로
+    },
 
     // 성장 분석 페이지 경로
     GROWTH_ANALYSIS: "/growthanalysis",
 
     // 내정보 섹션 경로들
-    MY_PAGE: "/mypage",                     // 마이페이지 메인 경로
-    CHILD_REGISTER: "/mypage/register",     // 아이 정보 등록/수정 페이지 경로
+    MY_PAGE: {
+        MAIN: "/mypage",                  // 마이페이지 메인 경로
+        CHILD_REGISTER: "/mypage/register"// 아이 정보 등록/수정 페이지 경로
+    },
 };

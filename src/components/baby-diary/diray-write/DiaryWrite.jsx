@@ -1,22 +1,35 @@
 import './DiaryWrite.css';
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useParams } from 'react-router-dom';
 import { checkNull, checkOnlyNumber } from "../../../utils/Validator.js";
 import { ValidateMessage } from "../../../utils/ValidateMessage.js";
 import { RECORD_CREATE } from "../../../routes/ApiPath.js";
 import axios from "axios";
 import useFileUpload from "../../../hooks/useFileUpload";
+import AppContext from "../../../contexts/AppProvider.jsx";
 
 const DiaryWrite = () => {
+    const { date: dateParam } = useParams(); // URL에서 date 파라미터 가져오기
+    const { setPageTitle } = useContext(AppContext); // setPageTitle 가져오기
+
+    // dateParam이 있으면 해당 날짜를, 없으면 오늘 날짜로 설정
     const today = new Date();
     const todayDateString = today.toISOString().split('T')[0];
-    const todayDate = todayDateString.split('-');
-    const daysOfWeek = ['일', '월', '화', '수', '목', '금'];
-    const dayOfWeek = daysOfWeek[today.getDay()];
+    const initialDate = dateParam || todayDateString;
 
-    const [height, setHeight] = useState();
-    const [weight, setWeight] = useState();
-    const [title, setTitle] = useState();
-    const [content, setContent] = useState();
+    const [date, setDate] = useState(initialDate); // 작성 날짜 상태 설정
+    const [height, setHeight] = useState('');
+    const [weight, setWeight] = useState('');
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+
+    const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+    const dayOfWeek = daysOfWeek[new Date(date).getDay()]; // 요일 계산
+
+    // 페이지 타이틀 설정 useEffect
+    useEffect(() => {
+        setPageTitle(`${date} (${dayOfWeek})`);
+    }, [date, dayOfWeek, setPageTitle]);
 
     // 이미지 및 비디오 파일 업로드 훅 설정
     const {
@@ -53,17 +66,17 @@ const DiaryWrite = () => {
         }
 
         const recordDTO = {
-            childId: '',
+            childId: '', // childId 설정 필요
             height: height,
             weight: weight,
             title: title,
             content: content,
-            recordDate: todayDateString
-        }
+            recordDate: date // 사용자가 선택한 날짜
+        };
 
         // FormData 생성
         const formData = new FormData();
-        formData.append('recordDTO', new Blob([JSON.stringify(recordDTO)], {type: 'application/json'}));
+        formData.append('recordDTO', new Blob([JSON.stringify(recordDTO)], { type: 'application/json' }));
 
         // 이미지 파일 추가
         uploadImages.forEach(file => {
@@ -90,37 +103,28 @@ const DiaryWrite = () => {
     }
 
     return (
-        <div className="container">
-            <h2>{todayDate[1] + '/' + todayDate[2] + '(' + dayOfWeek + ')'} 일기 작성</h2>
-
-            <div className="input-row">
-                <input type="number" placeholder="50" min="0" max="200" aria-label="키 입력"
-                       value={height} onChange={(e) => {
-                    setHeight(e.target.value)
-                }}
-                />
-                <span>cm</span>
-                <input type="number" placeholder="0.0" min="0" max="200" aria-label="몸무게 입력"
-                       value={weight} onChange={(e) => {
-                    setWeight(e.target.value)
-                }}
-                />
-                <span>kg</span>
+        <div className="container menu_diarywrite">
+            <div className="section record-size">
+                <label class="title"><span>키/몸무게</span></label>
+                <div className="input-row">
+                    <input type="number" placeholder="50" min="0" max="200" aria-label="키 입력"
+                        value={height} onChange={(e) => setHeight(e.target.value)}
+                    />
+                    <span>cm</span>
+                    <input type="number" placeholder="0.0" min="0" max="200" aria-label="몸무게 입력"
+                        value={weight} onChange={(e) => setWeight(e.target.value)}
+                    />
+                    <span>kg</span>
+                </div>
             </div>
 
-            <div className="upload-section">
-                <label>사진</label>
+            <div className="section">
+                <label class="title"><span>사진</span></label>
                 <div className="upload-image-box">
                     {uploadImagesPreviews.map((preview, index) => (
                         <div className="upload-box" key={index}>
-                            <img src={preview} alt={`uploaded ${index}`}/>
-                            <button
-                                type="button"
-                                onClick={() => removeImage(index)}
-                                className="remove-button"
-                            >
-                                ×
-                            </button>
+                            <img src={preview} alt={`uploaded ${index}`} />
+                            <button type="button" onClick={() => removeImage(index)} className="remove-button">×</button>
                         </div>
                     ))}
                     {uploadImages.length < 5 && (
@@ -129,47 +133,50 @@ const DiaryWrite = () => {
                             <small className="upload-count">{uploadImages.length}/5</small>
                         </div>
                     )}
-                    <input style={{display: 'none'}} accept="image/*" onChange={handleImageChange} type="file"
-                           ref={imageInputRef} multiple/>
+                    <input style={{ display: 'none' }} accept="image/*" onChange={handleImageChange} type="file" ref={imageInputRef} multiple />
                 </div>
             </div>
 
-            <div className="upload-section">
-                <label>영상 <small>(발달장애 진단용)</small></label>
+            <div className="section">
+                <label class="title"><span>영상</span><small>발달장애 진단용</small></label>
                 {uploadVideoPreview == null ? (
-                    <div className="upload-box" aria-label="영상 업로드" onClick={triggerVideoInput}>+</div>
+                    <div className="upload-box add" aria-label="영상 업로드" onClick={triggerVideoInput}>
+                        <span className="add-icon">+</span>
+                        <small className="upload-count">0/1</small>
+                    </div>
                 ) : (
                     <div className="upload-box">
                         <video width="100%" controls>
-                            <source src={uploadVideoPreview} type="video/mp4"/>
+                            <source src={uploadVideoPreview} type="video/mp4" />
                         </video>
-                        <button
-                            type="button"
-                            onClick={() => removeVideo(0)}
-                            className="remove-button"
-                        >
-                            ×
-                        </button>
+                        <button type="button" onClick={() => removeVideo(0)} className="remove-button">×</button>
                     </div>
                 )}
-                <input style={{display: 'none'}} accept="video/mp4" onChange={handleVideoChange} type="file"
-                       ref={videoInputRef}/>
+                <input style={{ display: 'none' }} accept="video/mp4" onChange={handleVideoChange} type="file" ref={videoInputRef} />
             </div>
 
-            <textarea className="textarea" rows="1" placeholder="일기 제목을 작성해주세요." aria-label="일기 제목 입력"
-                      value={title} onChange={(e) => {
-                setTitle(e.target.value)
-            }}/>
+            <div className="section">
+                <label class="title"><span>일기 제목</span><span class="required">*</span></label>
+                <input
+                    type="text"
+                    className="input record-title"
+                    placeholder="한 줄 이내의 제목을 작성해주세요."
+                    aria-label="일기 제목 입력"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                />
+            </div>
 
-            <textarea className="textarea" rows="5" placeholder="일기를 작성해주세요."
-                      maxLength="500" aria-label="일기 내용 입력"
-                      value={content} onChange={(e) => {
-                setContent(e.target.value)
-            }}/>
-            <small>0/500자</small>
+            <div className="section record-content">
+                <label class="title"><span>일기 내용</span><span class="required">*</span></label>
+                <textarea className="textarea record-content" rows="8" placeholder="일기를 내용을 작성해주세요." maxLength="500" aria-label="일기 내용 입력"
+                    value={content} onChange={(e) => setContent(e.target.value)}
+                />
+                <small className="content-len">{content.length}/500자</small>
+            </div>
 
             <button className="submit-btn" aria-label="일기 등록" onClick={handleDiarySubmit}>등록하기</button>
-        </div>
+        </div >
     );
 };
 

@@ -23,23 +23,39 @@ const Footer = () => {
 
     return (
         <footer className="footer">
-            <div onClick={() => handleNavigation(PATHS.BABY_DIARY)} className={`btn-menu ${activePath.startsWith(PATHS.BABY_DIARY) ? 'active' : ''}`}>
+            {/* 육아일기 섹션 */}
+            <div
+                onClick={() => handleNavigation(PATHS.BABY_DIARY.MAIN)}
+                className={`btn-menu ${Object.values(PATHS.BABY_DIARY).some(path => activePath.startsWith(path)) ? 'active' : ''
+                    }`}
+            >
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
-                        <img src={`/src/assets/img/icon_menu_diary${activePath.startsWith(PATHS.BABY_DIARY) ? '_on' : ''}.svg`} className="icon diary" alt="육아일기 아이콘" />
+                        <img src={`/src/assets/img/icon_menu_diary${Object.values(PATHS.BABY_DIARY).some(path => activePath.startsWith(path)) ? '_on' : ''}.svg`} className="icon diary" alt="육아일기 아이콘" />
                     </div>
                     <span>육아일기</span>
                 </div>
             </div>
-            <div onClick={() => handleNavigation(PATHS.WEEKLY_REPORT)} className={`btn-menu ${activePath.startsWith(PATHS.WEEKLY_REPORT) ? 'active' : ''}`}>
+
+            {/* 주간보고 섹션 */}
+            <div
+                onClick={() => handleNavigation(PATHS.WEEKLY_REPORT.MAIN)}
+                className={`btn-menu ${Object.values(PATHS.WEEKLY_REPORT).some(path => activePath.startsWith(path)) ? 'active' : ''
+                    }`}
+            >
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
-                        <img src={`/src/assets/img/icon_menu_report${activePath.startsWith(PATHS.WEEKLY_REPORT) ? '_on' : ''}.svg`} className="icon report" alt="주간보고 아이콘" />
+                        <img src={`/src/assets/img/icon_menu_report${Object.values(PATHS.WEEKLY_REPORT).some(path => activePath.startsWith(path)) ? '_on' : ''}.svg`} className="icon report" alt="주간보고 아이콘" />
                     </div>
                     <span>AI 주간보고</span>
                 </div>
             </div>
-            <div onClick={() => handleNavigation(PATHS.DASHBOARD)} className={`btn-menu ${activePath.startsWith(PATHS.DASHBOARD) ? 'active' : ''}`}>
+
+            {/* 메인 대시보드 */}
+            <div
+                onClick={() => handleNavigation(PATHS.DASHBOARD)}
+                className={`btn-menu ${activePath.startsWith(PATHS.DASHBOARD) ? 'active' : ''}`}
+            >
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
                         <img src={`/src/assets/img/icon_menu_main${activePath.startsWith(PATHS.DASHBOARD) ? '_on' : ''}.svg`} className="icon main" alt="메인 아이콘" />
@@ -47,7 +63,12 @@ const Footer = () => {
                     <span>메인</span>
                 </div>
             </div>
-            <div onClick={() => handleNavigation(PATHS.GROWTH_ANALYSIS)} className={`btn-menu ${activePath.startsWith(PATHS.GROWTH_ANALYSIS) ? 'active' : ''}`}>
+
+            {/* 성장분석 섹션 */}
+            <div
+                onClick={() => handleNavigation(PATHS.GROWTH_ANALYSIS)}
+                className={`btn-menu ${activePath.startsWith(PATHS.GROWTH_ANALYSIS) ? 'active' : ''}`}
+            >
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
                         <img src={`/src/assets/img/icon_menu_growth${activePath.startsWith(PATHS.GROWTH_ANALYSIS) ? '_on' : ''}.svg`} className="icon growth" alt="성장분석 아이콘" />
@@ -55,15 +76,22 @@ const Footer = () => {
                     <span>성장분석</span>
                 </div>
             </div>
-            <div onClick={() => handleNavigation(PATHS.MY_PAGE)} className={`btn-menu ${activePath.startsWith(PATHS.MY_PAGE) ? 'active' : ''}`}>
+
+            {/* 내정보 섹션 */}
+            <div
+                onClick={() => handleNavigation(PATHS.MY_PAGE.MAIN)}
+                className={`btn-menu ${Object.values(PATHS.MY_PAGE).some(path => activePath.startsWith(path)) ? 'active' : ''
+                    }`}
+            >
                 <div className="btn-menu-inner">
                     <div className="icon-wrap">
-                        <img src={`/src/assets/img/icon_menu_mypage${activePath.startsWith(PATHS.MY_PAGE) ? '_on' : ''}.svg`} className="icon mypage" alt="내정보 아이콘" />
+                        <img src={`/src/assets/img/icon_menu_mypage${Object.values(PATHS.MY_PAGE).some(path => activePath.startsWith(path)) ? '_on' : ''}.svg`} className="icon mypage" alt="내정보 아이콘" />
                     </div>
                     <span>내정보</span>
                 </div>
             </div>
         </footer>
+
     );
 };
 

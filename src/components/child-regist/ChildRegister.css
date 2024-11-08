@@ -1,33 +1,17 @@
 /* 프로필 */
-.profile-wrap .profile-pic { display: flex; justify-content: center; align-items: center; margin: 5px auto 5px; position: relative; width: 100px; height: 100px; }
-.profile-wrap .profile-pic img { width: 100px; height: 100px; border-radius: 50%; background-color: #f0e68c; object-fit: cover; }
+.profile-wrap .profile-pic { display: flex; justify-content: center; align-items: center; margin: 5px auto 5px; position: relative; width: 100px; height: 100px; } 
+.profile-wrap .profile-pic img { width: 100px; height: 100px; border-radius: 50%; background-color: #f0e68c; object-fit: cover; } 
 .profile-wrap .profile-pic .camera-icon { position: absolute; bottom: 2px; right: 2px; background-color: white; border-radius: 50%; padding: 6px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); } 
 .profile-wrap .profile-pic .camera-icon i { font-size: 1.1em; color: #555; } 
 
-/* 타이틀 */
-.profile-edit-form label.title { font-weight: 500; font-size: 1.2em; display: block; margin: 17px 0 5px; }
-
-/* 필수 */
-.profile-edit-form .required { margin-left:1px; color: red; }
-
 /* flex-row */
-.profile-edit-form .flex-row { display: flex; gap: 10px; align-items: center; }
-.profile-edit-form .flex-row .date-input_wrap { flex: 1; display: inline-flex; align-items: center; gap: 5px; }
-
-/* 입력창 */
-.profile-edit-form input[type="text"], .profile-edit-form input[type="number"] { flex: 1; width: 100%; font-size: 1.1em; padding: 13px 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; } 
-.profile-edit-form input[type="number"] { text-align: center; } 
-.profile-edit-form input[type="text"]:focus, .profile-edit-form input[type="number"]:focus { border-color: #ff893c; }
+.profile-edit-form .flex-row { display: flex; gap: 10px; align-items: center; } 
+.profile-edit-form .flex-row .date-input_wrap { flex: 1; display: inline-flex; align-items: center; gap: 5px; } 
 
 /* 선택형 - 성별, 혈액형, 출생시간 */
 .profile-edit-form .gender, .blood-type, .birth-time { display: flex; gap: 10px; } 
-.profile-edit-form .gender label, .blood-type label, .birth-time label { flex: 1; font-weight: 300; font-size: 1.1em; line-height: 1.1; color: #333; padding: 13px 20px; border: 1px solid #ddd; border-radius: 5px; text-align: center; cursor: pointer; margin: 0; } 
+.profile-edit-form .gender label, .blood-type label, .birth-time label { flex: 1; font-weight: 300; font-size: 1.1em; color: #333; padding: 13px 20px; border: 1px solid #ddd; border-radius: 5px; text-align: center; cursor: pointer; margin: 0; } 
 .profile-edit-form .gender input[type="radio"], .blood-type input[type="radio"], .birth-time input[type="radio"] { display: none; } 
 .profile-edit-form .gender input[type="radio"]:checked + label,
 .profile-edit-form .blood-type input[type="radio"]:checked + label,
 .profile-edit-form .birth-time input[type="radio"]:checked + label { background-color: #fffbfa; border-color: #ff893c; color: #ef5020; } 
-
-/* 등록하기/수정하기 버튼 */
-.profile-edit-form .submit-btn { width: 100%; padding: 15px; margin-top: 20px; background-color: #e9ecf2; border: none; border-radius: 13px; font-size: 1.3em; color: #6b6b6b; text-align: center; cursor: pointer; transition: background-color 0.3s ease, color 0.3s ease; } 
-.profile-edit-form .submit-btn:active { background-color: #d7dce3; color: #333; } 
-.profile-edit-form .submit-btn.active { background-color: #ff893c; color: #fff; } 

@@ -59,7 +59,7 @@ const Calendar = () => {
 
         // 날짜를 클릭하면 해당 날짜의 일기 URL로 이동
         setSelectedDate(formattedDate); // 선택된 날짜 업데이트
-        navigate(`${PATHS.BABY_DIARY}/${formattedDate}`);
+        navigate(`${PATHS.BABY_DIARY.MAIN}/${formattedDate}`);
     };
 
     const renderDates = () => {

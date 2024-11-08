@@ -10,11 +10,12 @@
 
 /* 내 아이 관리 */
 .menu_mypage .child-management .child-cards { display: flex; gap: 15px; padding: 5px; flex-wrap: wrap; } 
-.menu_mypage .child-management .child-cards .child-card { flex-basis: calc(33.33% - 10px); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 15px; padding: 15px 5px; background-color: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); } 
+.menu_mypage .child-management .child-cards .child-card { flex-basis: calc(33.33% - 10px); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 15px; padding: 15px 5px; background-color: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); overflow: hidden; } 
 .menu_mypage .child-management .child-cards .child-card:active { background-color: #fafafa; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); } 
 .menu_mypage .child-management .child-cards .child-card .child-image { width: 50px; height: 50px; border-radius: 50%; } 
-.menu_mypage .child-management .child-cards .child-card .child-name { display: flex; align-items: center; font-weight: bold; margin-top: 10px; } 
-.menu_mypage .child-management .child-cards .child-card .child-name .current-label { background-color: #f78e1e; color: white; border-radius: 10px; padding: 2px 5px; margin: 0 2px 0 5px; font-size: 0.6em; font-weight: 400; } 
+.menu_mypage .child-management .child-cards .child-card .child-name { display: flex; justify-content: center; font-weight: bold; margin-top: 10px; width: 100%; overflow: hidden; } 
+.menu_mypage .child-management .child-cards .child-card .child-name .current-label { width: 28px; text-align: center; background-color: #f78e1e; color: white; border-radius: 10px; padding: 2px 5px; margin: 0 2px 0 5px; font-size: 0.6em; font-weight: 400; } 
+.menu_mypage .child-management .child-cards .child-card .child-name .child-name-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; min-width: 0; text-align: center; } 
 .menu_mypage .child-management .child-cards .child-card .child-age { color: #999; font-size: 0.8em; margin-top: 5px; } 
 
 /* 현재 활성화 카드 */

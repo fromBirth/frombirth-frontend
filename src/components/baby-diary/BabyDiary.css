@@ -2,7 +2,7 @@
 .diary-container { margin: 0 -20px; } 
 
 /* 육아일기 - 일기 영역 */
-.diary-container .diary-wrap { margin-top: 10px; border-top: 5px solid #f1f1f1; padding:15px 15px; } 
+.diary-container .diary-wrap { border-top: 5px solid #f1f1f1; padding:15px 15px; } 
 .diary-container .diary-wrap .date { font-size: 1em; color: #777; font-weight: 500; margin-bottom: 7px; } 
 .diary-container .diary-wrap .title { font-size: 1.3em; color: #333; font-weight: 700; margin-bottom: 6px; } 
 .diary-container .diary-wrap .text { font-size: 1.1em; color: #555; font-weight: 400; line-height: 1.4em; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; } 
@@ -12,6 +12,6 @@
 /* 작성된 일기가 없을 경우 */
 .diary-container .diary-wrap .no-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; text-align: center; color: #b0b0b0; } 
 .diary-container .diary-wrap .no-content .message { font-size: 1em; margin-bottom: 10px; color: #b0b0b0; } 
-.diary-container .diary-wrap .no-content button { padding: 10px 15px 10px 20px; border: 1px solid #b0b0b0; border-radius: 25px; background-color: transparent; color: #777; font-size: 1em; cursor: pointer; transition: background-color 0.2s, color 0.2s; } 
-.diary-container .diary-wrap .no-content button:active { background-color: #f7f7f7; } 
+.diary-container .diary-wrap .no-content button { padding: 10px 15px 10px 20px; border: 1px solid #ff893c; border-radius: 25px; background-color: transparent; color: #ef5020; font-size: 1em; cursor: pointer; transition: background-color 0.2s, color 0.2s; } 
+.diary-container .diary-wrap .no-content button:active { background-color: #ff893c11; } 
 .diary-container .diary-wrap .no-content button i { margin-left: 3px; } 

@@ -269,7 +269,9 @@ const ChildRegister = () => {
         <div className="container">
             <div className="profile-wrap">
                 <div className="profile-pic">
-                    {profilePreviews[0] && <img src={profilePreviews[0]} alt="프로필 이미지 미리보기" />}
+                    {profilePreviews[0] && <img
+                                                src={profilePreviews[0] && !profilePreviews[0].toLowerCase().includes('null') ? profilePreviews[0] : basic_profile}
+                                                alt="프로필 이미지 미리보기" />}
                     <div className="camera-icon">
                         <button onClick={triggerFileInput}><i className="bi bi-camera-fill"></i></button>
                     </div>
