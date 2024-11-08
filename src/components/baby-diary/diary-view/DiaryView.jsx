@@ -1,3 +1,5 @@
+/* src/components/baby-diary/diary-view/DiaryView.jsx */
+
 import './DiaryView.css';
 
 const DiaryView = () => {

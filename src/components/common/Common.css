@@ -25,9 +25,9 @@ input[type="checkbox"] { cursor: pointer; }
 button { appearance: none; border: 0; background: transparent; font: inherit; outline: none; cursor: pointer; } 
 button:disabled { cursor: default; } 
 label { margin: 0; font-weight: normal; } 
-p { margin: 0; } 
-input::placeholder { color: #888; } 
-input, textarea { font-family: "Pretendard", sans-serif; } 
+p { margin: 0; }
+input::placeholder, textarea::placeholder { color: #888; }
+input, textarea { font-family: "Pretendard", sans-serif; }
 
 /* 🟣 색상 등 전역 변수 설정 */
 :root { --logo-color: #FF893C; --button-disabled-color: #E6E9F0; --menu-symbol-color: #B8BCBF; --menu-text-color: #949598; --background-color: #f2f2f2; } 
