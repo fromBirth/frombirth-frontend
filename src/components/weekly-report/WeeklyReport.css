@@ -24,7 +24,7 @@
 
 .disabled-box, .enabled-box {
     width: 400px;
-    height: 650px;
+    height: 600px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -33,6 +33,7 @@
     text-align: center;
     padding: 20px;
     margin-top: 15px;
+    margin-left: 25px;
 }
 
 .disabled-box {
