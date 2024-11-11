@@ -49,7 +49,6 @@
 .icon-container {
     font-size: 48px;
     margin-bottom: 20px;
-    height: 200px;
 }
 
 .text {
@@ -86,6 +85,10 @@
 .next-week-button img {
     width: 35px;
     height: 30px;
+}
+.lottie-timer{
+    width: 100px;
+    height: 100px;
 }
 
 
