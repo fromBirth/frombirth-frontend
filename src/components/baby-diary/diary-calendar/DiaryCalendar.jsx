@@ -25,10 +25,10 @@ const Calendar = () => {
     const {selectedChildId} = useContext(AppContext);
 
     useEffect(() => {
-        let data = getDiariesByMonth(selectedChildId, formatDateToYYYYMMDD(currentMonth));
+        let {data} = getDiariesByMonth(selectedChildId, formatDateToYYYYMMDD(currentMonth));
+        console.log(data);
         if (data == null) return;
         setDiaryList(data);
-        console.log(data);
     }, [currentMonth, selectedChildId]);
 
     // 이전 달로 이동하는 함수
