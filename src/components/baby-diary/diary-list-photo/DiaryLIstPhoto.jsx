@@ -38,7 +38,6 @@ const diaryImagesByMonth = (diaryList) => {
 };
 
 const DiaryListPhoto = () => {
-    // const imagesByMonth = diaryImagesByMonth(diaryList);
     const imagesByMonth = [];
     // imagesByMonth가 비어있는 경우 처리
     if (!imagesByMonth || Object.keys(imagesByMonth).length === 0) {
