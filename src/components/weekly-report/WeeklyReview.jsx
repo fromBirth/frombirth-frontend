@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './WeeklyReview.css';
+import {PATHS} from "../../routes/paths.js";
+import {useNavigate} from "react-router-dom";
+
 
 const WeeklyReview = () => {
     const [isLoading, setIsLoading] = useState(true); // 처음에 isLoading을 true로 설정
     const [isVisible, setIsVisible] = useState(false); // 분석 완료 후 이미지 표시 여부 상태
+    const navigate = useNavigate();
+    const urlParams = new URLSearchParams(location.search);
+    const reportId = urlParams.get("reportId");
 
     // 외부 스크립트 로드 (dotlottie)
     useEffect(() => {
@@ -26,7 +32,7 @@ const WeeklyReview = () => {
     }, []); // 빈 배열을 사용하여 컴포넌트 마운트 시에만 실행
 
     const handleClick = () => {
-        window.location.href = '/weeklyreport'; // '/weeklyreport' 페이지로 이동
+        navigate(`${PATHS.WEEKLY_REPORT.MAIN}?reportId=${reportId}`);
     };
 
     return (
