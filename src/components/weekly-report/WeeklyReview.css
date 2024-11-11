@@ -72,7 +72,7 @@
     padding-top: 7px;
     padding-right: 3px;
     opacity: 0; /* 기본 opacity는 0 */
-    transition: opacity 0.5s ease-out; /* 1초 후에 서서히 나타남 */
+    transition: opacity 1s ease-out; /* 1초 후에 서서히 나타남 */
 }
 
 /* visible 상태일 때 */

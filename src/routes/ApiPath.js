@@ -21,7 +21,10 @@ export const SPRING_REPORT_BASE =SPRING_BASE_URL + '/api/reports';
 export const REPORT_CHILD_ALL_REPORT = SPRING_REPORT_BASE + '/all';
 export const REPORT_CHILD_REPORT = SPRING_REPORT_BASE + '/report';
 export const REPORT_CREATE = SPRING_REPORT_BASE + '/create';
-export const REPORT_DELETE = SPRING_REPORT_BASE + '/DELETE';
+export const REPORT_DELETE = SPRING_REPORT_BASE + '/delete';
+export const REPORT_UPDATE = SPRING_REPORT_BASE + '/update';
+
+
 
 
 
