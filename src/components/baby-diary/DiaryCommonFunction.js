@@ -12,7 +12,7 @@ export const getDiaryPhotos = async (childId, lastmonth, size) => {
 }
 
 export const getDiariesByMonth = async (childId, month) => {
-    let {data} = await axios.get(RECORD_CHILD_ALL_RECORD + childId + '/' + month);
+    let {data} = await axios.get(`${RECORD_CHILD_ALL_RECORD}${childId}/${month}`);
     return data;
 }
 
