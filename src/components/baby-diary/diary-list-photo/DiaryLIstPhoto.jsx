@@ -37,9 +37,9 @@ const diaryImagesByMonth = (diaryList) => {
     return imagesByMonth;
 };
 
-const DiaryListPhoto = ({ diaryList }) => {
-    const imagesByMonth = diaryImagesByMonth(diaryList);
-
+const DiaryListPhoto = () => {
+    // const imagesByMonth = diaryImagesByMonth(diaryList);
+    const imagesByMonth = [];
     // imagesByMonth가 비어있는 경우 처리
     if (!imagesByMonth || Object.keys(imagesByMonth).length === 0) {
         return <p>등록된 일기가 없어요.</p>;

@@ -8,21 +8,28 @@ import {useState} from "react";
 const DiaryList = () => {
     const [isBoard, setIsBoard] = useState(true);
 
+    // useEffect(() => {
+    //     setQuery(null);
+    // }, [isBoard]);
+    const handleIsBoard = (temp) => {
+        setIsBoard(temp);
+    }
+
     return (
         <div className="container">
             <div className="tab-bar">
                 <div className={"tab " + (isBoard ? "active" : "")}
-                    onClick={() => { setIsBoard(true) }}>
+                    onClick={() => { handleIsBoard(true) }}>
                     전체
                 </div>
                 <div className={"tab " + (!isBoard ? "active" : "")}
-                    onClick={() => { setIsBoard(false) }}>
+                    onClick={() => { handleIsBoard(false) }}>
                     사진
                 </div>
             </div>
 
             {isBoard && <DiaryListBoard/>}
-            {!isBoard && <DiaryListPhoto diaryList={diaryList} />}
+            {!isBoard && <DiaryListPhoto/>}
 
             {/*<div className="entry">*/}
             {/*    <div className="entry-title">10.11 두근거리는 금요일</div>*/}

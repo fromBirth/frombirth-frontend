@@ -77,7 +77,7 @@ const Calendar = () => {
             const isToday = isSameDay(day, today);
             const isFuture = isAfter(day, today);
             const isSelected = formattedDate === selectedDate; // 현재 날짜가 선택된 날짜인지 확인
-            const imageSrc = diaryList.find((diary) => diary.recordDate === formattedDate);
+            const imageSrc = diaryList?.find((diary) => diary.recordDate === formattedDate);
 
             dateCells.push(
                 <div
