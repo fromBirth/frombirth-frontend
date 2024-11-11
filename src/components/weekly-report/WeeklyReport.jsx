@@ -87,12 +87,8 @@ const WeeklyReport = () => {
 
                 const weekRanges = {};
 
-                // 오늘 날짜 기준으로 이번 주와 그 이전 주만 필터링
-                const today = new Date();
-                const currentYear = today.getFullYear();
-                const currentMonth = today.getMonth();
-                const currentDate = today.getDate();
 
+                const today = new Date();
                 // 이번 주의 시작 날짜를 구하는 로직 (이번 주 월요일 기준)
                 const firstDayOfWeek = new Date(today);
                 const dayOfWeek = today.getDay();
@@ -170,6 +166,8 @@ const WeeklyReport = () => {
                     // 마지막에 isReadAvailable 설정 (selectedReport가 확실히 설정된 후에)
                     setIsReadAvailable(selected.read);
                     setIsDataAvailable(true);
+                    // 주간 범위에 맞는 일기 개수 체크
+                    checkSufficientData(`${start} ~ ${end}`);
                 } else {
                     console.error("보고서가 없습니다.");
                     setIsDataAvailable(false);
@@ -261,7 +259,7 @@ const WeeklyReport = () => {
                         <div className="icon-container">
                             <div className="lottie-timer">
                                 <dotlottie-player
-                                    src="https://lottie.host/e58273e2-66be-4af4-a7c4-1d8475bc2046/lOFO9WkmbC.json"
+                                    src="https://lottie.host/59d8507a-d182-4958-88ca-ce22c420342b/vDXjkuVZKN.json"
                                     background="transparent"
                                     speed="2"
                                     className="lottie-nodata"
@@ -275,13 +273,13 @@ const WeeklyReport = () => {
                 </div>
             ) : (
                 // AI 주간보고 생성이 불가능하거나 분석되지 않은 경우 (충분한 데이터 + 월요일 오전 00시 ~ 09시 사이 AI 답변 대기시)
-                isSufficientData && !isAvailable ? (
+                (isAvailable !== isDataAvailable) ? (
                     <div className="review-box">
                         <div className="disabled-box">
                         <div className="icon-container">
                             <div className="lottie-timer">
                                 <dotlottie-player
-                                    src="https://lottie.host/59d8507a-d182-4958-88ca-ce22c420342b/vDXjkuVZKN.json"
+                                    src="https://lottie.host/e58273e2-66be-4af4-a7c4-1d8475bc2046/lOFO9WkmbC.json"
                                     background="transparent"
                                     speed="1.5"
                                     className="lottie-timer"
@@ -295,25 +293,25 @@ const WeeklyReport = () => {
                     </div>
                 ) : (
                     // AI 주간보고 생성 또는 데이터 표시 (읽지 않았을 시)
-                    isAvailable && !isReadAvailable ? (
+                    !isReadAvailable ? (
                         // AI 주간보고 생성 가능
                         <div className="enabled-box">
                             <div className="icon-container">
-                            <dotlottie-player
-                                src="https://lottie.host/714f7cda-7a3d-47fa-8296-caf5ae946051/Sh7fIYjs1a.json"
-                                background="transparent"
-                                speed="1.5"
-                                className="lottie-player-before"
-                                autoplay
-                                loop={false}
-                            ></dotlottie-player>
+                                <dotlottie-player
+                                    src="https://lottie.host/714f7cda-7a3d-47fa-8296-caf5ae946051/Sh7fIYjs1a.json"
+                                    background="transparent"
+                                    speed="1.5"
+                                    className="lottie-player-before"
+                                    autoplay
+                                    loop={false}
+                                ></dotlottie-player>
+                            </div>
+                            <p className="text">지난주에 작성하신 일기에 대해 <br/> AI 분석을 실시해보세요.</p>
+                            <button className="generate-button" onClick={startReview}>AI 주간보고 생성</button>
                         </div>
-                        <p className="text">지난주에 작성하신 일기에 대해 <br /> AI 분석을 실시해보세요.</p>
-                        <button className="generate-button" onClick={startReview}>AI 주간보고 생성</button>
-                    </div>
-                ) :  (
+                    ) : (
                         // 데이터가 존재하고 선택된 보고서가 있을 경우
-                        isDataAvailable && selectedReport ? (
+                        selectedReport ? (
                             <div>
                                 <div className="report-content">
                                     {selectedReport ? selectedReport.feedback : "피드백을 불러오는 중입니다..."}
@@ -324,28 +322,28 @@ const WeeklyReport = () => {
                                     <div className="progress-bar">
                                         <div className="low-risk"></div>
                                         <div className="high-risk"></div>
-                                        <ProgressBar value={selectedReport ? selectedReport.riskLevel * 20 : 0} />
+                                        <ProgressBar value={selectedReport ? selectedReport.riskLevel * 20 : 0}/>
                                     </div>
-
                                     <h3>영상분석 결과 위험성 정도</h3>
                                     <div className="progress-bar">
                                         <div className="low-risk"></div>
-                                        <div className="high-risk" style={{ width: '20%' }}></div>
-                                        <ProgressBar value={30} />
+                                        <div className="high-risk" style={{width: '20%'}}></div>
+                                        <ProgressBar value={30}/>
+
                                     </div>
                                 </div>
 
                                 <div className="map-section">
                                     <h3>근처 병원 정보</h3>
-                                    <KakaoMap />
+                                    <KakaoMap/>
                                 </div>
                             </div>
                         ) : (
                             // 데이터가 없거나 로딩 중일 때
-                            <Spinner />
+                            <Spinner/>
                         )
+                    )
                 )
-            )
             )}
         </>
     );
