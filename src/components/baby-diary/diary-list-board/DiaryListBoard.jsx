@@ -12,11 +12,12 @@ import {PATHS} from "../../../routes/paths.js";
 
 const DiaryListBoard = () => {
     const navigate = useNavigate();
-    const {selectedChildId} = useContext(AppContext);
+    const {selectedChildId, query} = useContext(AppContext);
+    console.log(query);
     const {ref, inView} = useInView();
     const {data: diaryInfoList, fetchNextPage, isFetchingNextPage} = useInfiniteQuery(
-        ['infiniteDiaryList'],
-        ({pageParam = 999999}) => getDiariesListInfinitely(selectedChildId, pageParam, 10),
+        ['infiniteDiaryList', selectedChildId, query],
+        ({pageParam = 999999}) => getDiariesListInfinitely(selectedChildId, pageParam, 10, query),
         {
             getNextPageParam: (lastPage) =>
                 !lastPage.isLast ? lastPage.nextLastRecordId : undefined
