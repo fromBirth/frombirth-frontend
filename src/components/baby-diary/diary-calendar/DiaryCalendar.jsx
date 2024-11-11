@@ -5,7 +5,6 @@ import './DiaryCalendar.css';
 import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, isAfter } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from "../../../routes/paths.js";
-import basic_profile from '../../../assets/img/basic_profile.png';
 import {getDiariesByMonth} from "../DiaryCommonFunction.js";
 import AppContext from "../../../contexts/AppProvider.jsx";
 import {formatDateToYYYYMMDD} from "../../../utils/Util.js";
@@ -25,10 +24,10 @@ const Calendar = () => {
     const {selectedChildId} = useContext(AppContext);
 
     useEffect(() => {
-        let {data} = getDiariesByMonth(selectedChildId, formatDateToYYYYMMDD(currentMonth));
+        let data = getDiariesByMonth(selectedChildId, formatDateToYYYYMMDD(currentMonth));
         console.log(data);
-        if (data == null) return;
-        setDiaryList(data);
+
+        if (Array.isArray(data)) setDiaryList(data);
     }, [currentMonth, selectedChildId]);
 
     // 이전 달로 이동하는 함수
