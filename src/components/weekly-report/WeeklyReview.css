@@ -21,7 +21,7 @@
       /* 페이드인 애니메이션 */
 .fade-in {
     opacity: 0;
-    animation: fadeIn 0.5s forwards;
+    animation: fadeIn 1s forwards;
 }
 
 @keyframes fadeIn {
@@ -60,7 +60,6 @@
     padding-top: 7px;
     padding-right: 3px;
     opacity: 1; /* 기본 opacity는 0 */
-    transition: opacity 0.5s ease-out; /* 1초 후에 서서히 나타남 */
 }
 
 .baby-image {

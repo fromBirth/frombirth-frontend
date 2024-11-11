@@ -253,25 +253,7 @@ const WeeklyReport = () => {
             </div>
 
             {/* 데이터가 없으면 review-box를 보여주고, 그렇지 않으면 기존의 report-content 등을 보여줌 */}
-            {!isSufficientData ? (
-                <div className="review-box">
-                    <div className="disabled-box">
-                        <div className="icon-container">
-                            <div className="lottie-timer">
-                                <dotlottie-player
-                                    src="https://lottie.host/59d8507a-d182-4958-88ca-ce22c420342b/vDXjkuVZKN.json"
-                                    background="transparent"
-                                    speed="2"
-                                    className="lottie-nodata"
-                                    autoplay
-                                    loop={false}
-                                ></dotlottie-player>
-                            </div>
-                        </div>
-                        <p className="text">일기 데이터가 충분하지 않습니다. <br/> 최소 3개의 일기가 필요합니다.</p>
-                    </div>
-                </div>
-            ) : (
+            {
                 // AI 주간보고 생성이 불가능하거나 분석되지 않은 경우 (충분한 데이터 + 월요일 오전 00시 ~ 09시 사이 AI 답변 대기시)
                 (isAvailable !== isDataAvailable) ? (
                     <div className="review-box">
@@ -281,14 +263,26 @@ const WeeklyReport = () => {
                                 <dotlottie-player
                                     src="https://lottie.host/e58273e2-66be-4af4-a7c4-1d8475bc2046/lOFO9WkmbC.json"
                                     background="transparent"
-                                    speed="1.5"
+                                    speed="2"
                                     className="lottie-timer"
                                     autoplay
                                     loop={false}
                                 ></dotlottie-player>
                             </div>
                             </div>
-                            <p className="text">AI 주간보고 생성은 <br/> 매주 월요일 9시부터 가능합니다.</p>
+                            <p className="text">AI 주간보고 생성은 <br/> 매주 월요일 9시부터 가능합니다.<br/> <br/>
+                                {isSufficientData ?(
+                                    <span className="sufficient-data">
+                                        충분한 일기 기록이 모였습니다. <br />
+                                        더 많은 기록이 진단 정확도를 높여줘요!
+                                        </span>
+                                        ) : (
+                                        <>
+                                            AI 주간보고를 위해 <br />
+                                    매 주 최소 3개의 일기 데이터가 필요합니다.
+                                        </>
+                                    )}
+                            </p>
                         </div>
                     </div>
                 ) : (
@@ -339,11 +333,10 @@ const WeeklyReport = () => {
                                 </div>
                             </div>
                         ) : (
-                            // 데이터가 없거나 로딩 중일 때
                             <Spinner/>
                         )
                     )
-                )
+
             )}
         </>
     );
