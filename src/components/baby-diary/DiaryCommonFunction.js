@@ -15,3 +15,9 @@ export const getDiariesByMonth = (childId, month) => {
     let {data} = axios.get(RECORD_CHILD_ALL_RECORD + childId + '/' + month);
     return data;
 }
+
+export const getDiariesListInfinitely = async (childId, lastRecordId, size) => {
+    const {data} = await axios.get(RECORD_CHILD_ALL_RECORD + childId + '/' + lastRecordId + '/' + size);
+    console.log(data);
+    return {data, nextLastRecordId: data[data.length-1]?.recordId, isLast: data.length < size};
+}
