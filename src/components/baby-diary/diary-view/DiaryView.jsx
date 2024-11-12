@@ -18,13 +18,19 @@ const DiaryView = () => {
             </div>
 
             <div className="photos">
-                {diary.images?.map((image, index) => <img src={image} alt={"Photo " + index} key={index}/>)}
-                <img src="photo1.jpg" alt="Photo 1" />
-                <img src="photo2.jpg" alt="Photo 2" />
-                <img src="photo3.jpg" alt="Photo 3" />
-            </div>
+                {diary.images?.map((image) => {
+                    return (
+                        image.photoId &&
+                        <img src={image.url} alt={"Photo " + image.photoId} key={image.photoId}/>
+                    )
+                })}
+            {/*<img src="photo1.jpg" alt="Photo 1" />*/}
+            {/*<img src="photo2.jpg" alt="Photo 2" />*/}
+            {/*<img src="photo3.jpg" alt="Photo 3" />*/}
         </div>
-    );
+</div>
+)
+    ;
 };
 
 export default DiaryView;
