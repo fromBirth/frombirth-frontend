@@ -3,7 +3,6 @@ import UseKakaoMap from "./useKakaoMap";
 import { useEffect, useState } from "react";
 import useGeolocation from "react-hook-geolocation";
 import markerImage from '../../assets/img/marker_temp.svg'
-import log from "eslint-plugin-react/lib/util/log.js";
 import styled from "styled-components";
 
 const KakaoMap = () => {
@@ -14,35 +13,62 @@ const KakaoMap = () => {
     const [markers, setMarkers] = useState([]);
     const [map, setMap] = useState(null);
     const [keyword, setKeyword] = useState('');
-    const [selectedMarker, setSelectedMarker] = useState(null); // 클릭된 마커 정보 상태
+    const [selectedMarker, setSelectedMarker] = useState(null);
 
     UseKakaoMap();
 
+    // Android WebView 여부 확인
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition((pos) => log(pos));
+        if (window.AndroidLocation && typeof window.AndroidLocation.isAndroidWebView === "function") {
+            // Android WebView에서 현재 위치 요청
+            window.AndroidLocation.sendCurrentLocation();
+            console.log("안드로이드 실행")
+        } else {
+            // 브라우저에서 Geolocation API를 사용하여 위치 요청
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    setCenter({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    });
+                    setPosition({
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    });
+                });
+            }
+            console.log("geolocation 실행")
+        }
+    }, []);
+
+    // Android에서 위치 정보를 받을 JavaScript 함수 정의
+    useEffect(() => {
+        window.setLocation = (latitude, longitude) => {
+            console.log(`위치정보 받아옴 ${latitude} ${longitude}`)
+            setCenter({ lat: latitude, lng: longitude });
+            setPosition({ lat: latitude, lng: longitude });
+        };
     }, []);
 
     // 현재 위치를 바탕으로 주소를 검색
     useEffect(() => {
-        if (geolocation.latitude && geolocation.longitude) {
-            setCenter({ lat: geolocation.latitude, lng: geolocation.longitude });
-            setPosition({ lat: geolocation.latitude, lng: geolocation.longitude });
+        if (position.lat && position.lng) {
+            setCenter({ lat: position.lat, lng: position.lng });
         }
-    }, [geolocation]);
+    }, [position]);
 
     // 위치 기반으로 '소아정신과' 키워드로 검색
     useEffect(() => {
-        if (geolocation.latitude !== 0 && geolocation.longitude !== 0 && window.kakao) {
+        if (position.lat !== 0 && position.lng !== 0 && window.kakao) {
             const geocoder = new window.kakao.maps.services.Geocoder();
-            geocoder.coord2Address(geolocation.longitude, geolocation.latitude, (result, status) => {
+            geocoder.coord2Address(position.lng, position.lat, (result, status) => {
                 if (status === window.kakao.maps.services.Status.OK) {
                     const getAddressName = result[0].address;
                     setKeyword(`${getAddressName.region_2depth_name} ${getAddressName.region_3depth_name} 정신과`);
-                    // xx구 xx동 + 키워드
                 }
             });
         }
-    }, [geolocation]);
+    }, [position]);
 
     // 키워드에 해당하는 장소 검색
     useEffect(() => {
@@ -64,21 +90,17 @@ const KakaoMap = () => {
                 setMarkers(addMarkers);
                 map.setBounds(bounds);
             }
-        },
-            {
-                location: new window.kakao.maps.LatLng(
-                    geolocation.latitude,
-                    geolocation.longitude
-                ), // 중심 위치
-                radius: 3000, // 반경 3km
-                sort: "distance", // 거리순 정렬
-                size: 5, // 최대 마커 개수
-            });
-    }, [map, keyword, geolocation]);
+        }, {
+            location: new window.kakao.maps.LatLng(position.lat, position.lng),
+            radius: 3000,
+            sort: "distance",
+            size: 5,
+        });
+    }, [map, keyword, position]);
 
     const handleMarkerClick = (content) => {
         if(content === selectedMarker) setSelectedMarker("");
-        else setSelectedMarker(content); // 클릭된 마커의 정보를 저장
+        else setSelectedMarker(content);
     };
 
     return (
@@ -96,17 +118,9 @@ const KakaoMap = () => {
             <MapMarker
                 position={position}
                 image={{
-                    src: markerImage, // 마커이미지의 주소입니다
-                    size: {
-                        width: 50,
-                        height: 50,
-                    }, // 마커이미지의 크기입니다
-                    options: {
-                        offset: {
-                            x: 23,
-                            y: 50,
-                        }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-                    },
+                    src: markerImage,
+                    size: { width: 50, height: 50 },
+                    options: { offset: { x: 23, y: 50 } },
                 }}
             />
 
@@ -127,35 +141,33 @@ const KakaoMap = () => {
                         </CustomOverlayMap>
                     )}
                 </MapMarker>
-
             ))}
-
         </Map>
     );
-}
+};
 
 export default KakaoMap;
 
 const MarkerInfo = styled.div`
     position: relative;
     outline: none;
-    background-color: #FFFFFF; /* 말풍선 배경색 */
+    background-color: #FFFFFF;
     border: 3px solid #FF893C;
     padding: 10px;
     border-radius: 8px;
     font-size: 14px;
     color: #333;
-    
+
     &::after {
-    content: "";
-    position: absolute;
-    bottom: -10px; /* 화살표 위치 */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #FF893C; /* 말풍선 배경색과 동일 */
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #FF893C;
     }
 `;
