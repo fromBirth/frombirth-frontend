@@ -70,6 +70,13 @@ export function formatDateToYYYYMMDD(date) {
     return `${year}-${month}-${day}`;
 }
 
+export function getNextMonthFirstDay() {
+    const today = new Date();
+    const nextMonth = today.getMonth() + 1;
+    const nextMonthFirstDay = new Date(today.getFullYear(), nextMonth, 1);
+    return `${nextMonthFirstDay.getFullYear()}-${nextMonthFirstDay.getMonth() + 1}`;
+}
+
 export function getDayOfWeek(dateString) {
     // 주어진 문자열을 Date 객체로 변환
     const date = new Date(dateString);
