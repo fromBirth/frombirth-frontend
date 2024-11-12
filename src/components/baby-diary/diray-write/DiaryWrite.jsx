@@ -14,7 +14,6 @@ import {PATHS} from "../../../routes/paths.js";
 const DiaryWrite = () => {
     const { date: dateParam } = useParams(); // URL에서 date 파라미터 가져오기
     const { setPageTitle, selectedChildId } = useContext(AppContext); // setPageTitle 가져오기
-    const navigate = useNavigate(); // useNavigate 초기화
 
     // dateParam이 있으면 해당 날짜를, 없으면 오늘 날짜로 설정
     const today = new Date();

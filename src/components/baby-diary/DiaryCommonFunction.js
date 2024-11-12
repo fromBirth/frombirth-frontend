@@ -1,5 +1,5 @@
 import axios from "axios";
-import { RECORD_CHILD_ALL_RECORD, RECORD_DETAIL, RECORD_CHILD_DATE_RECORD } from "../../routes/ApiPath.js";
+import {RECORD_CHILD_ALL_RECORD, RECORD_DETAIL, RECORD_CHILD_DATE_RECORD, RECORD_CHILD_ALL_PHOTO} from "../../routes/ApiPath.js";
 
 // 날짜를 기준으로 일기 데이터를 가져오는 함수
 export const getDiaryByDate = async (childId, date) => {
@@ -10,10 +10,10 @@ export const getDiaryByDate = async (childId, date) => {
         const requestUrl = RECORD_CHILD_DATE_RECORD.replace("{childId}", childId) + date;
 
         const { data } = await axios.get(requestUrl);
-        console.log("일기 상세 데이터:", data); // 응답 데이터 로그
+        console.log("🟢일기 상세 데이터:", data); // 응답 데이터 로그
         return data;
     } catch (error) {
-        console.error("일기 데이터를 가져오는 중 오류 발생:", error);
+        console.error("🔴일기 데이터를 가져오는 중 오류 발생:", error);
         return null;
     }
 };

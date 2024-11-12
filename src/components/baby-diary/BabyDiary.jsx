@@ -57,6 +57,13 @@ const BabyDiary = () => {
         }, 200);
     };
 
+    // 일기 내용 클릭 시 실행되는 함수
+    const handleViewDiary = () => {
+        setTimeout(() => {
+            navigate(`${PATHS.BABY_DIARY.VIEW}/${date}`);
+        }, 200);
+    };
+
     return (
         <div className="diary-container">
             {/* 날짜를 클릭할 때 선택된 날짜를 설정하는 setDate를 전달 */}
@@ -66,21 +73,29 @@ const BabyDiary = () => {
                     <div className="date">{`${date} (${dayOfWeek})`}</div>
                 </div>
                 {loading ? (
-                    <div>로딩 중...</div>
+                    <div className="loading-spinner">
+                        <div className="spinner"></div>
+                    </div>
                 ) : diaryData ? (
-                    <div className="diary-content">
+                    <div className="diary-content" onClick={handleViewDiary}>
                         <div className="title">{diaryData.title}</div>
                         <p className="text">{diaryData.content}</p>
-                        <div className="images">
-                            {diaryData.images?.map((imgSrc, index) => (
-                                <img key={index} src={imgSrc} alt={`Diary Image ${index + 1}`} />
-                            ))}
-                        </div>
+                        {diaryData.images && diaryData.images.length > 0 && (
+                            <div className="images">
+                                {diaryData.images
+                                    .filter((img) => img.url) // url이 null이 아닌 경우만 필터링
+                                    .map((img, index) => (
+                                        <img key={index} src={img.url} alt={`Diary Image ${index + 1}`} />
+                                    ))}
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div className="no-content">
                         <div className="message">아직 작성된 일기가 없어요.</div>
-                        <button onClick={handleWriteDiary}>일기 작성하기<i className="bi bi-chevron-right"></i></button>
+                        <button onClick={handleWriteDiary}>
+                            일기 작성하기<i className="bi bi-chevron-right"></i>
+                        </button>
                     </div>
                 )}
             </div>
