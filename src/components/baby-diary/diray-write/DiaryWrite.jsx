@@ -31,6 +31,8 @@ const DiaryWrite = () => {
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
     const dayOfWeek = daysOfWeek[new Date(date).getDay()]; // 요일 계산
 
+    const navigate = useNavigate();
+
     // 페이지 타이틀 설정 useEffect
     useEffect(() => {
         setPageTitle(`${date} (${dayOfWeek})`);

@@ -18,7 +18,6 @@ export const getDiaryByDate = async (childId, date) => {
     }
 };
 
-
 export const getDiaryDetail = (recordId) => {
     console.log("일기 상세 요청 - recordId:", recordId); // recordId 로그 추가
     let { data } = axios.get(RECORD_DETAIL + recordId);
@@ -33,22 +32,20 @@ export const getDiaries = (childId) => {
     return data;
 }
 
-export const getDiariesByMonth = async (childId, month) => {
-    console.log(`월별 일기 목록 요청 - childId: ${childId}, month: ${month}`); // childId와 month 로그 추가
-
-    try {
-        const { data } = await axios.get(RECORD_CHILD_ALL_RECORD + childId + '/' + month);
-        console.log(`월별(${month}) 일기 목록:`, data); // 응답 데이터 로그
-        return data;
-    } catch (error) {
-        console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
-        return null; // 또는 오류 처리 로직에 맞는 반환값
-    }
+export const getDiaryPhotos = async (childId, lastMonth, size, query) => {
+    let {data} = await axios.get(`${RECORD_CHILD_ALL_PHOTO}/${childId}/${lastMonth}/${size}/${query}`);
+    console.log(data);
+    return {data, nextLastMonth: data[data.length-1]?.lastMonth, isLast: data.length < size};
 }
 
-export const getDiariesListInfinitely = async (childId, lastRecordId, size) => {
-    console.log(`무한 스크롤 요청 - childId: ${childId}, lastRecordId: ${lastRecordId}, size: ${size}`); // 모든 파라미터 로그 추가
-    const { data } = await axios.get(RECORD_CHILD_ALL_RECORD + childId + '/' + lastRecordId + '/' + size);
-    console.log("무한 스크롤 일기 목록:", data); // 응답 데이터 로그
-    return { data, nextLastRecordId: data[data.length - 1]?.recordId, isLast: data.length < size };
+export const getDiariesByMonth = async (childId, month) => {
+    const {data} = await axios.get(`${RECORD_CHILD_ALL_RECORD}${childId}/${month}`);
+    console.log(data);
+    return data;
+}
+
+export const getDiariesListInfinitely = async (childId, lastRecordId, size, query) => {
+    const {data} = await axios.get(`${RECORD_CHILD_ALL_RECORD}${childId}/${lastRecordId}/${size}/${query}`);
+    console.log(data);
+    return {data, nextLastRecordId: data[data.length-1]?.recordId, isLast: data.length < size};
 }

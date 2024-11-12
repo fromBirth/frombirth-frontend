@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
     const [selectedChildId, setSelectedChildId] = useState(56);
     const [childList, setChildList] = useState([]);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+    const [query, setQuery] = useState("");
 
     // 아이 리스트 저장
     useEffect(() => {
@@ -50,6 +51,8 @@ export const AppProvider = ({ children }) => {
             setSelectedChildId,
             childList,
             setChildList,
+            query,
+            setQuery,
         }}>
             {children}
         </AppContext.Provider>
