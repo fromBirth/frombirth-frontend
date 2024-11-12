@@ -134,8 +134,6 @@ const WeeklyReport = () => {
 
         checkSufficientData();
 
-
-
         const fetchReports = async () => {
             try {
                 const response = await axios.get(`${REPORT_CHILD_ALL_REPORT}/${selectedChildId}`);
@@ -260,18 +258,31 @@ const WeeklyReport = () => {
                         <div className="disabled-box">
                         <div className="icon-container">
                             <div className="lottie-timer">
-                                <dotlottie-player
+                                {isSufficientData ?(
+                                        <dotlottie-player
+                                            src="https://lottie.host/59d8507a-d182-4958-88ca-ce22c420342b/vDXjkuVZKN.json"
+                                            background="transparent"
+                                            speed="1"
+                                            className="lottie-timer"
+                                            autoplay
+                                            loop={false}
+                                        ></dotlottie-player>
+                                    ) : (
+                                    <dotlottie-player
                                     src="https://lottie.host/e58273e2-66be-4af4-a7c4-1d8475bc2046/lOFO9WkmbC.json"
                                     background="transparent"
                                     speed="2"
-                                    className="lottie-timer"
+                                    className="lottie-nodiary"
                                     autoplay
                                     loop={false}
-                                ></dotlottie-player>
+                                    ></dotlottie-player>
+                                )}
+
+
                             </div>
-                            </div>
+                        </div>
                             <p className="text">AI 주간보고 생성은 <br/> 매주 월요일 9시부터 가능합니다.<br/> <br/>
-                                {isSufficientData ?(
+                                {isSufficientData ? (
                                     <span className="sufficient-data">
                                         충분한 일기 기록이 모였습니다. <br />
                                         더 많은 기록이 진단 정확도를 높여줘요!
