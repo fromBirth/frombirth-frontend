@@ -48,9 +48,19 @@ const DiaryListBoard = () => {
                             <p>
                                 {diary.content}
                             </p>
-                            {diary.images?.map((image, index) => {
-                                <img src={image} alt="" key={index}/>
-                            })}
+                            <div className="diary-list-board-photo-box">
+                                {diary.images.map((image) => {
+                                    return (
+                                        image.photoId &&
+                                        <img
+                                            src={image.url}
+                                            alt={image.photoId}
+                                            key={image.photoId}
+                                            className="diary-list-board-photo"
+                                        />
+                                    )
+                                })}
+                            </div>
                         </div>
                     )}
                 </Fragment>

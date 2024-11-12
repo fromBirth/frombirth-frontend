@@ -1,2 +1,4 @@
 .entry { padding: 15px; border-bottom: 1px solid #ddd; font-size: 14px; color: #555; }
 .entry-title { font-weight: bold; color: #333; }
+.diary-list-board-photo-box {margin-top:0.5rem}
+.diary-list-board-photo {width: 2rem; height: auto;}
