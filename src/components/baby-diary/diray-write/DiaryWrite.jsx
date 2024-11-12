@@ -2,13 +2,14 @@
 
 import './DiaryWrite.css';
 import { useState, useEffect, useContext } from "react";
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { checkNull, checkOnlyNumber } from "../../../utils/Validator.js";
 import { ValidateMessage } from "../../../utils/ValidateMessage.js";
 import { RECORD_CREATE } from "../../../routes/ApiPath.js";
 import axios from "axios";
 import useFileUpload from "../../../hooks/useFileUpload";
 import AppContext from "../../../contexts/AppProvider.jsx";
+import {PATHS} from "../../../routes/paths.js";
 
 const DiaryWrite = () => {
     const { date: dateParam } = useParams(); // URL에서 date 파라미터 가져오기
@@ -28,6 +29,8 @@ const DiaryWrite = () => {
 
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
     const dayOfWeek = daysOfWeek[new Date(date).getDay()]; // 요일 계산
+
+    const navigate = useNavigate();
 
     // 페이지 타이틀 설정 useEffect
     useEffect(() => {
@@ -110,6 +113,7 @@ const DiaryWrite = () => {
             });
             alert('일기가 성공적으로 등록되었습니다.');
             console.log('Response:', response.data);
+            navigate(PATHS.BABY_DIARY);
         } catch (error) {
             alert('일기 등록에 실패했습니다.');
             console.error('Error:', error);
