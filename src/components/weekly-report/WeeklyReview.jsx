@@ -11,7 +11,6 @@ const WeeklyReview = () => {
     const urlParams = new URLSearchParams(location.search);
     const reportId = urlParams.get("reportId");
 
-    // 외부 스크립트 로드 (dotlottie)
     useEffect(() => {
         const script = document.createElement('script');
         script.src = "https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs";
@@ -21,8 +20,12 @@ const WeeklyReview = () => {
         // 5초 후에 isLoading을 false로 설정
         const timer = setTimeout(() => {
             setIsLoading(false);
-            setIsVisible(true); // 분석 완료 후 이미지를 나타내기 위해 true로 설정
-        }, 5000); // 5초 후
+
+            // 1초 뒤에 setIsVisible을 true로 설정하여 이미지가 서서히 나타나도록 설정
+            setTimeout(() => {
+                setIsVisible(true);  // 1초 후에 setIsVisible(true)
+            }, 1000); // 1초 뒤에 실행
+        }, 5000); // 5초 후에 isLoading을 false로 설정
 
         // cleanup: 컴포넌트가 언마운트될 때 타이머 정리
         return () => {
@@ -30,6 +33,9 @@ const WeeklyReview = () => {
             document.body.removeChild(script);
         };
     }, []); // 빈 배열을 사용하여 컴포넌트 마운트 시에만 실행
+
+
+
 
     const handleClick = () => {
         navigate(`${PATHS.WEEKLY_REPORT.MAIN}?reportId=${reportId}`);
