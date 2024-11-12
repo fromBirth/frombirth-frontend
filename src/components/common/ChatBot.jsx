@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './ChatBot.css'; // CSS 스타일 import
 
 // OpenAI API 키
-const OPENAI_API_KEY = 'your-openai-api-key';
+const OPENAI_API_KEY = import.meta.env.OPENAI_API_KEY;
 
 function ChatBot() {
     const [messages, setMessages] = useState([]);  // 채팅 메시지 저장
@@ -133,7 +133,6 @@ function ChatBot() {
     return (
         <div className="chat-container">
             <div className="user-info">
-                <a href="masterView.member?meNo=1" className="info" target="_blank">
                     <div className="name">
                         프롬이 AI
                         <div className="address">
@@ -141,7 +140,6 @@ function ChatBot() {
                             <span>프롬버스(FromBirth)</span>
                         </div>
                     </div>
-                </a>
             </div>
 
             <div className="chat-inner">

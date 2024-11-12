@@ -21,5 +21,25 @@
 .menu-item .menu-title { font-size: 16px; font-weight: 400; color: #333333; } 
 .menu-item .menu-count { font-size: 14px; color: #666666; margin-top: 4px; margin-left: 3px; } 
 .menu-item .menu-description { font-size: 12px; color: #999999; margin-top: 4px; } 
-.menu-item i { color: #999999; margin-left: 16px; } 
+.menu-item i { color: #999999; margin-left: 16px; }
 
+/* ChatBot Button 스타일 */
+.chatbot {
+    position: fixed;
+    bottom: 12%;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: orange;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+.chatbot i {
+    font-size: 20px;
+    color: white; /* 아이콘 색상 */
+}

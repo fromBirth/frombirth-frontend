@@ -11,6 +11,9 @@
     letter-spacing: -.5px;
     width: 400px;
     height: 600px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* 사용자 정보 */
@@ -32,10 +35,10 @@
 }
 
 .chat-container .user-info .address {
-    margin-left: 5px;
     color: #666;
     font-weight: 400;
     font-size: 13px;
+    margin-top: 3px;
 }
 
 .chat-container .chat-inner {
