@@ -12,8 +12,8 @@ const queryClient = new QueryClient();
 // React 애플리케이션의 루트 DOM 요소에 App 컴포넌트를 렌더링
 createRoot(document.getElementById('root')).render(
     <QueryClientProvider client={queryClient}>
-        <StrictMode>
+        {/*<StrictMode>*/}
             <App/>
-        </StrictMode>
+        {/*</StrictMode>*/}
     </QueryClientProvider>
 )

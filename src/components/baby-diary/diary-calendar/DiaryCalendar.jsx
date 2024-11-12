@@ -2,20 +2,14 @@
 
 import {useContext, useEffect, useState} from 'react';
 import './DiaryCalendar.css';
-import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, isAfter } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
-import { PATHS } from "../../../routes/paths.js";
+import {format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay, isAfter} from 'date-fns';
+import {useNavigate} from 'react-router-dom';
+import {PATHS} from "../../../routes/paths.js";
+import basic_calendar from '../../../assets/img/basic_calendar.png';
 import {getDiariesByMonth} from "../DiaryCommonFunction.js";
 import AppContext from "../../../contexts/AppProvider.jsx";
-import {formatDateToYYYYMMDD} from "../../../utils/Util.js";
 
-// Sample image data for specific dates
-// const imageDates = {
-//     '2024-11-03': basic_profile,
-//     '2024-11-05': basic_profile,
-// };
-
-const Calendar = () => {
+const Calendar = ({ onDateClick }) => { // onDateClick을 props로 받아옴
     const navigate = useNavigate();
     const today = new Date();
     const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -24,10 +18,26 @@ const Calendar = () => {
     const {selectedChildId} = useContext(AppContext);
 
     useEffect(() => {
-        let data = getDiariesByMonth(selectedChildId, formatDateToYYYYMMDD(currentMonth));
-        console.log(data);
+        // "YYYY-MM" 형식의 날짜를 반환하는 함수
+        const formatDateToYYYYMM = (date) => {
+            const year = date.getFullYear();
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            return `${year}-${month}`;
+        };
 
-        if (Array.isArray(data)) setDiaryList(data);
+        // 데이터를 비동기로 가져오는 함수
+        const fetchDiaries = async () => {
+            const data = await getDiariesByMonth(selectedChildId, formatDateToYYYYMM(currentMonth));
+            if (data) {
+                setDiaryList(data);
+                console.log(data);
+            } else {
+                console.log("데이터가 없습니다.");
+            }
+        };
+
+        // fetchDiaries 함수 호출
+        fetchDiaries();
     }, [currentMonth, selectedChildId]);
 
     // 이전 달로 이동하는 함수
@@ -58,14 +68,14 @@ const Calendar = () => {
 
         // 날짜를 클릭하면 해당 날짜의 일기 URL로 이동
         setSelectedDate(formattedDate); // 선택된 날짜 업데이트
-        navigate(`${PATHS.BABY_DIARY.MAIN}/${formattedDate}`);
+        onDateClick(formattedDate); // 클릭된 날짜를 부모 컴포넌트로 전달
     };
 
     const renderDates = () => {
         const monthStart = startOfMonth(currentMonth);
         const monthEnd = endOfMonth(monthStart);
-        const startDate = startOfWeek(monthStart, { weekStartsOn: 0 });
-        const endDate = endOfWeek(monthEnd, { weekStartsOn: 0 });
+        const startDate = startOfWeek(monthStart, {weekStartsOn: 0});
+        const endDate = endOfWeek(monthEnd, {weekStartsOn: 0});
 
         const dateCells = [];
         let day = startDate;
@@ -76,7 +86,10 @@ const Calendar = () => {
             const isToday = isSameDay(day, today);
             const isFuture = isAfter(day, today);
             const isSelected = formattedDate === selectedDate; // 현재 날짜가 선택된 날짜인지 확인
-            const imageSrc = diaryList?.find((diary) => diary.recordDate === formattedDate);
+            const diary = diaryList.find((diary) => diary.recordDate === formattedDate);
+
+            // 이미지 URL이 있으면 그 URL을, 없으면 기본 이미지 사용
+            const imageSrc = diary ? (diary.photoUrl || basic_calendar) : null;
 
             dateCells.push(
                 <div
@@ -87,7 +100,7 @@ const Calendar = () => {
                     <span className="date-number">{format(day, 'd')}</span>
                     <div className="date-image-container">
                         {imageSrc ? (
-                            <img src={imageSrc} alt="Event" className="date-image" />
+                            <img src={imageSrc} alt="Event" className="date-image"/>
                         ) : (
                             <div className="empty-date"></div>
                         )}

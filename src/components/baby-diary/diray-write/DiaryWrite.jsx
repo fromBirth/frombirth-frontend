@@ -14,6 +14,7 @@ import {PATHS} from "../../../routes/paths.js";
 const DiaryWrite = () => {
     const { date: dateParam } = useParams(); // URL에서 date 파라미터 가져오기
     const { setPageTitle, selectedChildId } = useContext(AppContext); // setPageTitle 가져오기
+    const navigate = useNavigate(); // useNavigate 초기화
 
     // dateParam이 있으면 해당 날짜를, 없으면 오늘 날짜로 설정
     const today = new Date();
@@ -113,7 +114,7 @@ const DiaryWrite = () => {
             });
             alert('일기가 성공적으로 등록되었습니다.');
             console.log('Response:', response.data);
-            navigate(PATHS.BABY_DIARY);
+            navigate(`${PATHS.BABY_DIARY.MAIN}`);
         } catch (error) {
             alert('일기 등록에 실패했습니다.');
             console.error('Error:', error);
