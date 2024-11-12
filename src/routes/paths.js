@@ -33,4 +33,8 @@ export const PATHS = {
         MAIN: "/mypage",                  // 마이페이지 메인 경로
         CHILD_REGISTER: "/mypage/register"// 아이 정보 등록/수정 페이지 경로
     },
+
+    CHAT_BOT :{
+      MAIN : "/chatbot",
+    },
 };

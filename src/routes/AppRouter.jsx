@@ -15,6 +15,7 @@ import DiarySearch from "../components/baby-diary/diary-search/DiarySearch.jsx";
 import ProtectedRoute from '../routes/ProtectedRoute.jsx';
 import AppContext from "../contexts/AppProvider.jsx";
 import TestLogin from "../components/login/TestLogin.jsx";
+import ChatBot from "../components/common/ChatBot.jsx";
 
 // React.lazy를 사용하여 동적 import로 각 페이지를 로딩하여 초기 로딩 속도 최적화
 const Login = lazy(() => import('../components/login/Login.jsx'));
@@ -68,6 +69,11 @@ function AppRouter() {
                         {/* MyPage 관련 페이지 */}
                         <Route path={PATHS.MY_PAGE.MAIN} element={<MyPage />} />
                         <Route path={`${PATHS.MY_PAGE.CHILD_REGISTER}/:childId?`} element={<ChildRegister />} />
+
+                    {/*chatbot 페이지 생성중*/}
+                        <Route path={`${PATHS.CHAT_BOT.MAIN}`} element={<ChatBot />} />
+
+
                     </Route>
                 </Route>
             </Routes>
