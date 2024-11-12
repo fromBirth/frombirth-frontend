@@ -3,15 +3,22 @@
 import { Link } from 'react-router-dom';
 
 import './Dashboard.css';
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import AppContext from "../../contexts/AppProvider.jsx";
 import {getAmPmHourMinuteByLocalTime, getSelectedChild} from "../../utils/Util.js";
+import ChatBot from "../common/ChatBot.jsx";
 
 const Dashboard = () => {
     const {selectedChildId, childList} = useContext(AppContext);
     const selectedChild = getSelectedChild(selectedChildId, childList);
     const {isAm, hour, minute} = getAmPmHourMinuteByLocalTime(selectedChild.birthTime);
+    // 챗봇 창 상태 관리
+    const [isChatBotOpen, setIsChatBotOpen] = useState(false);
 
+    // 챗봇 열기/닫기 함수
+    const toggleChatBot = () => {
+        setIsChatBotOpen(!isChatBotOpen);
+    };
     return (
         <div className="main-content">
             <section className="info-section">
@@ -75,6 +82,18 @@ const Dashboard = () => {
                     </div>
                     <i className="bi bi-chevron-right"></i>
                 </div>
+
+                {/* 챗봇 버튼 */}
+                <div className="chatbot" onClick={toggleChatBot}>
+                    <i className="bi bi-chat-square-dots"></i>
+                </div>
+
+                {/* 챗봇 모달 */}
+                {isChatBotOpen && (
+                    <div className="chatbot-modal open">
+                        <ChatBot />
+                    </div>
+                )}
             </section>
 
             <Link
@@ -86,7 +105,13 @@ const Dashboard = () => {
             >
                 로그인
             </Link>
+
+
+
         </div>
+
+
+
     );
 };
 
