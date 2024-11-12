@@ -1,85 +1,133 @@
 /* src/components/dashboard/GrowthAnalysis.jsx */
 
 import './GrowthAnalysis.css';
-import ProgressBar from "../ProgressBar/ProgressBar";
-import {useEffect, useState} from "react";
+import ProgressBar from "../ProgressBar/ProgressBar.jsx";
+import {useContext, useEffect, useState} from "react";
 import axios from "axios";
-import {RECORD_CHILD_ALL_BODY_SIZE} from "../../routes/ApiPath.js";
-import LineChart from "../line-chart/LineChart";
+import {SPRING_CHILDREN_BASE} from "../../routes/ApiPath.js";
+import GrowthLineChart from "../line-chart/GrowthLineChart.jsx";
+import AppContext from "../../contexts/AppProvider.jsx";
 
 const GrowthAnalysis = () => {
+    const { selectedChildId } = useContext(AppContext);
     const [activeTab, setActiveTab] = useState('height');
-    const handleGrowthTabs = type => {
-        setActiveTab(type);
-        setChartData(childAllRecords.map(record => record[type]));
-    };
-    const [childId, setChildId] = useState('hong');
-    const [childName, setChildName] = useState('홍길동');
-    const [childHeight, setChildHeight] = useState(64);
-    const [childWeight, setChildWeight] = useState(5);
-
-    const [labels, setLabels] = useState('');
-    const [chartData, setChartData] = useState({});
-    const [childAllRecords, setChildAllRecords] = useState({});
-
-    const fetchData = async () => {
+    const [childName, setChildName] = useState(null);
+    const [childValue, setChildValue] = useState(0);
+    const [percentage, setPercentage] = useState(null);
+    const [lastDate, setLastDate] = useState(null);
+    const [growthData, setGrowthData] = useState([]);
+    const fetchChildData = async () => {
         try {
-            let { data } = await axios.get(RECORD_CHILD_ALL_BODY_SIZE + '?childId=' + childId);
-            setChildAllRecords(data);
-            setLabels(data.map(record => record.recordDate));
-            setChartData(data.map(record => record.height));
-        } catch (e) {
-            console.log(e);
-            // 요청 실패 시 빈 배열로 초기화
-            setChildAllRecords([]);
-            setLabels([]);
-            setChartData([]);
+            const response = await axios.get(SPRING_CHILDREN_BASE + `/child/${selectedChildId}`);
+            setChildName(response.data.name);
+        }catch (error) {
+            console.error("아이 정보 데이터를 가져오는 중 오류가 발생했습니다.", error);
+        }
+
+    }
+
+    const fetchGrowthData = async () => {
+        try {
+            const response = await axios.get(SPRING_CHILDREN_BASE + `/height-data/${selectedChildId}`);
+            const selectedData = activeTab === 'height' ? response.data.heightData : response.data.weightData;
+            const lastValidDateStr = selectedData.slice().reverse().find(item => item[activeTab] !== null)?.date;
+
+            if (lastValidDateStr) {
+                const lastDateObj = new Date(lastValidDateStr);
+                const now = new Date();
+                const diffInMs = now - lastDateObj;
+                const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+                const diffInMonths = Math.floor(diffInDays / 30);
+                const diffInYears = Math.floor(diffInDays / 365);
+
+                let timeAgo;
+                if (diffInYears >= 1) {
+                    timeAgo = `${diffInYears}년 전`;
+                } else if (diffInMonths >= 1) {
+                    timeAgo = `${diffInMonths}달 전`;
+                } else {
+                    timeAgo = `${diffInDays}일 전`;
+                }
+
+                setLastDate(timeAgo);
+            }
+
+
+            let max = null;
+            let min = null;
+            let calculatedPercentage = null;
+
+            if (response.data.statistics) {
+                const avgValue = activeTab === 'height' ? response.data.statistics.avgHeight : response.data.statistics.avgWeight;
+                max = avgValue * 1.1;
+                min = avgValue * 0.9;
+            }
+
+            const formattedData = selectedData.map(item => ({
+                x: item.date,
+                y: item[activeTab]
+            }));
+
+            const dataLabel = activeTab === 'height' ? 'Height' : 'Weight';
+            setGrowthData([{ id: dataLabel, data: formattedData }]);
+
+            const lastValue = formattedData.slice().reverse().find(item => item.y !== null)?.y;
+            setChildValue(lastValue);
+
+            if (max !== null && min !== null && lastValue !== undefined) {
+                calculatedPercentage = ((lastValue - min) / (max - min)) * 100;
+                setPercentage(calculatedPercentage.toFixed(0));
+            } else {
+                setPercentage(null);
+            }
+
+        } catch (error) {
+            console.error("데이터를 가져오는 중 오류가 발생했습니다.", error);
         }
     };
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        fetchChildData();
+    }, [selectedChildId]);
 
+    // selectedChildId 또는 activeTab 변경 시 fetchGrowthData 호출
+    useEffect(() => {
+        fetchGrowthData();
+    }, [selectedChildId, activeTab]);
+    const unit = activeTab === 'height' ? 'cm' : 'kg';
     return (
-        <div className="container menu_growth">
+        <>
             <div className="tabs">
-                <div onClick={() => handleGrowthTabs('height')}
+                <div onClick={() => setActiveTab('height')}
                      className={`tab ${activeTab === 'height' ? 'active' : ''}`}>
                     키
                 </div>
-                <div onClick={() => handleGrowthTabs('weight')}
+                <div onClick={() => setActiveTab('weight')}
                      className={`tab ${activeTab === 'weight' ? 'active' : ''}`}>
                     몸무게
                 </div>
             </div>
 
-            <div className="section-title">3개월 전</div>
-            <div className="highlight-text">
-                {childName} 님의 {activeTab === 'height' ? '키' : '몸무게'}는
-                <span style={{color: '#f78e1e'}}>
-                    {' '}평균 {activeTab === 'height' ? childHeight + ' cm' : childWeight + ' kg'}
-                </span> 이에요 ✏️
-            </div>
+            <div className="content-wrap">
+                <div className="section-title">{lastDate}</div>
+                <div className="highlight-text">
+                    <span>{childName} 님의 {activeTab === 'height' ? '키' : '몸무게'}는 <br /></span>
+                    <div style={{ marginTop: '0.5vh', fontSize: '1.2em' }}>
+                        <span className="status">
+                            {percentage !== null ? (percentage <= 30 ? '작은편' : percentage >= 60 ? '큰편' : '평균') : '평균'}
+                        </span>
+                        <span style={{ color: '#f78e1e', fontSize: "1.2em" }}>
+                            {childValue} {unit}
+                        </span> 이에요
+                    </div>
+                </div>
 
-            <div className="progress-bar">
-                <ProgressBar value={0}/>
+                <div>
+                    <ProgressBar percentage={percentage} />
+                </div>
             </div>
-            <div className="range-labels">
-                <span>작은편</span>
-                <span>평균</span>
-                <span>큰편</span>
-            </div>
-
-            <div className="chart">
-                <LineChart
-                    labels={labels}
-                    chartData={chartData}
-                    title={childName + ' 님 ' + (activeTab === 'height' ? '키' : '몸무게') + ' 변화'}
-                    label={activeTab}
-                />
-            </div>
-        </div>
+            {growthData.length ? <GrowthLineChart data={growthData} unit={unit} /> : null}
+        </>
     );
 };
 
