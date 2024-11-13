@@ -7,8 +7,8 @@
 .diary-container .diary-wrap .diary-content .date { font-size: 1em; color: #777; font-weight: 500; margin-bottom: 7px; } 
 .diary-container .diary-wrap .diary-content .title { font-size: 1.3em; color: #333; font-weight: 700; margin-bottom: 6px; } 
 .diary-container .diary-wrap .diary-content .text { font-size: 1.1em; color: #555; font-weight: 400; line-height: 1.4em; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; } 
-.diary-container .diary-wrap .diary-content .images { display: flex; gap: 5px; } 
-.diary-container .diary-wrap .diary-content .images img { width: 20%; border-radius: 0px; } 
+.diary-container .diary-wrap .diary-content .images { display: flex; gap: 5px; }
+.diary-container .diary-wrap .diary-content .images img { width: 20%; border-radius: 0px; object-fit: cover; }
 
 /* 작성된 일기가 없을 경우 */
 .diary-container .diary-wrap .no-content { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; text-align: center; color: #b0b0b0; } 

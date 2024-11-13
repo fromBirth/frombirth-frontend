@@ -2,9 +2,9 @@
 
 import './GrowthAnalysis.css';
 import ProgressBar from "../ProgressBar/ProgressBar.jsx";
-import {useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import {SPRING_CHILDREN_BASE} from "../../routes/ApiPath.js";
+import { SPRING_CHILDREN_BASE } from "../../routes/ApiPath.js";
 import GrowthLineChart from "../line-chart/GrowthLineChart.jsx";
 import AppContext from "../../contexts/AppProvider.jsx";
 
@@ -20,7 +20,7 @@ const GrowthAnalysis = () => {
         try {
             const response = await axios.get(SPRING_CHILDREN_BASE + `/child/${selectedChildId}`);
             setChildName(response.data.name);
-        }catch (error) {
+        } catch (error) {
             console.error("아이 정보 데이터를 가져오는 중 오류가 발생했습니다.", error);
         }
 
@@ -97,28 +97,35 @@ const GrowthAnalysis = () => {
     const unit = activeTab === 'height' ? 'cm' : 'kg';
     return (
         <>
-            <div className="tabs">
+            <div className="tab-bar">
                 <div onClick={() => setActiveTab('height')}
-                     className={`tab ${activeTab === 'height' ? 'active' : ''}`}>
+                    className={`tab ${activeTab === 'height' ? 'active' : ''}`}>
                     키
                 </div>
                 <div onClick={() => setActiveTab('weight')}
-                     className={`tab ${activeTab === 'weight' ? 'active' : ''}`}>
+                    className={`tab ${activeTab === 'weight' ? 'active' : ''}`}>
                     몸무게
                 </div>
             </div>
 
             <div className="content-wrap">
-                <div className="section-title">{lastDate}</div>
+                <div className="last-date">{lastDate}</div>
                 <div className="highlight-text">
                     <span>{childName} 님의 {activeTab === 'height' ? '키' : '몸무게'}는 <br /></span>
-                    <div style={{ marginTop: '0.5vh', fontSize: '1.2em' }}>
-                        <span className="status">
+                    <div className='value-wrap'>
+                        <span
+                            className={`status ${percentage !== null
+                                    ? percentage <= 30
+                                        ? 'status-small'
+                                        : percentage >= 60
+                                            ? 'status-large'
+                                            : 'status-average'
+                                    : 'status-average'
+                                }`}
+                        >
                             {percentage !== null ? (percentage <= 30 ? '작은편' : percentage >= 60 ? '큰편' : '평균') : '평균'}
                         </span>
-                        <span style={{ color: '#f78e1e', fontSize: "1.2em" }}>
-                            {childValue} {unit}
-                        </span> 이에요
+                        <b>{childValue} {unit}</b> 이에요
                     </div>
                 </div>
 
