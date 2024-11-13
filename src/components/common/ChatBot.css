@@ -78,13 +78,9 @@
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #FF893C;
+    background-color: #ff9c59;
     color: #fff;
     cursor: pointer;
-}
-
-.chat-container .chat-inner button:hover {
-    background-color: #ff6000;
 }
 
 /* message */
@@ -178,3 +174,4 @@
 .close-btn:focus {
     outline: none; /* 포커스 상태에서 윤곽선 제거 */
 }
+
