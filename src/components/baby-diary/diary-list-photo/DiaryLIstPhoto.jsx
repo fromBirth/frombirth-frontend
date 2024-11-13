@@ -8,8 +8,13 @@ import {useInfiniteQuery} from "react-query";
 import {getDiariesListInfinitely, getDiaryPhotos} from "../DiaryCommonFunction.js";
 import {getNextMonthFirstDay} from "../../../utils/Util.js";
 import Spinner from "../../common/Spinner.jsx";
+import {PATHS} from "../../../routes/paths.js";
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
+import {RECORD_DETAIL} from "../../../routes/ApiPath.js";
 
 const DiaryListPhoto = () => {
+    const navigate = useNavigate();
     const {selectedChildId, query} = useContext(AppContext);
     console.log(query);
     const {ref, inView} = useInView();
@@ -29,6 +34,12 @@ const DiaryListPhoto = () => {
         if (inView) fetchNextPage();
     }, [inView]);
 
+    async function handleViewDiary(recordId) {
+        let {data} = await axios.get(`${RECORD_DETAIL}${recordId}`);
+        console.log(data);
+        navigate(PATHS.BABY_DIARY.VIEW, {state: data});
+    }
+
     return (
         <div>
             {photoInfoList && photoInfoList.pages.map((page, index) => (
@@ -45,6 +56,7 @@ const DiaryListPhoto = () => {
                                             src={image.url}
                                             alt=""
                                             className="gallery-image"
+                                            onClick={() => handleViewDiary(image.recordId)}
                                         />
                                     )
                                 })}
