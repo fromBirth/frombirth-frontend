@@ -1,0 +1,73 @@
+.progress-container {
+    position: relative;
+    width: 100%;
+    margin:35px auto;
+    text-align: center;
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #8a8a8a;
+    font-size: 14px;
+}
+
+.progress-label {
+    font-size: 12px;
+}
+
+.progress-bar-container {
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #f78e1e; /* Progress bar color */
+    border-radius: 10px 0 0 10px;
+}
+
+.progress-tooltip {
+    position: absolute;
+    top: -30px;
+    transform: translateX(-50%);
+    background-color: #fff;
+    color: #333;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid #6F7072;
+    white-space: nowrap;
+}
+
+/* 외부 검은색 테두리 삼각형 */
+.progress-tooltip::before {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #6F7072;
+}
+
+/* 내부 흰색 삼각형 */
+.progress-tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid #fff;
+}

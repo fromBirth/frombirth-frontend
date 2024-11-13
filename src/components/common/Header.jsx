@@ -149,7 +149,10 @@ const Header = () => {
                                             `dropdown-item ${item.childId === selectedChildId 
                                                 ? 'active' : ''}`}
                                             key={item.childId}
-                                            onClick={() => setSelectedChildId(item.childId)}
+                                            onClick={() => {
+                                                setSelectedChildId(item.childId);
+                                                setIsDropdownOpen(false); // 아기 선택 시 드롭다운 창 닫기
+                                            }}
                                         >
                                             {item.name}
                                         </div>

@@ -3,14 +3,29 @@
 import { Link } from 'react-router-dom';
 
 import './Dashboard.css';
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import AppContext from "../../contexts/AppProvider.jsx";
 import {getAmPmHourMinuteByLocalTime, getSelectedChild} from "../../utils/Util.js";
+import ChatBot from "../common/ChatBot.jsx";
 
 const Dashboard = () => {
     const {selectedChildId, childList} = useContext(AppContext);
     const selectedChild = getSelectedChild(selectedChildId, childList);
     const {isAm, hour, minute} = getAmPmHourMinuteByLocalTime(selectedChild.birthTime);
+    // 챗봇 창 상태 관리
+    const [isChatBotOpen, setIsChatBotOpen] = useState(false);
+    const [isChatBotVisible, setIsChatBotVisible] = useState(false); // ChatBot의 표시 상태
+
+    // 챗봇 열기/닫기 함수
+    const toggleChatBot = () => {
+        if (!isChatBotOpen) {
+            setIsChatBotOpen(true); // 첫 번째 클릭 시 ChatBot을 표시
+            setIsChatBotVisible(true); // 이후 클릭 시 표시 상태만 토글
+        } else {
+            setIsChatBotVisible(!isChatBotVisible); // 두 번째 이후에는 숨김 처리
+        }
+    };
+
 
     return (
         <div className="main-content">
@@ -75,6 +90,22 @@ const Dashboard = () => {
                     </div>
                     <i className="bi bi-chevron-right"></i>
                 </div>
+
+                {/* 챗봇 버튼 */}
+                <div className="chatbot" onClick={toggleChatBot}>
+                    <i className="bi bi-chat-square-dots"></i>
+                </div>
+
+                {/* 챗봇 모달 */}
+                {isChatBotOpen && (
+                    <div
+                        className="chatbot-modal open"
+                        style={{ display: isChatBotVisible ? 'block' : 'none' }} // 두 번째 클릭부터 숨김 처리
+                    >
+
+                        <ChatBot onClose={toggleChatBot}/>
+                    </div>
+                )}
             </section>
 
             <Link
@@ -86,7 +117,13 @@ const Dashboard = () => {
             >
                 로그인
             </Link>
+
+
+
         </div>
+
+
+
     );
 };
 

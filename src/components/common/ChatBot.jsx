@@ -2,24 +2,26 @@ import React, { useState, useEffect, useRef } from 'react';
 import './ChatBot.css'; // CSS 스타일 import
 
 // OpenAI API 키
-const OPENAI_API_KEY = 'your-openai-api-key';
+const OPENAI_API_KEY = import.meta.env.OPENAI_API_KEY;
 
-function ChatBot() {
+function ChatBot({onClose }) {
     const [messages, setMessages] = useState([]);  // 채팅 메시지 저장
     const [userInput, setUserInput] = useState('');  // 사용자 입력 상태 관리
     const [isTyping, setIsTyping] = useState(false); // 타이핑 여부 상태 관리
     const chatBoxRef = useRef(null); // 채팅 박스를 참조하여 스크롤 관리
 
-    // 메시지 불러오기
     useEffect(() => {
+        // 로컬 저장소에서 이전 메시지 가져오기
         const storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
-        setMessages(storedMessages); // 로컬 저장소에서 메시지 불러오기
-    }, []);
+        setMessages(storedMessages); // 메시지 상태에 반영
+    }, []); // 최초 한 번만 실행
 
-    // 메시지 저장하기
     useEffect(() => {
-        localStorage.setItem('chatMessages', JSON.stringify(messages)); // 메시지 로컬 저장소에 저장
-    }, [messages]);
+        // messages 상태가 변경될 때마다 로컬 저장소에 저장
+        if (messages.length > 0) {
+            localStorage.setItem('chatMessages', JSON.stringify(messages));
+        }
+    }, [messages]); // messages가 변경될 때마다 실행
 
     // 타이핑 효과 구현
     const simulateTypingEffect = (messageText, callback) => {
@@ -132,16 +134,18 @@ function ChatBot() {
 
     return (
         <div className="chat-container">
+            <div className="chatbot-header">
+                <button className="close-btn" onClick={onClose}>×
+                </button>
+            </div>
             <div className="user-info">
-                <a href="masterView.member?meNo=1" className="info" target="_blank">
-                    <div className="name">
-                        프롬이 AI
-                        <div className="address">
-                            <i className="bi bi-geo-alt"></i>
-                            <span>프롬버스(FromBirth)</span>
-                        </div>
+                <div className="name">
+                프롬이 AI
+                    <div className="address">
+                        <i className="bi bi-geo-alt"></i>
+                        <span>프롬버스(FromBirth)</span>
                     </div>
-                </a>
+                </div>
             </div>
 
             <div className="chat-inner">
@@ -151,7 +155,7 @@ function ChatBot() {
                             <div className={message.sender === 'bot' ? 'left' : 'right'}>
                                 {message.sender === 'bot' && (
                                     <div className="profile-img">
-                                        <img src="/src/assets/img/baby2.png" alt="Bot" />
+                                        <img src="/src/assets/img/baby2.png" alt="Bot"/>
                                     </div>
                                 )}
                                 <div className="message-text">

@@ -9,7 +9,7 @@ export const AppContext = createContext(null);
 export const AppProvider = ({ children }) => {
     const [user, setUser] = useState({ email: 'example@example.com', userId: '19' }); // 사용자 정보
     const [pageTitle, setPageTitle] = useState(''); // 화면 제목
-    const [selectedChildId, setSelectedChildId] = useState(56);
+    const [selectedChildId, setSelectedChildId] = useState(69);
     const [childList, setChildList] = useState([]);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
     const [query, setQuery] = useState("");

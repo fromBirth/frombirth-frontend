@@ -1,6 +1,6 @@
 import './WeeklyReport.css';
 import KakaoMap from "../kakao-map/KakaoMap";
-import ProgressBar from "../ProgressBar/ProgressBar";
+import ProgressBar from "../ProgressBar/ProgressBar.jsx";
 import React, { useContext, useEffect, useState } from "react";
 import axios from 'axios';
 import {RECORD_CHILD_ALL_RECORD, REPORT_CHILD_ALL_REPORT, REPORT_UPDATE} from '../../routes/ApiPath.js';

@@ -30,8 +30,6 @@ const DiaryWrite = () => {
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
     const dayOfWeek = daysOfWeek[new Date(date).getDay()]; // 요일 계산
 
-    const navigate = useNavigate();
-
     // 페이지 타이틀 설정 useEffect
     useEffect(() => {
         setPageTitle(`${date} (${dayOfWeek})`);
@@ -113,7 +111,7 @@ const DiaryWrite = () => {
             });
             alert('일기가 성공적으로 등록되었습니다.');
             console.log('Response:', response.data);
-            navigate(PATHS.BABY_DIARY);
+            navigate(`${PATHS.BABY_DIARY.MAIN}`);
         } catch (error) {
             alert('일기 등록에 실패했습니다.');
             console.error('Error:', error);
