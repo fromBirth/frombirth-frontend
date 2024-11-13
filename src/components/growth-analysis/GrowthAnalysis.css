@@ -3,11 +3,6 @@
 .last-date { font-size: 0.9em; color: gray; margin-bottom: 5px; }
 .highlight-text { font-size: 1.2em; font-weight: bold; color: #333; } 
 .highlight-text .value-wrap { margin-top: 5px; display: flex; align-items: center; } 
-.highlight-text .value-wrap b { font-size: 1.1em; color:#f78e1e; margin-right: 4px; } 
-
-.highlight-text .status { border-radius: 8px; padding: 3px 5px; margin-right: 5px; font-size: 0.8em; font-weight: 400; } 
-.highlight-text .status-small { background-color: #ffefd5; color: #f5900d; } 
-.highlight-text .status-large { background-color: #e0f1ee; color: #2eb0a6; } 
-.highlight-text .status-average { background-color: #feeae3; color: #ea7651; } 
+.highlight-text .value-wrap b { font-size: 1.1em; color:#f78e1e; margin-right: 4px; }
 
 .chart { margin-bottom: 20px; text-align: center; } 

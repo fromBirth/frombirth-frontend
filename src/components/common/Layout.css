@@ -56,7 +56,13 @@
 label.title { font-weight: 500; font-size: 1.2em; display: block; margin: 17px 0 5px; } 
 
 /* 필수 */
-label.title .required { margin-left:1px; color: red; } 
+label.title .required { margin-left:1px; color: red; }
+
+/* 작은편, 평균, 큰편 */
+.status { border-radius: 8px; padding: 3px 5px; margin-right: 5px; font-size: 0.8em; font-weight: 400; }
+.status.status-small { background-color: #ffefd5; color: #f5900d; }
+.status.status-large { background-color: #e0f1ee; color: #2eb0a6; }
+.status.status-average { background-color: #feeae3; color: #ea7651; }
 
 /* 입력창 */
 input[type="text"], input[type="number"], textarea { flex: 1; width: 100%; font-size: 1.1em; padding: 13px 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; } 
