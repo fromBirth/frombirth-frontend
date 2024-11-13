@@ -9,7 +9,7 @@ export const AppContext = createContext(null);
 export const AppProvider = ({ children }) => {
     const [user, setUser] = useState({ email: 'example@example.com', userId: '19' }); // 사용자 정보
     const [pageTitle, setPageTitle] = useState(''); // 화면 제목
-    const [selectedChildId, setSelectedChildId] = useState(69);
+    const [selectedChildId, setSelectedChildId] = useState(56);
     const [childList, setChildList] = useState([]);
     const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
     const [query, setQuery] = useState("");
@@ -30,10 +30,17 @@ export const AppProvider = ({ children }) => {
     useEffect(() => {
         if (childList.length < 1) return;
 
-        if (!localStorage.getItem('selectedChildId') || !childList.find((item) => item.childId === localStorage.getItem('selectedChildId'))) {
+        const isUserChild = childList.find((item) => item.childId === localStorage.getItem('selectedChildId'));
+
+        if (isUserChild) {
+            setSelectedChildId(isUserChild.childId);
+        }
+
+        if (!localStorage.getItem('selectedChildId') || !isUserChild) {
             const lastChildId = childList[childList.length - 1]?.childId;
             if (lastChildId) {
                 setSelectedChildId(lastChildId);
+                localStorage.setItem('selectedChildId', lastChildId);
             }
         }
 

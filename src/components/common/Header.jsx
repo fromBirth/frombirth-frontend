@@ -73,7 +73,10 @@ const Header = () => {
     const drawSelectedChildProfile = () => {
         if (childList == null || childList.length === 0) return;
 
+        console.log(childList);
+        console.log(selectedChildId);
         const item = getSelectedChild(selectedChildId, childList);
+        console.log(item);
         const calculateBirthMonth = calculateAgeInMonthsAndDays(item.birthDate);
         const calculatedAge = calculateAge(item.birthDate);
 
