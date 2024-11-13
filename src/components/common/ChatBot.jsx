@@ -61,6 +61,9 @@ function ChatBot({onClose }) {
     const sendMessage = async () => {
         if (userInput.trim() === '' || isTyping) return; // 타이핑 중일 때는 메시지 전송을 막음
 
+        // 0. 입력 필드 비우기
+        setUserInput('');
+
         const userMessage = {
             sender: 'user',
             text: userInput,
@@ -99,8 +102,7 @@ function ChatBot({onClose }) {
             console.error('Error fetching ChatGPT response:', error);
         }
 
-        // 5. 입력 필드 비우기
-        setUserInput('');
+
         scrollToBottom();
     };
 
@@ -119,7 +121,10 @@ function ChatBot({onClose }) {
                         role: 'system',
                         content: `
                         너의 이름은 프롬버스 AI의 '프롬이'이고, 육아 어플의 챗봇 AI야.
-                        모든 대답은 100자 이내로, 존댓말을 사용하며, 한국어로 답변해야 해.
+                        모든 대답은 50자 이내로, 존댓말을 사용하며 반말은 절대 쓰면 안돼 , 꼭 꼭 한국어로 답변해야 해.
+                        모든건 육아에 관련된 대화여야 해. 육아가 아닌 내용에 대해서는 답변해서는 안돼. 아이 육아와 관련된 대화만 해줘. 
+                        사용자의 모든 얘기에 대해서 육아와 관련된 내용으로만 답변을 해줘. 우리 어플은 발달장애 아동의 AI 주간 보고를 해주는 기능이 있어.
+                        일기를 주간 단위로 3회 이상 작성시 일기 내용에 대해서 AI 분석하고 , 발달장애의 위험성을 예측해주는 기능이 있어. 관련해서 안내를 해줘야해. 
                     `,
                     },
                     { role: 'user', content: message },

@@ -155,7 +155,8 @@
 .chatbot-header {
     display: flex;
     justify-content: flex-end; /* 오른쪽 끝에 배치 */
-    padding: 10px; /* 여백 추가 */
+    margin-top: 5px;
+    margin-right: 5px;
 }
 
 .close-btn {
