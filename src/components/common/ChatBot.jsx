@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './ChatBot.css'; // CSS 스타일 import
 
 // OpenAI API 키
-const OPENAI_API_KEY = import.meta.env.OPENAI_API_KEY;
+const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 function ChatBot({onClose }) {
     const [messages, setMessages] = useState([]);  // 채팅 메시지 저장
