@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './ChatBot.css'; // CSS 스타일 import
 
 // OpenAI API 키
-const OPENAI_API_KEY = import.meta.env.OPENAI_API_KEY;
+const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 function ChatBot({onClose }) {
     const [messages, setMessages] = useState([]);  // 채팅 메시지 저장
@@ -73,18 +73,33 @@ function ChatBot({onClose }) {
         // 2. OpenAI ChatGPT API로 메시지 보내기
         try {
             const gptMessage = await getChatGPTResponse(userInput);
+
+            // 3. 타이핑 시작 전에 먼저 메시지 순서대로 추가
             setIsTyping(true); // 타이핑 시작
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                { sender: 'bot', text: '', timestamp: new Date().toLocaleTimeString() }, // 빈 메시지로 bot 추가
+            ]);
+
+            // 4. 타이핑 효과 후 메시지 내용 업데이트
             simulateTypingEffect(gptMessage, () => {
-                setMessages((prevMessages) => [
-                    ...prevMessages,
-                    { sender: 'bot', text: gptMessage, timestamp: new Date().toLocaleTimeString() },
-                ]);
-            }); // 타이핑 효과 후 메시지 추가
+                setMessages((prevMessages) => {
+                    // 마지막 bot 메시지의 텍스트를 실제 bot 메시지로 업데이트
+                    const updatedMessages = [...prevMessages];
+                    updatedMessages[updatedMessages.length - 1] = {
+                        sender: 'bot',
+                        text: gptMessage,
+                        timestamp: new Date().toLocaleTimeString(),
+                    };
+                    return updatedMessages;
+                });
+            });
+
         } catch (error) {
             console.error('Error fetching ChatGPT response:', error);
         }
 
-        // 3. 입력 필드 비우기
+        // 5. 입력 필드 비우기
         setUserInput('');
         scrollToBottom();
     };
@@ -99,7 +114,16 @@ function ChatBot({onClose }) {
             },
             body: JSON.stringify({
                 model: 'gpt-3.5-turbo',
-                messages: [{ role: 'user', content: message }],
+                messages: [
+                    {
+                        role: 'system',
+                        content: `
+                        너의 이름은 프롬버스 AI의 '프롬이'이고, 육아 어플의 챗봇 AI야.
+                        모든 대답은 100자 이내로, 존댓말을 사용하며, 한국어로 답변해야 해.
+                    `,
+                    },
+                    { role: 'user', content: message },
+                ],
             }),
         });
         const data = await response.json();
