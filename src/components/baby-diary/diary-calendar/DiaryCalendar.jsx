@@ -71,6 +71,10 @@ const Calendar = ({ onDateClick }) => { // onDateClick을 props로 받아옴
         onDateClick(formattedDate); // 클릭된 날짜를 부모 컴포넌트로 전달
     };
 
+    const isValidImageUrl = (url) => {
+        return url && !url.toLowerCase().includes("null");
+    };
+
     const renderDates = () => {
         const monthStart = startOfMonth(currentMonth);
         const monthEnd = endOfMonth(monthStart);
@@ -89,7 +93,7 @@ const Calendar = ({ onDateClick }) => { // onDateClick을 props로 받아옴
             const diary = diaryList.find((diary) => diary.recordDate === formattedDate);
 
             // 이미지 URL이 있으면 그 URL을, 없으면 기본 이미지 사용
-            const imageSrc = diary ? (diary.photoUrl || basic_calendar) : null;
+            const imageSrc = diary ? (isValidImageUrl(diary.photoUrl) ? diary.photoUrl : basic_calendar) : null;
 
             dateCells.push(
                 <div

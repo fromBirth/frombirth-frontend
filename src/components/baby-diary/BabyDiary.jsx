@@ -60,8 +60,16 @@ const BabyDiary = () => {
     // 일기 내용 클릭 시 실행되는 함수
     const handleViewDiary = () => {
         setTimeout(() => {
-            navigate(`${PATHS.BABY_DIARY.VIEW}/${date}`);
+            if (diaryData) {
+                navigate(PATHS.BABY_DIARY.VIEW, { state: diaryData });
+            }
         }, 200);
+    };
+
+    // 이미지 URL 유효성 검사 함수
+    const isValidImageUrl = (url) => {
+        // URL이 null이 아니고, "null" 문자열을 포함하지 않을 때 유효
+        return url && !url.toLowerCase().includes("null");
     };
 
     return (
@@ -83,7 +91,7 @@ const BabyDiary = () => {
                         {diaryData.images && diaryData.images.length > 0 && (
                             <div className="images">
                                 {diaryData.images
-                                    .filter((img) => img.url) // url이 null이 아닌 경우만 필터링
+                                    .filter((img) => isValidImageUrl(img.url)) // 유효한 URL만 필터링
                                     .map((img, index) => (
                                         <img key={index} src={img.url} alt={`Diary Image ${index + 1}`} />
                                     ))}
