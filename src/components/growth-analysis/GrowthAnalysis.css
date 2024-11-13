@@ -1,17 +1,8 @@
-.tabs { display: flex; justify-content: flex-start; gap: 10px; margin-bottom: 20px; }
-.tab { font-size: 16px;  padding: 5px 10px; color: #BBB; border-radius: 20px; cursor: pointer; border: 1px solid #BBB }
-.tab.active { font-weight: 700;  background-color: #FFF5F3; color: var(--logo-color); border: 1px solid var(--logo-color) }
-.content-wrap{background-color: #F4F7FC; border-radius:10px;padding: 2vh 2vw 0.5vh;
-}
-.status {
-    color: var(--logo-color);
-    background-color: #FFE1D7;
-    border-radius: 10px;
-    padding: 0.3vh 0.5vw;
-    margin-right: 8px;
-    font-size: 0.8em;
-}
+.content-wrap { background-color: #F4F7FC; border-radius:10px; padding: 10px 10px 5px; }
 
-.section-title { font-size: 14px; color: gray; margin-bottom: 10px; }
-.highlight-text { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 20px; }
-.chart { margin-bottom: 20px; text-align: center; }
+.last-date { font-size: 0.9em; color: gray; margin-bottom: 5px; }
+.highlight-text { font-size: 1.2em; font-weight: bold; color: #333; } 
+.highlight-text .value-wrap { margin-top: 5px; display: flex; align-items: center; } 
+.highlight-text .value-wrap b { font-size: 1.1em; color:#f78e1e; margin-right: 4px; }
+
+.chart { margin-bottom: 20px; text-align: center; } 

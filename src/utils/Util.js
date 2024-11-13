@@ -78,11 +78,7 @@ export function getNextMonthFirstDay() {
 }
 
 export function getDayOfWeek(dateString) {
-    // 주어진 문자열을 Date 객체로 변환
     const date = new Date(dateString);
-
-    // Intl.DateTimeFormat을 사용해 요일을 한국어로 가져오기
-    const dayOfWeek = new Intl.DateTimeFormat('ko-KR', { weekday: 'long' }).format(date);
-
-    return dayOfWeek;
+    const days = ["일", "월", "화", "수", "목", "금", "토"];
+    return days[date.getDay()];
 }

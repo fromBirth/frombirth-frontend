@@ -17,7 +17,7 @@ const GrowthLineChart = ({ data,unit }) => {
         })
     }));
     console.log(data)
-    const margin = { top: 40, right: 23, bottom: 30, left: 23 };
+    const margin = { top: 40, right: 0, bottom: 30, left: 23 };
 
     const yValues = formattedData[0].data
         .filter(point => point.y !== null)
@@ -62,7 +62,7 @@ const GrowthLineChart = ({ data,unit }) => {
                 fontSize: '12px',
                 color: 'var(--menu-text-color)'
             }}>
-                (날짜)
+                {/* (날짜) */}
             </div>
 
 
@@ -125,8 +125,8 @@ const GrowthLineChart = ({ data,unit }) => {
             <div style={{
                 display: 'flex',
                 justifyContent: 'space-evenly',
-                gap: '2.4%',
-                width: '79%',
+                gap: '0',
+                width: '75%',
                 marginTop: '-20px',
                 margin: '0 auto'
             }}>
@@ -140,7 +140,7 @@ const GrowthLineChart = ({ data,unit }) => {
                             width: '40px',
                         }}>
                 {showYear && <div
-                    style={{backgroundColor: '#E6E9F0', padding: '2px 5px', borderRadius: '4px'}}>{tick.year}</div>}
+                    style={{backgroundColor: '#ededed', padding: '2px 5px', borderRadius: '4px'}}>{tick.year}</div>}
             </span>
                     );
                 })}
