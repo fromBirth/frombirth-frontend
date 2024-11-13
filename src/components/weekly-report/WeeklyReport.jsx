@@ -120,15 +120,15 @@ const WeeklyReport = () => {
                     isSufficient = false;
                     console.log("주별 일기 그룹이 없습니다. 일기가 충분하지 않습니다.");
                 }else{
-                // 주별 일기 개수가 3개 미만인 주가 있을 경우 false로 설정
-                for (let range in weekRanges) {
-                    console.log(`주간 범위: ${range}, 일기 개수: ${weekRanges[range].length}`);
-                    if (weekRanges[range].length < 3) {
-                        console.log(`일기 개수가 3개 미만인 주간 범위: ${range}`);
-                        isSufficient = false;
-                        break;
+                    // 주별 일기 개수가 3개 미만인 주가 있을 경우 false로 설정
+                    for (let range in weekRanges) {
+                        console.log(`주간 범위: ${range}, 일기 개수: ${weekRanges[range].length}`);
+                        if (weekRanges[range].length < 3) {
+                            console.log(`일기 개수가 3개 미만인 주간 범위: ${range}`);
+                            isSufficient = false;
+                            break;
+                        }
                     }
-                }
                 }
 
                 console.log("최종 isSufficient 값:", isSufficient);
@@ -264,21 +264,21 @@ const WeeklyReport = () => {
                 (isAvailable !== isDataAvailable) ? (
                     <div className="review-box">
                         <div className="disabled-box">
-                        <div className="icon-container">
-                            <div className="lottie-timer">
-                                <dotlottie-player
-                                    key={isSufficientData ? true : false}
-                                    src={isSufficientData
-                                        ? "https://lottie.host/59d8507a-d182-4958-88ca-ce22c420342b/vDXjkuVZKN.json"
-                                        : "https://lottie.host/e58273e2-66be-4af4-a7c4-1d8475bc2046/lOFO9WkmbC.json"}
-                                    background="transparent"
-                                    speed={isSufficientData ? 1 : 2}
-                                    className={isSufficientData ? "lottie-timer" : "lottie-nodiary"}
-                                    autoplay
-                                    loop={false}
-                                />
+                            <div className="icon-container">
+                                <div className="lottie-timer">
+                                    <dotlottie-player
+                                        key={isSufficientData ? true : false}
+                                        src={isSufficientData
+                                            ? "https://lottie.host/59d8507a-d182-4958-88ca-ce22c420342b/vDXjkuVZKN.json"
+                                            : "https://lottie.host/e58273e2-66be-4af4-a7c4-1d8475bc2046/lOFO9WkmbC.json"}
+                                        background="transparent"
+                                        speed={isSufficientData ? 1 : 2}
+                                        className={isSufficientData ? "lottie-timer" : "lottie-nodiary"}
+                                        autoplay
+                                        loop={false}
+                                    />
+                                </div>
                             </div>
-                        </div>
                             <p className="text">
                                 {isSufficientData ? (
                                     <>
@@ -349,7 +349,7 @@ const WeeklyReport = () => {
                         )
                     )
 
-            )}
+                )}
         </>
     );
 };
