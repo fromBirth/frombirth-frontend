@@ -28,7 +28,7 @@ const GrowthAnalysis = () => {
 
     const fetchGrowthData = async () => {
         try {
-            const response = await axios.get(SPRING_CHILDREN_BASE + `/height-data/${selectedChildId}`);
+            const response = await axios.get(SPRING_CHILDREN_BASE + `/growth-data/${selectedChildId}`);
             const selectedData = activeTab === 'height' ? response.data.heightData : response.data.weightData;
             const lastValidDateStr = selectedData.slice().reverse().find(item => item[activeTab] !== null)?.date;
 
@@ -58,6 +58,8 @@ const GrowthAnalysis = () => {
             let calculatedPercentage = null;
 
             if (response.data.statistics) {
+                console.log("데이터 있음");
+                console.log(response.data.statistics);
                 const avgValue = activeTab === 'height' ? response.data.statistics.avgHeight : response.data.statistics.avgWeight;
                 max = avgValue * 1.1;
                 min = avgValue * 0.9;
@@ -73,9 +75,13 @@ const GrowthAnalysis = () => {
 
             const lastValue = formattedData.slice().reverse().find(item => item.y !== null)?.y;
             setChildValue(lastValue);
-
             if (max !== null && min !== null && lastValue !== undefined) {
-                calculatedPercentage = ((lastValue - min) / (max - min)) * 100;
+                calculatedPercentage = ((lastValue - min) / (max - min)) * 100
+                if (calculatedPercentage < 0) {
+                    calculatedPercentage = 0;
+                } else if (calculatedPercentage > 100) {
+                    calculatedPercentage = 100;
+                }
                 setPercentage(calculatedPercentage.toFixed(0));
             } else {
                 setPercentage(null);
@@ -123,7 +129,7 @@ const GrowthAnalysis = () => {
                                     : 'status-average'
                                 }`}
                         >
-                            {percentage !== null ? (percentage <= 30 ? '작은편' : percentage >= 60 ? '큰편' : '평균') : '평균'}
+                            {percentage !== null ? (percentage <= 33 ? '작은편' : percentage >= 66 ? '큰편' : '평균') : '평균'}
                         </span>
                         <b>{childValue} {unit}</b> 이에요
                     </div>

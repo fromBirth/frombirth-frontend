@@ -348,7 +348,6 @@ const WeeklyReport = () => {
                             <Spinner/>
                         )
                     )
-
                 )}
         </>
     );

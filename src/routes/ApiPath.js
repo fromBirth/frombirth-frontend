@@ -26,7 +26,8 @@ export const REPORT_CREATE = SPRING_REPORT_BASE + '/create';
 export const REPORT_DELETE = SPRING_REPORT_BASE + '/delete';
 export const REPORT_UPDATE = SPRING_REPORT_BASE + '/update';
 
-
+//AgeGenderStatistics 컨트롤러 주소
+export const SPRING_STATISTIC_BASE =SPRING_BASE_URL + '/api/statistic';
 
 
 

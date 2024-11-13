@@ -3,16 +3,24 @@
 // import { Link } from 'react-router-dom';
 
 import './Dashboard.css';
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import AppContext from "../../contexts/AppProvider.jsx";
 import {getAmPmHourMinuteByLocalTime, getSelectedChild} from "../../utils/Util.js";
 import ChatBot from "../common/ChatBot.jsx";
 import PhotoSlide from "./PhotoSlide.jsx";
+import axios from "axios";
+import {SPRING_RECORD_BASE, SPRING_STATISTIC_BASE} from "../../routes/ApiPath.js";
 
 const Dashboard = () => {
     const {selectedChildId, childList} = useContext(AppContext);
     const selectedChild = getSelectedChild(selectedChildId, childList);
     const {isAm, hour, minute} = getAmPmHourMinuteByLocalTime(selectedChild.birthTime);
+    const [childWeight, setChildWeight]=useState(null);
+    const [childHeight, setChildHeight]=useState(null);
+    const [childDate,setChildDate]=useState(null);
+    const [weightPercentage,setWeightPercentage] = useState(null);
+    const [heightPercentage,setHeightPercentage] = useState(null);
+
     // 챗봇 창 상태 관리
     const [isChatBotOpen, setIsChatBotOpen] = useState(false);
     const [isChatBotVisible, setIsChatBotVisible] = useState(false); // ChatBot의 표시 상태
@@ -27,7 +35,74 @@ const Dashboard = () => {
         }
     };
 
+    // 아이 성장정보 가져오기
+    const fetchGrowthData = async () => {
+        try {
+            const growthResponse = await axios.get(SPRING_RECORD_BASE + `/growth-data/${selectedChildId}`);
+            let weight =null;
+            let height =null;
+            if(!growthResponse.data){
+                weight=selectedChild.birthWeight;
+                height=selectedChild.birthHeight;
+                setChildDate(selectedChild.birthDate);
+            }else{
+                weight=growthResponse.data.weight;
+                height=growthResponse.data.height;
+                setChildDate(growthResponse.data.recordDate);
+                console.log("설정몸무게2",growthResponse.data.weight);
+            }
+            const averageResponse = await axios.get(SPRING_STATISTIC_BASE + `/average/${selectedChildId}`);
 
+            let Weightmax = null;
+            let Weightmin = null;
+            let Heightmax =null;
+            let Heightmin = null;
+            let calculatedWeightPercentage = null;
+            let calculatedHeightPercentage = null;
+
+            if (averageResponse.data) {
+                Heightmax= averageResponse.data.avgHeight*1.1;
+                Heightmin= averageResponse.data.avgHeight*0.9;
+                Weightmax= averageResponse.data.avgWeight*1.1;
+                Weightmin= averageResponse.data.avgWeight*0.9;
+            }
+            if (Heightmax !== null && Heightmin !== null) {
+                calculatedHeightPercentage = ((height - Heightmin) / (Heightmax - Heightmin)) * 100
+                if (calculatedHeightPercentage < 0) {
+                    calculatedHeightPercentage = 0;
+                } else if (calculatedHeightPercentage > 100) {
+                    calculatedHeightPercentage = 100;
+                }
+                console.log("키",calculatedHeightPercentage);
+                setHeightPercentage(calculatedHeightPercentage.toFixed(0));
+            } else {
+                setHeightPercentage(null);
+            }
+            if (Weightmax !== null && Weightmin !== null) {
+
+                calculatedWeightPercentage = ((weight - Weightmin) / (Weightmax - Weightmin)) * 100
+                console.log("몸무게",calculatedWeightPercentage);
+                if (calculatedWeightPercentage < 0) {
+                    calculatedWeightPercentage = 0;
+                } else if (calculatedWeightPercentage > 100) {
+                    calculatedWeightPercentage = 100;
+                }
+                console.log("몸무게",calculatedWeightPercentage);
+                setWeightPercentage(calculatedWeightPercentage.toFixed(0));
+            } else {
+                setWeightPercentage(null);
+            }
+            setChildWeight(weight);
+            setChildHeight(height);
+        } catch (error) {
+            console.error("데이터를 가져오는 중 오류가 발생했습니다.", error);
+        }
+    };
+    useEffect(() => {
+        fetchGrowthData();
+        console.log("날짜",childDate);
+        console.log("출생날짜",selectedChild.birthDate);
+    }, [selectedChildId]);
     return (
         <div className="main-content">
             <section className="info-section">
@@ -43,7 +118,7 @@ const Dashboard = () => {
                     </div>
                     <div className="info-item">
                         <span className="label">생년월일</span>
-                        <span className="value">{selectedChild.birthDate}</span>
+                            <span className="value">{selectedChild.birthDate}</span>
                     </div>
                     <div className="info-item">
                         <span className="label">탄생시간</span>
@@ -54,15 +129,31 @@ const Dashboard = () => {
             </section>
 
             <section className="record-section">
-                <h2 className="section-title">최근기록<span className='recent-date'>2024-10-02</span></h2>
+                <h2 className="section-title">최근기록<span className='recent-date'>{childDate}</span></h2>
                 <div className='record-wrap'>
                     <div className="record-item">
                         <span className="label">키</span>
-                        <div className="value"><span className="tag average">평균</span><span>64.8 cm</span></div>
+                        <div className="value"><span className={`tag ${
+                            heightPercentage >= (2 / 3) * 100
+                                ? "high"
+                                : heightPercentage <= (1/ 3) * 100
+                                    ? "low"
+                                    : "average"
+                        }`}>
+                                    {heightPercentage >= (2 / 3) * 100 ? "큰편" : heightPercentage <= (1 / 3) * 100 ? "작은편" : "평균"}
+                                </span> <span>{childHeight} cm</span></div>
                     </div>
                     <div className="record-item">
                         <span className="label">몸무게</span>
-                        <div className="value"><span className="tag high">높은편</span><span>11.2 kg</span></div>
+                        <div className="value"> <span className={`tag ${
+                            weightPercentage >= (2 / 3) * 100
+                                ? "high"
+                                : weightPercentage <= (1 / 3) * 100
+                                    ? "low"
+                                    : "average"
+                        }`}>
+                                    {weightPercentage >= (2 / 3) * 100 ? "큰편" : weightPercentage <= (1 / 3) * 100 ? "작은편" : "평균"}
+                                </span><span>{childWeight} kg</span></div>
                     </div>
                 </div>
             </section>
