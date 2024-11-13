@@ -9,19 +9,17 @@ function ChatBot({onClose }) {
     const [userInput, setUserInput] = useState('');  // 사용자 입력 상태 관리
     const [isTyping, setIsTyping] = useState(false); // 타이핑 여부 상태 관리
     const chatBoxRef = useRef(null); // 채팅 박스를 참조하여 스크롤 관리
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+    const [chatHeight, setChatHeight] = useState('70vh'); // 채팅 박스 높이를 관리하는 상태
+
+
 
     useEffect(() => {
-        // 로컬 저장소에서 이전 메시지 가져오기
-        const storedMessages = JSON.parse(localStorage.getItem('chatMessages')) || [];
-        setMessages(storedMessages); // 메시지 상태에 반영
-    }, []); // 최초 한 번만 실행
-
-    useEffect(() => {
-        // messages 상태가 변경될 때마다 로컬 저장소에 저장
-        if (messages.length > 0) {
-            localStorage.setItem('chatMessages', JSON.stringify(messages));
-        }
-    }, [messages]); // messages가 변경될 때마다 실행
+        const script = document.createElement('script');
+        script.src = "https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs";
+        script.type = "module";
+        document.body.appendChild(script);
+    }, [messages]);
 
     // 타이핑 효과 구현
     const simulateTypingEffect = (messageText, callback) => {
@@ -74,6 +72,7 @@ function ChatBot({onClose }) {
         setMessages((prevMessages) => [...prevMessages, userMessage]);
 
         // 2. OpenAI ChatGPT API로 메시지 보내기
+        setIsLoading(true); // 로딩 종료
         try {
             const gptMessage = await getChatGPTResponse(userInput);
 
@@ -102,7 +101,7 @@ function ChatBot({onClose }) {
             console.error('Error fetching ChatGPT response:', error);
         }
 
-
+        setIsLoading(false); // 로딩 종료
         scrollToBottom();
     };
 
@@ -120,11 +119,15 @@ function ChatBot({onClose }) {
                     {
                         role: 'system',
                         content: `
-                        너의 이름은 프롬버스 AI의 '프롬이'이고, 육아 어플의 챗봇 AI야.
-                        모든 대답은 50자 이내로, 존댓말을 사용하며 반말은 절대 쓰면 안돼 , 꼭 꼭 한국어로 답변해야 해.
-                        모든건 육아에 관련된 대화여야 해. 육아가 아닌 내용에 대해서는 답변해서는 안돼. 아이 육아와 관련된 대화만 해줘. 
-                        사용자의 모든 얘기에 대해서 육아와 관련된 내용으로만 답변을 해줘. 우리 어플은 발달장애 아동의 AI 주간 보고를 해주는 기능이 있어.
-                        일기를 주간 단위로 3회 이상 작성시 일기 내용에 대해서 AI 분석하고 , 발달장애의 위험성을 예측해주는 기능이 있어. 관련해서 안내를 해줘야해. 
+                    너의 이름은 프롬버스 AI의 '프롬이'이고, 육아와 발달장애 조기 진단을 돕는 AI 챗봇이야.
+                    너의 주요 역할은 부모가 아이의 성장 기록과 육아일기를 작성할 때 그 정보를 바탕으로 맞춤형 육아 조언을 제공하고, 발달장애 조기 진단을 위한 안내를 돕는 거야. 
+                    
+                    답변은 존댓말을 사용하며 한국어로 간결하고 친절하게 50자 이내로 응답해줘. 반말은 절대 쓰지 않아.
+                    
+                    주의할 점:
+                    - 육아, 발달장애 관련 질문에만 대답해. 그 외 주제는 답하지 마.
+                    - 부모가 작성한 일기가 주간 3회 이상 기록되면, 'AI 주간 보고'를 통해 아이의 발달 상태를 분석하고 장애 위험성을 예측해.
+                    - 육아일기와 기록을 통해 관찰된 발달 상태가 정상인지, 아니면 추가적인 조언이 필요한지를 판단하고, 필요시 가까운 병원 정보 제공도 고려해.
                     `,
                     },
                     { role: 'user', content: message },
@@ -156,20 +159,44 @@ function ChatBot({onClose }) {
         fetchMessages();
     }, []);
 
+    // 화면 크기와 키보드 상태를 감지하여 채팅 박스의 높이를 조정하는 함수
+    const adjustChatBoxHeight = () => {
+        const windowHeight = window.innerHeight;
+        const keyboardHeight = windowHeight < 600 ? 0.3 : 0; // 작은 화면에서는 키보드가 나타날 것으로 가정하고 높이를 줄임
+
+        // 화면 크기나 키보드 상태에 따라 높이 조정
+        setChatHeight(`${Math.min(windowHeight * 0.7 - keyboardHeight * windowHeight, 500)}px`);
+    };
+
+    useEffect(() => {
+        adjustChatBoxHeight(); // 화면 로드 시 한 번 높이 조정
+
+        // resize 이벤트에 따라 높이를 동적으로 조정
+        window.addEventListener('resize', adjustChatBoxHeight);
+
+        // cleanup
+        return () => {
+            window.removeEventListener('resize', adjustChatBoxHeight);
+        };
+    }, []);
+
     useEffect(() => {
         // 채팅박스를 항상 최신 상태로 스크롤
         scrollToBottom();
     }, [messages]); // messages가 바뀔 때마다 호출
 
+
+
+
     return (
-        <div className="chat-container">
+        <div className="chat-container" style={{height: chatHeight}}>
             <div className="chatbot-header">
                 <button className="close-btn" onClick={onClose}>×
                 </button>
             </div>
             <div className="user-info">
                 <div className="name">
-                프롬이 AI
+                    프롬이 AI
                     <div className="address">
                         <i className="bi bi-geo-alt"></i>
                         <span>프롬버스(FromBirth)</span>
@@ -193,6 +220,21 @@ function ChatBot({onClose }) {
                             </div>
                         </div>
                     ))}
+                    {isLoading && (
+                        <div className="loading-indicator">
+                            <dotlottie-player
+                                src="https://lottie.host/f021ff55-6da4-48fc-bb18-5418c1712cd7/dLpkefQlv4.json"
+                                background="transparent"
+                                speed="1.5"
+                                className="lottie-player-before"
+                                autoplay
+                                loop
+                                style={{width: '50px',
+                                    height: '40px',
+                                    marginTop: '5px',}}
+                            ></dotlottie-player>
+                        </div>
+                    )}
                 </div>
 
                 <div className="input-group">
@@ -208,7 +250,10 @@ function ChatBot({onClose }) {
                     <button
                         type="button"
                         onClick={sendMessage}
-                        disabled={isTyping}  // 타이핑 중이면 비활성화
+                        disabled={isTyping || !userInput.trim()}  // 입력 값이 없으면 비활성화
+                        style={{
+                            backgroundColor: userInput.trim() ? '#FF893C' : '#FF9C59', // 입력 값이 있으면 색상 변경
+                        }}
                     >
                         전송
                     </button>

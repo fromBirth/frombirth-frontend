@@ -10,10 +10,11 @@
     overflow-x: auto;
     letter-spacing: -.5px;
     width: 350px;
-    height: 500px;
     background: white;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    height: 70vh; /* 기본 높이를 60vh로 설정 (화면 높이에 대한 비율) */
+    max-height: 90vh; /* 최대 높이를 90vh로 설정 (키보드가 뜨면 일부가 화면에 남게) */
 }
 
 /* 사용자 정보 */
@@ -77,13 +78,9 @@
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #FF893C;
+    background-color: #ff9c59;
     color: #fff;
     cursor: pointer;
-}
-
-.chat-container .chat-inner button:hover {
-    background-color: #ff6000;
 }
 
 /* message */
@@ -177,3 +174,4 @@
 .close-btn:focus {
     outline: none; /* 포커스 상태에서 윤곽선 제거 */
 }
+
