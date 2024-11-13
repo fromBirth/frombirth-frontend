@@ -9,6 +9,7 @@ import Spinner from "../../common/Spinner.jsx";
 import AppContext from "../../../contexts/AppProvider.jsx";
 import {useNavigate} from "react-router-dom";
 import {PATHS} from "../../../routes/paths.js";
+import {debounce} from "lodash";
 
 const DiaryListBoard = () => {
     const navigate = useNavigate();
@@ -27,9 +28,14 @@ const DiaryListBoard = () => {
 
     console.log(diaryInfoList);
 
-    useEffect(() => {
+    const debouncedFetchNextPage = debounce(() => {
         if (inView) fetchNextPage();
-    }, [inView]);
+    }, 500);
+
+    useEffect(() => {
+        debouncedFetchNextPage();
+        return () => debouncedFetchNextPage.cancel();
+    }, [inView, debouncedFetchNextPage]);
 
     function handleViewDiary(diary) {
         navigate(PATHS.BABY_DIARY.VIEW, {state: diary});
