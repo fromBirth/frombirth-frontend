@@ -11,3 +11,4 @@ npm i react-icons
 npm i react-query
 npm i react-intersection-observer
 npm i lodash
+npm install react-slick slick-carousel
