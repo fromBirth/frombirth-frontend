@@ -12,6 +12,7 @@ import AppContext from "../../../contexts/AppProvider.jsx";
 import {PATHS} from "../../../routes/paths.js";
 
 const DiaryWrite = () => {
+    const navigate = useNavigate();
     const { date: dateParam } = useParams(); // URL에서 date 파라미터 가져오기
     const { setPageTitle, selectedChildId } = useContext(AppContext); // setPageTitle 가져오기
 
@@ -140,7 +141,7 @@ const DiaryWrite = () => {
                     {uploadImagesPreviews.map((preview, index) => (
                         <div className="upload-box" key={index}>
                             <img src={preview} alt={`uploaded ${index}`} />
-                            <button type="button" onClick={() => removeImage(index)} className="remove-button">×</button>
+                            <button type="button" onClick={() => removeImage(index)} className="remove-button"><i className="bi bi-x-lg"></i></button>
                         </div>
                     ))}
                     {uploadImages.length < 5 && (
@@ -165,7 +166,7 @@ const DiaryWrite = () => {
                         <video width="100%" controls>
                             <source src={uploadVideoPreview} type="video/mp4" />
                         </video>
-                        <button type="button" onClick={() => removeVideo(0)} className="remove-button">×</button>
+                        <button type="button" onClick={() => removeVideo(0)} className="remove-button"><i className="bi bi-x-lg"></i></button>
                     </div>
                 )}
                 <input style={{ display: 'none' }} accept="video/mp4" onChange={handleVideoChange} type="file" ref={videoInputRef} />

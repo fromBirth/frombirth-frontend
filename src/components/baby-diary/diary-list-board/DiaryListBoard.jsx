@@ -41,19 +41,26 @@ const DiaryListBoard = () => {
         navigate(PATHS.BABY_DIARY.VIEW, {state: diary});
     }
 
+    // 요일을 가져오는 함수
+    const getDayOfWeek = (dateString) => {
+        const date = new Date(dateString);
+        const days = ["일", "월", "화", "수", "목", "금", "토"];
+        return days[date.getDay()];
+    };
+
     return (
         <div>
             {diaryInfoList && diaryInfoList.pages.map((page, index) => (
                 <Fragment key={index}>
                     {page.data.map(diary =>
-                        <div className="entry" key={diary.recordId} onClick={() => handleViewDiary(diary)}>
+                        <div className="entry list" key={diary.recordId} onClick={() => handleViewDiary(diary)}>
                             <div className="entry-title">
-                                <span>{diary.recordDate}</span>
+                                <div className="date">{`${diary.recordDate} (${getDayOfWeek(diary.recordDate)})`}</div>
                                 <h3>{diary.title}</h3>
                             </div>
-                            <p>
+                            <div className="entry-content">
                                 {diary.content}
-                            </p>
+                            </div>
                             <div className="diary-list-board-photo-box">
                                 {diary.images.map((image) => {
                                     return (

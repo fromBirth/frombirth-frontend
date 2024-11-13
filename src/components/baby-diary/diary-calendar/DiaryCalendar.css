@@ -1,5 +1,5 @@
 /* 날짜 이동 */
-.calendar-wrap .date-navigator { display: flex; background-color: #f7f7f7f7; align-items: center; justify-content: center; position: relative; padding: 10px 0; } 
+.calendar-wrap .date-navigator { display: flex; background-color: #f8f8f8; align-items: center; justify-content: center; position: relative; padding: 10px 0; }
 .calendar-wrap .date-navigator .nav-section { display: flex; align-items: center; font-size: 1.5em; } 
 .calendar-wrap .date-navigator .nav-section .nav-button { border: none; background: none; margin: 0 15px; } 
 .calendar-wrap .date-navigator .nav-section .nav-button i { padding: 7px 9px 7px 7px; color: #333; } 

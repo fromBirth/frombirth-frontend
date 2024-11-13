@@ -15,7 +15,7 @@ const PhotoSlide = ({selectedChildId}) => {
         slidesToScroll: 1,
         arrows: true,
         autoplay: true,
-        autoplaySpeed: 3000
+        autoplaySpeed: 4000
     };
     const [randomPhotoList, setRandomPhotoList] = useState([]);
 
@@ -39,7 +39,7 @@ const PhotoSlide = ({selectedChildId}) => {
             <Slider {...settings}>
                 {randomPhotoList.map((photo, index) => (
                     <div key={index}>
-                        <img src={photo.url} alt="" style={{width: '100%', height: 'auto'}}/>
+                        <img src={photo.url} alt="" style={{width: '100%', height: '220px', objectFit: 'cover', borderRadius: '10px'}}/>
                     </div>
                 ))}
             </Slider>

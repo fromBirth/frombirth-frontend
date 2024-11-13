@@ -1,4 +1,0 @@
-.tab-bar { display: flex; justify-content: space-between; width: 100%; } 
-.tab { flex: 1; padding: 10px 15px; text-align: center; border: 1px solid #ddd; border-radius: 10px; cursor: pointer; font-size: 16px; color: #666; background-color: #fff; transition: all 0.3s ease; } 
-.tab + .tab { margin-left: 10px; } 
-.tab.active { border: 1px solid #ff893c; background-color: #fffbfa; color: #ef5020; } 

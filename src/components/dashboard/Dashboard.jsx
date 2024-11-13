@@ -1,6 +1,6 @@
 /* src/components/dashboard/Dashboard.jsx */
 
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import './Dashboard.css';
 import {useContext, useEffect, useState} from "react";
@@ -204,16 +204,15 @@ const Dashboard = () => {
                 )}
             </section>
 
-            <Link
-                to="/login"
-                style={{
-                    fontSize: '12px',
-                    color: 'gray',
-                }}
-            >
-                로그인
-            </Link>
-
+            {/*<Link*/}
+            {/*    to="/login"*/}
+            {/*    style={{*/}
+            {/*        fontSize: '12px',*/}
+            {/*        color: 'gray',*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    로그인*/}
+            {/*</Link>*/}
 
         </div>
 
