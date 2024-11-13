@@ -11,6 +11,7 @@ export const CHILDREN_DELETE = SPRING_CHILDREN_BASE + '/';
 // record 컨트롤러 주소
 export const SPRING_RECORD_BASE = SPRING_BASE_URL + '/api/records';
 export const RECORD_CHILD_ALL_RECORD = SPRING_RECORD_BASE + '/all/';
+export const RECORD_CHILD_ALL_RECORD_CNT = SPRING_RECORD_BASE + '/cnt/';
 export const RECORD_CHILD_ALL_BODY_SIZE = RECORD_CHILD_ALL_RECORD + 'body/';
 export const RECORD_CHILD_ALL_PHOTO = RECORD_CHILD_ALL_RECORD + 'photo';
 export const RECORD_CREATE = SPRING_RECORD_BASE + '/create';
