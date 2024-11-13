@@ -16,6 +16,7 @@ export const RECORD_CHILD_ALL_PHOTO = RECORD_CHILD_ALL_RECORD + 'photo';
 export const RECORD_CREATE = SPRING_RECORD_BASE + '/create';
 export const RECORD_DETAIL = SPRING_RECORD_BASE + '/child/';
 export const RECORD_CHILD_DATE_RECORD = SPRING_RECORD_BASE + '/child/{childId}/date/';
+export const RECORD_RANDOM_PHOTO = SPRING_RECORD_BASE + '/randomPhoto/'
 
 //weekly-report 컨트롤러 주소
 export const SPRING_REPORT_BASE =SPRING_BASE_URL + '/api/reports';

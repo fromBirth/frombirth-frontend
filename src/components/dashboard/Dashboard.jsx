@@ -7,6 +7,7 @@ import {useContext, useState} from "react";
 import AppContext from "../../contexts/AppProvider.jsx";
 import {getAmPmHourMinuteByLocalTime, getSelectedChild} from "../../utils/Util.js";
 import ChatBot from "../common/ChatBot.jsx";
+import PhotoSlide from "./PhotoSlide.jsx";
 
 const Dashboard = () => {
     const {selectedChildId, childList} = useContext(AppContext);
@@ -46,7 +47,8 @@ const Dashboard = () => {
                     </div>
                     <div className="info-item">
                         <span className="label">탄생시간</span>
-                        <span className="value">{`${isAm === 'AM' ? '오전' : '오후'} ${Number(hour)}시 ${Number(minute)}분`}</span>
+                        <span
+                            className="value">{`${isAm === 'AM' ? '오전' : '오후'} ${Number(hour)}시 ${Number(minute)}분`}</span>
                     </div>
                 </div>
             </section>
@@ -90,6 +92,9 @@ const Dashboard = () => {
                     </div>
                     <i className="bi bi-chevron-right"></i>
                 </div>
+                <div className="photo-slide">
+                    <PhotoSlide selectedChildId={selectedChildId} />
+                </div>
 
                 {/* 챗봇 버튼 */}
                 <div className="chatbot" onClick={toggleChatBot}>
@@ -100,7 +105,7 @@ const Dashboard = () => {
                 {isChatBotOpen && (
                     <div
                         className="chatbot-modal open"
-                        style={{ display: isChatBotVisible ? 'block' : 'none' }} // 두 번째 클릭부터 숨김 처리
+                        style={{display: isChatBotVisible ? 'block' : 'none'}} // 두 번째 클릭부터 숨김 처리
                     >
 
                         <ChatBot onClose={toggleChatBot}/>
@@ -119,9 +124,7 @@ const Dashboard = () => {
             </Link>
 
 
-
         </div>
-
 
 
     );
