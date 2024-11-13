@@ -9,6 +9,7 @@ function ChatBot({onClose }) {
     const [userInput, setUserInput] = useState('');  // 사용자 입력 상태 관리
     const [isTyping, setIsTyping] = useState(false); // 타이핑 여부 상태 관리
     const chatBoxRef = useRef(null); // 채팅 박스를 참조하여 스크롤 관리
+    const [chatHeight, setChatHeight] = useState('70vh'); // 채팅 박스 높이를 관리하는 상태
 
     useEffect(() => {
         // 로컬 저장소에서 이전 메시지 가져오기
@@ -156,20 +157,44 @@ function ChatBot({onClose }) {
         fetchMessages();
     }, []);
 
+    // 화면 크기와 키보드 상태를 감지하여 채팅 박스의 높이를 조정하는 함수
+    const adjustChatBoxHeight = () => {
+        const windowHeight = window.innerHeight;
+        const keyboardHeight = windowHeight < 600 ? 0.3 : 0; // 작은 화면에서는 키보드가 나타날 것으로 가정하고 높이를 줄임
+
+        // 화면 크기나 키보드 상태에 따라 높이 조정
+        setChatHeight(`${Math.min(windowHeight * 0.7 - keyboardHeight * windowHeight, 500)}px`);
+    };
+
+    useEffect(() => {
+        adjustChatBoxHeight(); // 화면 로드 시 한 번 높이 조정
+
+        // resize 이벤트에 따라 높이를 동적으로 조정
+        window.addEventListener('resize', adjustChatBoxHeight);
+
+        // cleanup
+        return () => {
+            window.removeEventListener('resize', adjustChatBoxHeight);
+        };
+    }, []);
+
     useEffect(() => {
         // 채팅박스를 항상 최신 상태로 스크롤
         scrollToBottom();
     }, [messages]); // messages가 바뀔 때마다 호출
 
+
+
+
     return (
-        <div className="chat-container">
+        <div className="chat-container" style={{height: chatHeight}}>
             <div className="chatbot-header">
                 <button className="close-btn" onClick={onClose}>×
                 </button>
             </div>
             <div className="user-info">
                 <div className="name">
-                프롬이 AI
+                    프롬이 AI
                     <div className="address">
                         <i className="bi bi-geo-alt"></i>
                         <span>프롬버스(FromBirth)</span>
