@@ -1,6 +1,7 @@
 import styles  from './ProgressBar.module.css';
 
 const ProgressBar = ({ percentage }) => {
+    if (!percentage) percentage=50;
     return (
         <div className={styles['progress-container']}>
             <div className={styles['progress-tooltip']} style={{ left: `calc(${percentage}%)` }}>

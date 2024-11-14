@@ -1,6 +1,7 @@
 import './RiskLevelProgressBar.css';
 
 const RiskLevelProgressBar = ({ riskLevel}) => {
+    if (!riskLevel) riskLevel=50;
     return (
         <div className="progress-container">
             <div className="progress-bar-container">
