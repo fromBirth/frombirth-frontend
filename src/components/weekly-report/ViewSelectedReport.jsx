@@ -1,12 +1,14 @@
 import ProgressBar from "../ProgressBar/ProgressBar.jsx";
 import KakaoMap from "../kakao-map/KakaoMap.jsx";
+import './WeeklyReport.css';
 
 
-const ViewSelectedReport = (selectedReport) => {
+const ViewSelectedReport = ({selectedReport}) => {
+    console.log(selectedReport);
     return (
         <div>
-            <div className="report-content">
-                {selectedReport ? selectedReport.feedback : "피드백을 불러오는 중입니다..."}
+            <div>
+                <span className="report-content">{selectedReport.feedback}</span>
             </div>
 
             <div className="analysis-section">
