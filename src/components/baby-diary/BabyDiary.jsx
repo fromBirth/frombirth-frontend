@@ -48,7 +48,7 @@ const BabyDiary = () => {
         };
 
         // debounce를 사용하여 fetchDiaryData 함수를 지연 호출
-        const debouncedFetchDiaryData = debounce(fetchDiaryData, 3000); // 3000ms 대기 시간
+        const debouncedFetchDiaryData = debounce(fetchDiaryData, 500); // 3000ms 대기 시간
 
         debouncedFetchDiaryData();
 
