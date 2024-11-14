@@ -1,4 +1,4 @@
-import ProgressBar from "../ProgressBar/ProgressBar.jsx";
+import RiskLevelProgressBar from "../ProgressBar/RiskLevelProgressBar.jsx";
 import KakaoMap from "../kakao-map/KakaoMap.jsx";
 import './WeeklyReport.css';
 
@@ -13,18 +13,9 @@ const ViewSelectedReport = ({selectedReport}) => {
 
             <div className="analysis-section">
                 <h3>일기 분석 결과 위험성 정도</h3>
-                <div className="progress-bar">
-                    <div className="low-risk"></div>
-                    <div className="high-risk"></div>
-                    <ProgressBar value={selectedReport ? selectedReport.riskLevel * 20 : 0}/>
-                </div>
+                <RiskLevelProgressBar riskLevel={selectedReport.riskLevel}/>
                 <h3>영상분석 결과 위험성 정도</h3>
-                <div className="progress-bar">
-                    <div className="low-risk"></div>
-                    <div className="high-risk" style={{width: '20%'}}></div>
-                    <ProgressBar value={30}/>
-
-                </div>
+                <RiskLevelProgressBar riskLevel={selectedReport.riskLevel}/>
             </div>
 
             <div className="map-section">
