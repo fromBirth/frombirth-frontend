@@ -2,17 +2,11 @@
 
 .report-content { font-size: 14px; color: #333; line-height: 1.5; margin: 20px;}
 
-.analysis-section { margin-bottom: 20px; } 
+.analysis-section { margin-bottom: 20px; }
 
-.analysis-section h3 { font-size: 14px; color: #333; margin-bottom: 10px; } 
+.analysis-section h3 { font-size: 14px; color: #333; margin-bottom: 10px; }
 
-.progress-bar { display: flex; height: 10px; background-color: #f0f0f0; border-radius: 5px; overflow: hidden; margin-bottom: 10px; } 
-
-.low-risk { background-color: #ff6b6b; width: 25%; } 
-
-.high-risk { background-color: #ffa500; width: 60%; } 
-
-.map-section { margin-bottom: 20px; text-align: center; } 
+.map-section { margin-bottom: 20px; text-align: center; }
 
 /*.map-section img { width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); } */
 
