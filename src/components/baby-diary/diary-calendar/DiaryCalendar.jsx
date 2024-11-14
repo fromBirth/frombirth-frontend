@@ -47,7 +47,19 @@ const Calendar = ({ onDateClick }) => { // onDateClick을 props로 받아옴
 
     // 다음 달로 이동하는 함수
     const handleNextMonth = () => {
-        setCurrentMonth(prevMonth => addDays(prevMonth, 30));
+        const nextMonth = addDays(currentMonth, 30);
+        const today = new Date();
+
+        // 다음 달의 첫날이 오늘 날짜를 넘어서면 이동하지 않음
+        if (isAfter(startOfMonth(nextMonth), today)) {
+            return;
+        }
+        setCurrentMonth(nextMonth);
+    };
+
+    const isNextMonthDisabled = () => {
+        const nextMonth = addDays(currentMonth, 30);
+        return isAfter(startOfMonth(nextMonth), today);
     };
 
     // 오늘 날짜로 이동하는 함수
@@ -124,7 +136,13 @@ const Calendar = ({ onDateClick }) => { // onDateClick을 props로 받아옴
                 <div className="nav-section">
                     <button className="nav-button" onClick={handlePreviousMonth}><i className="bi bi-chevron-left"></i></button>
                     <span className="current-date">{format(currentMonth, 'yyyy.MM')}</span>
-                    <button className="nav-button" onClick={handleNextMonth}><i className="bi bi-chevron-right"></i></button>
+                    <button
+                        className="nav-button"
+                        onClick={handleNextMonth}
+                        disabled={isNextMonthDisabled()}
+                    >
+                        <i className="bi bi-chevron-right"></i>
+                    </button>
                 </div>
                 <button className="today-button" onClick={handleToday}>오늘</button>
             </div>
