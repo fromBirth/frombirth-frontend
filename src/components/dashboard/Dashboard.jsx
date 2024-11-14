@@ -118,8 +118,8 @@ const Dashboard = () => {
             const weeklyReportCountResponse = await axios.get(`${RECORD_CHILD_ALL_REPORT_CNT}${selectedChildId}`);
             setWeeklyReportCount(weeklyReportCountResponse.data || 0);
 
-            // const growthAnalysisCountResponse = await axios.get(`${SPRING_RECORD_BASE}/count/growth-analysis/${selectedChildId}`);
-            // setGrowthAnalysisCount(growthAnalysisCountResponse.data || 0);
+            const growthAnalysisCountResponse = await axios.get(`${SPRING_RECORD_BASE}/growth-data-count/${selectedChildId}`);
+            setGrowthAnalysisCount(growthAnalysisCountResponse.data || 0);
         } catch (error) {
             console.error("총 건수를 가져오는 중 오류가 발생했습니다.", error);
         }
