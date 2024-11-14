@@ -271,10 +271,14 @@ const WeeklyReport = () => {
                                 />
                             </div>
                             {
-                                (
-                                (selectedReport?.createdAt.split(' ')[0] === formatDateToYYYYMMDD(new Date())) &&
-                                    isBetweenMidnightAndNineAM()
-                                ) &&
+                                ((
+                                    selectedReport.createdAt &&
+                                    !(
+                                        (selectedReport.createdAt.split('T')[0] === formatDateToYYYYMMDD(new Date()))
+                                        &&
+                                        isBetweenMidnightAndNineAM(new Date())
+                                    )
+                                )) &&
                                 <>
                                     <p className="text">지난주에 작성하신 일기에 대해 <br/> AI 분석을 실시해보세요.</p>
                                     <button className="generate-button" onClick={startReview}>AI 주간보고 생성</button>
