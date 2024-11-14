@@ -189,7 +189,7 @@ function ChatBot({ onClose }) {
         <div className="chat-container" style={{ height: chatHeight }}>
             <div className="chatbot-header">
                 <button className="close-btn" onClick={onClose}>
-                    <i class="bi bi-x-lg"></i>
+                    <i className="bi bi-x-lg"></i>
                 </button>
             </div>
             <div className="user-info">
