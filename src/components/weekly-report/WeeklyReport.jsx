@@ -72,7 +72,7 @@ const WeeklyReport = () => {
     };
 
     useEffect(() => {
-        setWeekRange("");
+        setWeekRange(getWeekRangeByDate(new Date()));
         // setReports([]);
         // setSelectedReport(null);
         // setIsReadAvailable(false);
@@ -120,14 +120,12 @@ const WeeklyReport = () => {
                 if (reportIdFromQuery) {
                     const reportIdInt = parseInt(reportIdFromQuery, 10);
                     selected = sortedReports.find(report => report.reportId === reportIdInt);
-                    const createdAt = new Date(selected.createdAt);
-                    const {start, end} = getWeekRange(createdAt);
-                    setWeekRange(`<b>${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월</b>${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
+                    setWeekRange(getWeekRangeByDate(new Date(selected.createdAt)));
 
                     // 마지막에 isReadAvailable 설정 (selectedReport가 확실히 설정된 후에)
                     setIsReadAvailable(selected.read);
                     // 주간 범위에 맞는 일기 개수 체크
-                    checkSufficientData(`${start} ~ ${end}`);
+                    checkSufficientData();
                 }
 
                 // 새 리포트 조회 가능 경우
@@ -191,14 +189,24 @@ const WeeklyReport = () => {
             setCurrentReportIndex(newIndex);
             const newReport = reports[newIndex];
             setSelectedReport(newReport);
+            setWeekRange(getWeekRangeByDate(new Date()));
             if (typeof newReport !== 'object' || newReport == null) return;
 
             setIsReadAvailable(newReport.read);
-            const createdAt = new Date(newReport.createdAt);
-            const {start, end} = getWeekRange(createdAt);
-            setWeekRange(`<b>${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월</b>${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
+            setWeekRange(getWeekRangeByDate(new Date(newReport.createdAt)));
         }
     };
+
+    const getWeekRangeByDate = (createdAt) => {
+        const today = new Date();
+        const isSameDay = createdAt.toDateString() === today.toDateString();
+
+        if (!isSameDay) {
+            createdAt.setDate(createdAt.getDate() - 7);
+        }
+        const {start, end} = getWeekRange(createdAt);
+        return `<b>${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월<br/>${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`;
+    }
 
     const loadPreviousReport = () => {
         console.log(reports);
@@ -271,6 +279,7 @@ const WeeklyReport = () => {
                                     speed="1.5"
                                     className="lottie-player-before"
                                     autoplay
+                                    style={{ width: '200px', height: '200px'}}
                                     loop={false}
                                 />
                             </div>
