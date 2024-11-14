@@ -118,7 +118,7 @@ const Dashboard = () => {
                     </div>
                     <div className="info-item">
                         <span className="label">생년월일</span>
-                            <span className="value">{selectedChild.birthDate}</span>
+                        <span className="value">{selectedChild.birthDate}</span>
                     </div>
                     <div className="info-item">
                         <span className="label">탄생시간</span>
@@ -129,31 +129,57 @@ const Dashboard = () => {
             </section>
 
             <section className="record-section">
-                <h2 className="section-title">최근기록<span className='recent-date'>{childDate}</span></h2>
+                <h2 className="section-title">최근기록<span className='recent-date'>{childDate || ''}</span></h2>
                 <div className='record-wrap'>
                     <div className="record-item">
                         <span className="label">키</span>
-                        <div className="value"><span className={`tag ${
+                        <div className="value">
+                            {childHeight !== null && heightPercentage !== null ? (
+                                <>
+                        <span className={`status ${
                             heightPercentage >= (2 / 3) * 100
-                                ? "high"
-                                : heightPercentage <= (1/ 3) * 100
-                                    ? "low"
-                                    : "average"
+                                ? "status-large"
+                                : heightPercentage <= (1 / 3) * 100
+                                    ? "status-small"
+                                    : "status-average"
                         }`}>
-                                    {heightPercentage >= (2 / 3) * 100 ? "큰편" : heightPercentage <= (1 / 3) * 100 ? "작은편" : "평균"}
-                                </span> <span>{childHeight} cm</span></div>
+                            {heightPercentage >= (2 / 3) * 100
+                                ? "큰편"
+                                : heightPercentage <= (1 / 3) * 100
+                                    ? "작은편"
+                                    : "평균"}
+                        </span>
+                                    <span>{childHeight} cm</span>
+                                </>
+                            ) : (
+                                '-' // 최근 키 기록이 없을 경우
+                            )}
+                        </div>
                     </div>
                     <div className="record-item">
                         <span className="label">몸무게</span>
-                        <div className="value"> <span className={`tag ${
+                        <div className="value">
+                            {childWeight !== null && weightPercentage !== null ? (
+                                <>
+                        <span className={`status ${
                             weightPercentage >= (2 / 3) * 100
-                                ? "high"
+                                ? "status-large"
                                 : weightPercentage <= (1 / 3) * 100
-                                    ? "low"
-                                    : "average"
+                                    ? "status-small"
+                                    : "status-average"
                         }`}>
-                                    {weightPercentage >= (2 / 3) * 100 ? "큰편" : weightPercentage <= (1 / 3) * 100 ? "작은편" : "평균"}
-                                </span><span>{childWeight} kg</span></div>
+                            {weightPercentage >= (2 / 3) * 100
+                                ? "큰편"
+                                : weightPercentage <= (1 / 3) * 100
+                                    ? "작은편"
+                                    : "평균"}
+                        </span>
+                                    <span>{childWeight} kg</span>
+                                </>
+                            ) : (
+                                '-' // 최근 몸무게 기록이 없을 경우
+                            )}
+                        </div>
                     </div>
                 </div>
             </section>
@@ -184,7 +210,7 @@ const Dashboard = () => {
                     <i className="bi bi-chevron-right"></i>
                 </div>
                 <div className="photo-slide">
-                    <PhotoSlide selectedChildId={selectedChildId} />
+                    <PhotoSlide selectedChildId={selectedChildId}/>
                 </div>
 
                 {/* 챗봇 버튼 */}

@@ -119,18 +119,18 @@ const GrowthAnalysis = () => {
                 <div className="highlight-text">
                     <span>{childName} 님의 {activeTab === 'height' ? '키' : '몸무게'}는 <br /></span>
                     <div className='value-wrap'>
-                        <span
+                        <spanddddss
                             className={`status ${percentage !== null
-                                    ? percentage <= 30
+                                    ? percentage <= (1/ 3) * 100
                                         ? 'status-small'
-                                        : percentage >= 60
+                                        : percentage >= (2 / 3) * 100
                                             ? 'status-large'
                                             : 'status-average'
                                     : 'status-average'
                                 }`}
                         >
-                            {percentage !== null ? (percentage <= 33 ? '작은편' : percentage >= 66 ? '큰편' : '평균') : '평균'}
-                        </span>
+                            {percentage !== null ? (percentage <= (1/ 3) * 100 ? '작은편' : percentage >= (2 / 3) * 100 ? '큰편' : '평균') : '평균'}
+                        </spanddddss>
                         <b>{childValue} {unit}</b> 이에요
                     </div>
                 </div>

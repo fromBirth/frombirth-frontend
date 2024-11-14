@@ -4,7 +4,7 @@ import './ChatBot.css'; // CSS 스타일 import
 // OpenAI API 키
 const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
-function ChatBot({onClose }) {
+function ChatBot({ onClose }) {
     const [messages, setMessages] = useState([]);  // 채팅 메시지 저장
     const [userInput, setUserInput] = useState('');  // 사용자 입력 상태 관리
     const [isTyping, setIsTyping] = useState(false); // 타이핑 여부 상태 관리
@@ -42,7 +42,7 @@ function ChatBot({onClose }) {
                 setIsTyping(false);
                 callback(); // 타이핑 종료 후 호출
             }
-        }, 100); // 100ms 간격으로 타이핑 효과 구현
+        }, 25); // -ms 간격으로 타이핑 효과 구현
     };
 
     // 메시지에 자동으로 <br /> 추가
@@ -153,7 +153,7 @@ function ChatBot({onClose }) {
             ];
             setMessages(initialMessages); // 처음 메시지 표시
             const initialMessage = initialMessages[0];
-            simulateTypingEffect(initialMessage.text, () => {}); // 첫 번째 메시지 타이핑 효과
+            simulateTypingEffect(initialMessage.text, () => { }); // 첫 번째 메시지 타이핑 효과
         };
 
         fetchMessages();
@@ -185,55 +185,61 @@ function ChatBot({onClose }) {
         scrollToBottom();
     }, [messages]); // messages가 바뀔 때마다 호출
 
-
-
-
     return (
-        <div className="chat-container" style={{height: chatHeight}}>
+        <div className="chat-container" style={{ height: chatHeight }}>
             <div className="chatbot-header">
-                <button className="close-btn" onClick={onClose}>×
+                <button className="close-btn" onClick={onClose}>
+                    <i class="bi bi-x-lg"></i>
                 </button>
             </div>
             <div className="user-info">
                 <div className="name">
                     프롬이 AI
-                    <div className="address">
-                        <i className="bi bi-geo-alt"></i>
-                        <span>프롬버스(FromBirth)</span>
-                    </div>
                 </div>
             </div>
-
             <div className="chat-inner">
                 <div className="chat-box" ref={chatBoxRef}>
                     {messages.map((message, index) => (
-                        <div key={index} className={`message ${message.sender}`}>
-                            <div className={message.sender === 'bot' ? 'left' : 'right'}>
-                                {message.sender === 'bot' && (
-                                    <div className="profile-img">
-                                        <img src="/src/assets/img/baby2.png" alt="Bot"/>
+                        <div className={`message-wrap ${message.sender}`} key={index}>
+                            {/* 프로필 이미지 */}
+                            {message.sender === 'bot' && (
+                                <div className="profile-img">
+                                    <img src="/src/assets/img/baby2.png" alt="Bot" />
+                                </div>
+                            )}
+                            {/* 메시지 내용 */}
+                            <div className={`message ${message.sender}`}>
+                                <div className={message.sender === 'bot' ? 'left' : 'right'}>
+                                    <div className="message-text">
+                                        {formatMessageText(message.text)}
                                     </div>
-                                )}
-                                <div className="message-text">
-                                    {formatMessageText(message.text)}
                                 </div>
                             </div>
                         </div>
                     ))}
                     {isLoading && (
-                        <div className="loading-indicator">
-                            <dotlottie-player
-                                src="https://lottie.host/f021ff55-6da4-48fc-bb18-5418c1712cd7/dLpkefQlv4.json"
-                                background="transparent"
-                                speed="1.5"
-                                className="lottie-player-before"
-                                autoplay
-                                loop
-                                style={{width: '50px',
-                                    height: '40px',
-                                    marginTop: '5px',}}
-                            ></dotlottie-player>
-                        </div>
+                        <>
+                            <div className="message-wrap">
+                                <div className="profile-img">
+                                    <img src="/src/assets/img/baby2.png" alt="Bot" />
+                                </div>
+                                <div className="loading-indicator">
+                                    <dotlottie-player
+                                        src="https://lottie.host/f021ff55-6da4-48fc-bb18-5418c1712cd7/dLpkefQlv4.json"
+                                        background="transparent"
+                                        speed="1.5"
+                                        className="lottie-player-before"
+                                        autoplay
+                                        loop
+                                        style={{
+                                            width: '37px',
+                                            height: '27px',
+                                            marginTop: '12px',
+                                        }}
+                                    ></dotlottie-player>
+                                </div>
+                            </div>
+                        </>
                     )}
                 </div>
 
@@ -252,7 +258,7 @@ function ChatBot({onClose }) {
                         onClick={sendMessage}
                         disabled={isTyping || !userInput.trim()}  // 입력 값이 없으면 비활성화
                         style={{
-                            backgroundColor: userInput.trim() ? '#FF893C' : '#FF9C59', // 입력 값이 있으면 색상 변경
+                            backgroundColor: userInput.trim() ? '#FF893C' : '#ddd', // 입력 값이 있으면 색상 변경
                         }}
                     >
                         전송
