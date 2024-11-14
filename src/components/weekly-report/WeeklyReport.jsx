@@ -15,6 +15,7 @@ import Spinner from "../common/Spinner.jsx"; // useLocation 훅을 사용하여 
 import {DotLottiePlayer} from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';
 import ViewSelectedReport from "./ViewSelectedReport.jsx";
+import {formatDateToYYYYMMDD, isBetweenMidnightAndNineAM} from "../../utils/Util.js";
 
 
 // 주간 날짜 범위 계산 함수
@@ -269,8 +270,16 @@ const WeeklyReport = () => {
                                     loop={false}
                                 />
                             </div>
-                            <p className="text">지난주에 작성하신 일기에 대해 <br/> AI 분석을 실시해보세요.</p>
-                            <button className="generate-button" onClick={startReview}>AI 주간보고 생성</button>
+                            {
+                                (
+                                (selectedReport?.createdAt.split(' ')[0] === formatDateToYYYYMMDD(new Date())) &&
+                                    isBetweenMidnightAndNineAM()
+                                ) &&
+                                <>
+                                    <p className="text">지난주에 작성하신 일기에 대해 <br/> AI 분석을 실시해보세요.</p>
+                                    <button className="generate-button" onClick={startReview}>AI 주간보고 생성</button>
+                                </>
+                            }
                         </div>
                     ) : (
                         // 데이터가 존재하고 선택된 보고서가 있을 경우

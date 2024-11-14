@@ -82,3 +82,10 @@ export function getDayOfWeek(dateString) {
     const days = ["일", "월", "화", "수", "목", "금", "토"];
     return days[date.getDay()];
 }
+
+export function isBetweenMidnightAndNineAM() {
+    const now = new Date();
+    const hour = now.getHours();
+
+    return hour >= 0 && hour < 9;
+}
