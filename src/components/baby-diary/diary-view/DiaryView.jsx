@@ -15,6 +15,7 @@ const DiaryView = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [isThisWeek, setIsThisWeek] = useState(true);
     const [showModal, setShowModal] = useState(false); // 삭제 모달 상태
+    const [selectedImage, setSelectedImage] = useState(null); // 선택된 사진
 
     useEffect(() => {
         if (diary?.recordDate) {
@@ -85,6 +86,13 @@ const DiaryView = () => {
         }
     };
 
+    const openImageModal = (image) => {
+        setSelectedImage(image);
+    };
+
+    const closeImageModal = () => {
+        setSelectedImage(null);
+    };
     return (
         <div className="container entry-view">
             {/* 수정/삭제 버튼 */}
@@ -116,9 +124,23 @@ const DiaryView = () => {
             <div className="photos">
                 {diary.images?.map((image) => (
                     image.photoId &&
-                    <img src={image.url} alt={"Photo " + image.photoId} key={image.photoId} />
+                    <img
+                        src={image.url}
+                        alt={"Photo " + image.photoId}
+                        key={image.photoId}
+                        onClick={() => openImageModal(image.url)} // 사진 클릭 이벤트
+                    />
                 ))}
             </div>
+
+            {/* 사진 모달 */}
+            {selectedImage && (
+                <div className="modal-overlay" onClick={closeImageModal}>
+                    <div className="modal-content image-modal">
+                        <img src={selectedImage} alt="Selected" />
+                    </div>
+                </div>
+            )}
 
             {/* 삭제 확인 모달 */}
             {showModal && (

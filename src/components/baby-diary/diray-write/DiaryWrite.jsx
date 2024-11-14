@@ -64,11 +64,11 @@ const DiaryWrite = () => {
         if (checkNull(title) || checkNull(content)) return;
 
         if (!checkNull(height) && checkOnlyNumber(height)) {
-            alert('키는' + ValidateMessage.HAS_STR);
+            window.showToast('키는' + ValidateMessage.HAS_STR);
             return;
         }
         if (!checkNull(weight) && checkOnlyNumber(weight)) {
-            alert('무게는' + ValidateMessage.HAS_STR);
+            window.showToast('무게는' + ValidateMessage.HAS_STR);
             return;
         }
 
@@ -91,10 +91,10 @@ const DiaryWrite = () => {
             const response = await axios.post(RECORD_CREATE, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            alert('일기가 성공적으로 등록되었습니다.');
+            window.showToast(modifyData ? '일기가 성공적으로 수정되었습니다.' : '일기가 성공적으로 등록되었습니다.');
             navigate(PATHS.BABY_DIARY.MAIN);
         } catch (error) {
-            alert('일기 등록에 실패했습니다.');
+            window.showToast(modifyData ? '일기 수정에 실패했습니다.' : '일기 등록에 실패했습니다.');
             console.error('Error:', error);
         }
     }
@@ -190,10 +190,12 @@ const DiaryWrite = () => {
             </div>
 
             <button
-                className={`submit-btn ${isButtonActive ? 'active' : ''}`} aria-label="일기 등록"
-                onClick={handleDiarySubmit} disabled={!isButtonActive}
+                className={`submit-btn ${isButtonActive ? 'active' : ''}`}
+                aria-label={modifyData ? '일기 수정' : '일기 등록'}
+                onClick={handleDiarySubmit}
+                disabled={!isButtonActive}
             >
-                등록하기
+                {modifyData ? '일기 수정' : '일기 등록'}
             </button>
         </div>
     );

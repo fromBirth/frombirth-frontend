@@ -2,7 +2,7 @@
 .entry-view .entry-title { font-weight: bold; font-size: 1.3em; margin-bottom: 10px; color: #333; } 
 .entry-view .entry-content { font-size: 1.1em; color: #555; line-height: 1.5; } 
 /* 이미지 */
-.entry-view .photos { display: flex; gap: 10px; } 
+.entry-view .photos { display: flex; gap: 10px; margin-top: 5px; } 
 .entry-view .photos img { width: 70px; height: 70px; object-fit: cover; } 
 /* 키/몸무게 */
 .entry-view .entry-size { display: flex; justify-content: space-between; align-items: center; background-color: #f7f7f7; padding: 10px; border-radius: 8px; margin-bottom: 10px; } 
@@ -28,3 +28,21 @@
 .cancel-button:hover { background: #e0e0e0; } 
 .confirm-button { background: #ff6b6b; color: white; } 
 .confirm-button:hover { background: #ff4d4d; } 
+
+/* 사진 모달 */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 1000; animation: fadeIn 0.3s ease; } 
+.modal-content.image-modal { background: none; padding: 0; border-radius: 0; box-shadow: none; transform: scale(0.95); animation: zoomIn 0.1s ease forwards; } 
+.modal-content.image-modal img { max-width: 95%; max-height: 95%; object-fit: contain; } 
+
+/* 애니메이션 효과 */
+@keyframes fadeIn { 
+ from { background: rgba(0, 0, 0, 0); } 
+ to { background: rgba(0, 0, 0, 0.5); } 
+ }
+
+@keyframes zoomIn { 
+ from { transform: scale(0.9); /* 작게 시작 */
+ opacity: 0; } 
+ to { transform: scale(1); /* 원래 크기 */
+ opacity: 1; } 
+ }
