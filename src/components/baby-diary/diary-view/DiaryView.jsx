@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import AppContext from "../../../contexts/AppProvider.jsx";
 import axios from "axios";
 import { RECORD_DELETE } from "../../../routes/ApiPath.js";
+import {PATHS} from "../../../routes/paths.js";
 
 const DiaryView = () => {
     const location = useLocation();
@@ -63,7 +64,7 @@ const DiaryView = () => {
     const handleEdit = (event) => {
         event.stopPropagation();
         setTimeout(() => {
-            navigate(`/diary/edit/${diary.id}`, { state: diary });
+            navigate(`${PATHS.BABY_DIARY.WRITE}/${diary.id}`, { state: diary });
         }, 200);
     };
 

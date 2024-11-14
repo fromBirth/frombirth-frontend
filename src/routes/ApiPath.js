@@ -36,6 +36,8 @@ export const REPORT_UPDATE = SPRING_REPORT_BASE + '/update';
 //AgeGenderStatistics 컨트롤러 주소
 export const SPRING_STATISTIC_BASE =SPRING_BASE_URL + '/api/statistic';
 
-
+// photo 컨트롤러 주소
+export const SPRING_PHOTO_BASE = SPRING_BASE_URL + '/api/photos';
+export const PHOTO_RECORD_PHOTO_LIST = SPRING_PHOTO_BASE + '/all/';
 
 export const KAKAO_MAP = import.meta.env.VITE_KAKAO_MAP;

@@ -1,6 +1,6 @@
 /* src/components/baby-diary/diary-search/DiarySearch.jsx */
 
-import {useContext, useState} from 'react';
+import {useContext} from 'react';
 import './DiarySearch.css';
 import { FaSearch } from 'react-icons/fa';
 import AppContext from "../../../contexts/AppProvider.jsx";

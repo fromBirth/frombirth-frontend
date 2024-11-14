@@ -9,15 +9,16 @@ import Spinner from "../../common/Spinner.jsx";
 import AppContext from "../../../contexts/AppProvider.jsx";
 import {useNavigate} from "react-router-dom";
 import {PATHS} from "../../../routes/paths.js";
-import {debounce} from "lodash";
+import {debounce, throttle} from "lodash";
 
 const DiaryListBoard = () => {
     const navigate = useNavigate();
     const {selectedChildId, query} = useContext(AppContext);
-    console.log(query);
+    const [debouncedQuery, setDebouncedQuery] = useState(query);
+    // console.log(query);
     const {ref, inView} = useInView();
     const {data: diaryInfoList, fetchNextPage, isFetchingNextPage} = useInfiniteQuery(
-        ['infiniteDiaryList', selectedChildId, query],
+        ['infiniteDiaryList', selectedChildId, debouncedQuery],
         ({pageParam = 999999}) => getDiariesListInfinitely(selectedChildId, pageParam, 10, query),
         {
             getNextPageParam: (lastPage) =>
@@ -26,16 +27,30 @@ const DiaryListBoard = () => {
         }
     );
 
-    console.log(diaryInfoList);
+    // query 변화에 대해 debounce 적용
+    useEffect(() => {
+        const debounced = debounce((newQuery) => {
+            setDebouncedQuery(newQuery);
+        }, 500); // 500ms delay
 
-    const debouncedFetchNextPage = debounce(() => {
+        debounced(query);
+
+        return () => {
+            debounced.cancel();
+        };
+    }, [query]);
+
+    // console.log(diaryInfoList);
+
+    const throttledFetchNextPage = throttle(() => {
         if (inView) fetchNextPage();
-    }, 500);
+    }, 1000);
+
 
     useEffect(() => {
-        debouncedFetchNextPage();
-        return () => debouncedFetchNextPage.cancel();
-    }, [inView, debouncedFetchNextPage]);
+        throttledFetchNextPage();
+        return () => throttledFetchNextPage.cancel();
+    }, [inView, throttledFetchNextPage]);
 
     function handleViewDiary(diary) {
         navigate(PATHS.BABY_DIARY.VIEW, {state: diary});
