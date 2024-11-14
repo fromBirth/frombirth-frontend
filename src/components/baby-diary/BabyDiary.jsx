@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PATHS } from "../../routes/paths.js";
 import { getDiaryByDate } from "./DiaryCommonFunction.js"; // 날짜 기반 함수 임포트
 import AppContext from "../../contexts/AppProvider.jsx";
+import {debounce} from "lodash";
 
 const BabyDiary = () => {
     const navigate = useNavigate();
@@ -45,7 +46,16 @@ const BabyDiary = () => {
                 }
             }
         };
-        fetchDiaryData();
+
+        // debounce를 사용하여 fetchDiaryData 함수를 지연 호출
+        const debouncedFetchDiaryData = debounce(fetchDiaryData, 3000); // 3000ms 대기 시간
+
+        debouncedFetchDiaryData();
+
+        return () => {
+            // 컴포넌트가 언마운트되거나 `selectedChildId` 또는 `date`가 변경될 때 debounce 호출 취소
+            debouncedFetchDiaryData.cancel();
+        };
     }, [selectedChildId, date]);
 
     const dayOfWeek = getDayOfWeek(date);
