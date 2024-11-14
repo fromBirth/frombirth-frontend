@@ -86,7 +86,7 @@ const Dashboard = () => {
                 console.log("키", calculatedHeightPercentage);
                 setHeightPercentage(calculatedHeightPercentage.toFixed(0));
             } else {
-                setHeightPercentage(null);
+                setHeightPercentage(50);
             }
             if (Weightmax !== null && Weightmin !== null) {
 
@@ -100,7 +100,7 @@ const Dashboard = () => {
                 console.log("몸무게", calculatedWeightPercentage);
                 setWeightPercentage(calculatedWeightPercentage.toFixed(0));
             } else {
-                setWeightPercentage(null);
+                setWeightPercentage(50);
             }
             setChildWeight(weight);
             setChildHeight(height);
