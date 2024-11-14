@@ -41,7 +41,8 @@ const Dashboard = () => {
             const growthResponse = await axios.get(SPRING_RECORD_BASE + `/growth-data/${selectedChildId}`);
             let weight =null;
             let height =null;
-            if(!growthResponse.data){
+            console.log(selectedChild);
+            if(!growthResponse.data.childId){
                 weight=selectedChild.birthWeight;
                 height=selectedChild.birthHeight;
                 setChildDate(selectedChild.birthDate);
