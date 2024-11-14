@@ -284,19 +284,44 @@ const WeeklyReport = () => {
                                 />
                             </div>
                             {
-                                ((
-                                    selectedReport.createdAt &&
-                                    !(
-                                        (selectedReport.createdAt.split('T')[0] === formatDateToYYYYMMDD(new Date()))
-                                        &&
-                                        isBetweenMidnightAndNineAM(new Date())
-                                    )
-                                )) &&
-                                <>
-                                    <p className="text">지난주에 작성하신 일기에 대해 <br/> AI 분석을 실시해보세요.</p>
-                                    <button className="generate-button" onClick={startReview}>AI 주간보고 생성</button>
-                                </>
+                                selectedReport.createdAt && (
+                                    (() => {
+                                        const reportDate = new Date(selectedReport.createdAt);
+                                        const today = new Date();
+
+                                        // 이번 주 월요일 ~ 일요일 계산
+                                        const { start, end } = getWeekRange(today);
+
+                                        // 'start'와 'end'를 Date 객체로 변환
+                                        const startOfWeek = new Date(start.replace(/\./g, '-')); // '2023.10.30' -> '2023-10-30'
+                                        const endOfWeek = new Date(end.replace(/\./g, '-')); // '2023.11.05' -> '2023-11-05'
+
+                                        // 이번 주 주차에 작성된 일기인지 확인
+                                        const isThisWeekReport = reportDate >= startOfWeek && reportDate <= endOfWeek;
+
+                                        // 오전 9시 이후만 AI 분석이 가능한 조건 (예: 월요일 오전 9시 이후)
+                                        const isAfterNineAM = isBetweenMidnightAndNineAM(new Date()) === false;
+
+                                        // 조건에 따라 두 가지 메시지 출력
+                                        if (isThisWeekReport && isAfterNineAM) {
+                                            return (
+                                                <>
+                                                    <p className="text">지난 주에 작성하신 일기를 분석 중이에요 <br /> 오전 9시부터 확인 가능합니다 😊 </p>
+                                                </>
+                                            );
+                                        }
+
+                                        // 이번 주 주차가 아닌 경우, AI 분석 버튼과 메시지 출력
+                                        return (
+                                            <>
+                                                <p className="text">지난 주에 작성하신 일기에 대해 <br/> AI 분석을 실시해보세요.</p>
+                                                <button className="generate-button" onClick={startReview}>AI 주간보고 생성</button>
+                                            </>
+                                        );
+                                    })()
+                                )
                             }
+
                         </div>
                     ) : (
                         // 데이터가 존재하고 선택된 보고서가 있을 경우
