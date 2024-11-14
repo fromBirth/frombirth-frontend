@@ -29,8 +29,11 @@ export const AppProvider = ({ children }) => {
 
     useEffect(() => {
         if (childList.length < 1) return;
+        console.log(childList);
+        console.log(localStorage.getItem('selectedChildId'));
 
-        const isUserChild = childList.find((item) => item.childId === localStorage.getItem('selectedChildId'));
+        const isUserChild = childList.find((item) => item.childId === Number(localStorage.getItem('selectedChildId')));
+        console.log('isUserChild : ', isUserChild);
 
         if (isUserChild) {
             setSelectedChildId(isUserChild.childId);

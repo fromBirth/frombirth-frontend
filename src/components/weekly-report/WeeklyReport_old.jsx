@@ -112,61 +112,53 @@ const WeeklyReport = () => {
                 console.log("response.data:", response.data);
 
                 // if (Array.isArray(response.data) && response.data.length > 0) {
-                const sortedReports = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                // sortedReports.unshift('');
+                    const sortedReports = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    // sortedReports.unshift('');
 
-                let selected = null;
-                if (reportIdFromQuery) {
-                    const reportIdInt = parseInt(reportIdFromQuery, 10);
-                    selected = sortedReports.find(report => report.reportId === reportIdInt);
-                    const createdAt = new Date(selected.createdAt);
-                    const {start, end} = getWeekRange(createdAt);
-                    setWeekRange(`${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월 <br/> ${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
+                    let selected = null;
+                    if (reportIdFromQuery) {
+                        const reportIdInt = parseInt(reportIdFromQuery, 10);
+                        selected = sortedReports.find(report => report.reportId === reportIdInt);
+                        const createdAt = new Date(selected.createdAt);
+                        const {start, end} = getWeekRange(createdAt);
+                        setWeekRange(`${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월 <br/> ${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
 
-                    // 마지막에 isReadAvailable 설정 (selectedReport가 확실히 설정된 후에)
-                    setIsReadAvailable(selected.read);
-                    // 주간 범위에 맞는 일기 개수 체크
-                    checkSufficientData(`${start} ~ ${end}`);
-                }
+                        // 마지막에 isReadAvailable 설정 (selectedReport가 확실히 설정된 후에)
+                        setIsReadAvailable(selected.read);
+                        // 주간 범위에 맞는 일기 개수 체크
+                        checkSufficientData(`${start} ~ ${end}`);
+                    }
 
-                // 새 리포트 조회 가능 경우
-                // if (
-                //     !reportIdFromQuery &&
-                //     isAvailable &&
-                //     isSufficient
-                // ) {
-                //     sortedReports.unshift('create');
-                // }
+                    // 월요일 새벽이지만 일기 데이터가 충분하지 않은 경우
+                    if (
+                        !reportIdFromQuery &&
+                        isAvailable &&
+                        !isSufficient
+                    ) {
+                        sortedReports.unshift('not enough');
+                        setIsDataAvailable(false);
+                    }
 
-                // 월요일 새벽이지만 일기 데이터가 충분하지 않은 경우
-                if (
-                    !reportIdFromQuery &&
-                    isAvailable
-                ) {
-                    sortedReports.unshift('not enough');
-                    setIsDataAvailable(false);
-                }
+                    if (
+                        !reportIdFromQuery &&
+                        !isAvailable &&
+                        !isSufficient
+                    ) {
+                        sortedReports.unshift('fail');
+                        setIsDataAvailable(false);
+                    }
 
-                if (
-                    !reportIdFromQuery &&
-                    !isAvailable &&
-                    !isSufficient
-                ) {
-                    sortedReports.unshift('fail');
-                    setIsDataAvailable(false);
-                }
+                    if (!selected) {
+                        // 쿼리 파라미터에 맞는 보고서가 없으면 가장 최근 보고서 선택
+                        selected = sortedReports[0];
+                    }
+                    console.log(sortedReports);
+                    setReports(sortedReports);
 
-                if (!selected) {
-                    // 쿼리 파라미터에 맞는 보고서가 없으면 가장 최근 보고서 선택
-                    selected = sortedReports[0];
-                }
-                console.log(sortedReports);
-                setReports(sortedReports);
+                    setSelectedReport(selected);
+                    setCurrentReportIndex(sortedReports.indexOf(selected));
 
-                setSelectedReport(selected);
-                setCurrentReportIndex(sortedReports.indexOf(selected));
-
-                setIsDataAvailable(true);
+                    setIsDataAvailable(true);
                 // } else {
                 //     console.error("보고서가 없습니다.");
                 //     setIsDataAvailable(false);
@@ -182,7 +174,7 @@ const WeeklyReport = () => {
         document.body.appendChild(script);
         fetchReports();
     }, [selectedChildId, reportIdFromQuery]);
-
+    
     const handleReportChange = (direction) => {
         const newIndex = currentReportIndex + direction;
         setWeekRange("");
@@ -253,35 +245,35 @@ const WeeklyReport = () => {
                 </button>
             </div>
 
-            {/* 데이터가 없으면 review-box를 보여주고, 그렇지 않으면 기존의 report-content 등을 보여줌 */}
-            {
-                (selectedReport && typeof selectedReport === "object") && (
-                    !isReadAvailable ? (
-                        // AI 주간보고 생성 가능
-                        <div className="enabled-box">
-                            <div className="icon-container">
-                                <DotLottiePlayer
-                                    src="https://lottie.host/714f7cda-7a3d-47fa-8296-caf5ae946051/Sh7fIYjs1a.json"
-                                    background={"transparent"}
-                                    speed="1.5"
-                                    className="lottie-player-before"
-                                    autoplay
-                                    loop={false}
-                                />
+                {/* 데이터가 없으면 review-box를 보여주고, 그렇지 않으면 기존의 report-content 등을 보여줌 */}
+                {
+                    (selectedReport && typeof selectedReport === "object") && (
+                        !isReadAvailable ? (
+                            // AI 주간보고 생성 가능
+                            <div className="enabled-box">
+                                <div className="icon-container">
+                                    <DotLottiePlayer
+                                        src="https://lottie.host/714f7cda-7a3d-47fa-8296-caf5ae946051/Sh7fIYjs1a.json"
+                                        background={"transparent"}
+                                        speed="1.5"
+                                        className="lottie-player-before"
+                                        autoplay
+                                        loop={false}
+                                    />
+                                </div>
+                                <p className="text">지난주에 작성하신 일기에 대해 <br/> AI 분석을 실시해보세요.</p>
+                                <button className="generate-button" onClick={startReview}>AI 주간보고 생성</button>
                             </div>
-                            <p className="text">지난주에 작성하신 일기에 대해 <br/> AI 분석을 실시해보세요.</p>
-                            <button className="generate-button" onClick={startReview}>AI 주간보고 생성</button>
-                        </div>
-                    ) : (
-                        // 데이터가 존재하고 선택된 보고서가 있을 경우
-                        selectedReport ? (
-                            <ViewSelectedReport selectedReport={selectedReport}/>
                         ) : (
-                            <Spinner/>
+                            // 데이터가 존재하고 선택된 보고서가 있을 경우
+                            selectedReport ? (
+                                <ViewSelectedReport selectedReport={selectedReport}/>
+                            ) : (
+                                <Spinner/>
+                            )
                         )
                     )
-                )
-            }
+                }
             <div className="review-box">
                 {
                     (selectedReport === 'not enough' || selectedReport === 'fail') && (
