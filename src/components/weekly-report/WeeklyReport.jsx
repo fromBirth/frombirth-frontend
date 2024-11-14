@@ -95,7 +95,7 @@ const WeeklyReport = () => {
                 const diaryCount = await getThisWeekDiaryCount(selectedChildId);
                 console.log("불러온 일기 수:", diaryCount);
 
-                isSufficient = diaryCount > 2;
+                isSufficient = diaryCount > 3;
 
                 console.log("최종 isSufficient 값:", isSufficient);
                 setIsSufficientData(isSufficient);
@@ -338,7 +338,7 @@ const WeeklyReport = () => {
 
                                 ) : (
                                     <>
-                                        * 현재 일기가 충분하지 않습니다. <br/> (매 주 최소 3개의 일기 작성이 필요)
+                                        * 현재 일기가 충분하지 않습니다. <br/> (매 주 최소 4개의 일기 작성이 필요)
                                     </>
                                 )}
                             </p>
