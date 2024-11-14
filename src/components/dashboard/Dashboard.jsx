@@ -3,23 +3,32 @@
 // import { Link } from 'react-router-dom';
 
 import './Dashboard.css';
-import {useContext, useEffect, useState} from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import AppContext from "../../contexts/AppProvider.jsx";
-import {getAmPmHourMinuteByLocalTime, getSelectedChild} from "../../utils/Util.js";
+import { getAmPmHourMinuteByLocalTime, getSelectedChild } from "../../utils/Util.js";
 import ChatBot from "../common/ChatBot.jsx";
 import PhotoSlide from "./PhotoSlide.jsx";
 import axios from "axios";
-import {SPRING_RECORD_BASE, SPRING_STATISTIC_BASE} from "../../routes/ApiPath.js";
+import {SPRING_RECORD_BASE, SPRING_STATISTIC_BASE, RECORD_CHILD_ALL_RECORD_CNT, RECORD_CHILD_ALL_REPORT_CNT} from "../../routes/ApiPath.js";
+import { PATHS } from "../../routes/paths.js";
 
 const Dashboard = () => {
-    const {selectedChildId, childList} = useContext(AppContext);
+
+    const navigate = useNavigate();
+
+    const { selectedChildId, childList } = useContext(AppContext);
     const selectedChild = getSelectedChild(selectedChildId, childList);
-    const {isAm, hour, minute} = getAmPmHourMinuteByLocalTime(selectedChild.birthTime);
-    const [childWeight, setChildWeight]=useState(null);
-    const [childHeight, setChildHeight]=useState(null);
-    const [childDate,setChildDate]=useState(null);
-    const [weightPercentage,setWeightPercentage] = useState(null);
-    const [heightPercentage,setHeightPercentage] = useState(null);
+    const { isAm, hour, minute } = getAmPmHourMinuteByLocalTime(selectedChild.birthTime);
+    const [childWeight, setChildWeight] = useState(null);
+    const [childHeight, setChildHeight] = useState(null);
+    const [childDate, setChildDate] = useState(null);
+    const [weightPercentage, setWeightPercentage] = useState(null);
+    const [heightPercentage, setHeightPercentage] = useState(null);
+
+    const [diaryCount, setDiaryCount] = useState(0); // 육아일기 총 건수 상태
+    const [weeklyReportCount, setWeeklyReportCount] = useState(0); // 주간보고 총 건수 상태
+    const [growthAnalysisCount, setGrowthAnalysisCount] = useState(0); // 성장분석 총 건수 상태
 
     // 챗봇 창 상태 관리
     const [isChatBotOpen, setIsChatBotOpen] = useState(false);
@@ -39,33 +48,33 @@ const Dashboard = () => {
     const fetchGrowthData = async () => {
         try {
             const growthResponse = await axios.get(SPRING_RECORD_BASE + `/growth-data/${selectedChildId}`);
-            let weight =null;
-            let height =null;
+            let weight = null;
+            let height = null;
             console.log(selectedChild);
-            if(!growthResponse.data.childId){
-                weight=selectedChild.birthWeight;
-                height=selectedChild.birthHeight;
+            if (!growthResponse.data.childId) {
+                weight = selectedChild.birthWeight;
+                height = selectedChild.birthHeight;
                 setChildDate(selectedChild.birthDate);
-            }else{
-                weight=growthResponse.data.weight;
-                height=growthResponse.data.height;
+            } else {
+                weight = growthResponse.data.weight;
+                height = growthResponse.data.height;
                 setChildDate(growthResponse.data.recordDate);
-                console.log("설정몸무게2",growthResponse.data.weight);
+                console.log("설정몸무게2", growthResponse.data.weight);
             }
             const averageResponse = await axios.get(SPRING_STATISTIC_BASE + `/average/${selectedChildId}`);
 
             let Weightmax = null;
             let Weightmin = null;
-            let Heightmax =null;
+            let Heightmax = null;
             let Heightmin = null;
             let calculatedWeightPercentage = null;
             let calculatedHeightPercentage = null;
 
             if (averageResponse.data) {
-                Heightmax= averageResponse.data.avgHeight*1.1;
-                Heightmin= averageResponse.data.avgHeight*0.9;
-                Weightmax= averageResponse.data.avgWeight*1.1;
-                Weightmin= averageResponse.data.avgWeight*0.9;
+                Heightmax = averageResponse.data.avgHeight * 1.1;
+                Heightmin = averageResponse.data.avgHeight * 0.9;
+                Weightmax = averageResponse.data.avgWeight * 1.1;
+                Weightmin = averageResponse.data.avgWeight * 0.9;
             }
             if (Heightmax !== null && Heightmin !== null) {
                 calculatedHeightPercentage = ((height - Heightmin) / (Heightmax - Heightmin)) * 100
@@ -74,7 +83,7 @@ const Dashboard = () => {
                 } else if (calculatedHeightPercentage > 100) {
                     calculatedHeightPercentage = 100;
                 }
-                console.log("키",calculatedHeightPercentage);
+                console.log("키", calculatedHeightPercentage);
                 setHeightPercentage(calculatedHeightPercentage.toFixed(0));
             } else {
                 setHeightPercentage(null);
@@ -82,13 +91,13 @@ const Dashboard = () => {
             if (Weightmax !== null && Weightmin !== null) {
 
                 calculatedWeightPercentage = ((weight - Weightmin) / (Weightmax - Weightmin)) * 100
-                console.log("몸무게",calculatedWeightPercentage);
+                console.log("몸무게", calculatedWeightPercentage);
                 if (calculatedWeightPercentage < 0) {
                     calculatedWeightPercentage = 0;
                 } else if (calculatedWeightPercentage > 100) {
                     calculatedWeightPercentage = 100;
                 }
-                console.log("몸무게",calculatedWeightPercentage);
+                console.log("몸무게", calculatedWeightPercentage);
                 setWeightPercentage(calculatedWeightPercentage.toFixed(0));
             } else {
                 setWeightPercentage(null);
@@ -99,10 +108,28 @@ const Dashboard = () => {
             console.error("데이터를 가져오는 중 오류가 발생했습니다.", error);
         }
     };
+
+    // 총 건수 가져오기
+    const fetchCounts = async () => {
+        try {
+            const diaryCountResponse = await axios.get(`${RECORD_CHILD_ALL_RECORD_CNT}${selectedChildId}`);
+            setDiaryCount(diaryCountResponse.data || 0);
+
+            const weeklyReportCountResponse = await axios.get(`${RECORD_CHILD_ALL_REPORT_CNT}${selectedChildId}`);
+            setWeeklyReportCount(weeklyReportCountResponse.data || 0);
+
+            // const growthAnalysisCountResponse = await axios.get(`${SPRING_RECORD_BASE}/count/growth-analysis/${selectedChildId}`);
+            // setGrowthAnalysisCount(growthAnalysisCountResponse.data || 0);
+        } catch (error) {
+            console.error("총 건수를 가져오는 중 오류가 발생했습니다.", error);
+        }
+    };
+
     useEffect(() => {
         fetchGrowthData();
-        console.log("날짜",childDate);
-        console.log("출생날짜",selectedChild.birthDate);
+        fetchCounts();
+        console.log("날짜", childDate);
+        console.log("출생날짜", selectedChild.birthDate);
     }, [selectedChildId]);
     return (
         <div className="main-content">
@@ -137,19 +164,18 @@ const Dashboard = () => {
                         <div className="value">
                             {childHeight !== null && heightPercentage !== null ? (
                                 <>
-                        <span className={`status ${
-                            heightPercentage >= (2 / 3) * 100
-                                ? "status-large"
-                                : heightPercentage <= (1 / 3) * 100
-                                    ? "status-small"
-                                    : "status-average"
-                        }`}>
-                            {heightPercentage >= (2 / 3) * 100
-                                ? "큰편"
-                                : heightPercentage <= (1 / 3) * 100
-                                    ? "작은편"
-                                    : "평균"}
-                        </span>
+                                    <span className={`status ${heightPercentage >= (2 / 3) * 100
+                                        ? "status-large"
+                                        : heightPercentage <= (1 / 3) * 100
+                                            ? "status-small"
+                                            : "status-average"
+                                        }`}>
+                                        {heightPercentage >= (2 / 3) * 100
+                                            ? "큰편"
+                                            : heightPercentage <= (1 / 3) * 100
+                                                ? "작은편"
+                                                : "평균"}
+                                    </span>
                                     <span>{childHeight} cm</span>
                                 </>
                             ) : (
@@ -162,19 +188,18 @@ const Dashboard = () => {
                         <div className="value">
                             {childWeight !== null && weightPercentage !== null ? (
                                 <>
-                        <span className={`status ${
-                            weightPercentage >= (2 / 3) * 100
-                                ? "status-large"
-                                : weightPercentage <= (1 / 3) * 100
-                                    ? "status-small"
-                                    : "status-average"
-                        }`}>
-                            {weightPercentage >= (2 / 3) * 100
-                                ? "큰편"
-                                : weightPercentage <= (1 / 3) * 100
-                                    ? "작은편"
-                                    : "평균"}
-                        </span>
+                                    <span className={`status ${weightPercentage >= (2 / 3) * 100
+                                        ? "status-large"
+                                        : weightPercentage <= (1 / 3) * 100
+                                            ? "status-small"
+                                            : "status-average"
+                                        }`}>
+                                        {weightPercentage >= (2 / 3) * 100
+                                            ? "큰편"
+                                            : weightPercentage <= (1 / 3) * 100
+                                                ? "작은편"
+                                                : "평균"}
+                                    </span>
                                     <span>{childWeight} kg</span>
                                 </>
                             ) : (
@@ -186,32 +211,41 @@ const Dashboard = () => {
             </section>
 
             <section className="menu-section">
-                <div className="menu-item">
+                <div
+                    className="menu-item"
+                    onClick={() => navigate(PATHS.BABY_DIARY.MAIN)} // 육아일기 페이지로 이동
+                >
                     <div className="menu-text">
                         <span className="menu-title">육아일기</span>
-                        <span className="menu-count">총 14건</span>
+                        <span className="menu-count">총 {diaryCount}건</span>
                         <p className="menu-description">하루에 한 번 육아일기를 작성하세요. 키와 몸무게도 기록할 수 있습니다.</p>
                     </div>
                     <i className="bi bi-chevron-right"></i>
                 </div>
-                <div className="menu-item">
+                <div
+                    className="menu-item"
+                    onClick={() => navigate(PATHS.WEEKLY_REPORT.MAIN)} // AI 주간보고 페이지로 이동
+                >
                     <div className="menu-text">
                         <span className="menu-title">AI 주간보고</span>
-                        <span className="menu-count">총 2건</span>
+                        <span className="menu-count">총 {weeklyReportCount}건</span>
                         <p className="menu-description">매주 월요일, 육아 피드백 및 발달장애 진단 보고서가 도착합니다.</p>
                     </div>
                     <i className="bi bi-chevron-right"></i>
                 </div>
-                <div className="menu-item">
+                <div
+                    className="menu-item"
+                    onClick={() => navigate(PATHS.GROWTH_ANALYSIS)} // 성장분석 페이지로 이동
+                >
                     <div className="menu-text">
                         <span className="menu-title">성장분석</span>
-                        <span className="menu-count">총 2건</span>
+                        <span className="menu-count">총 {growthAnalysisCount}건</span>
                         <p className="menu-description">아이의 성장 추이를 확인하고 또래 평균과 비교해보세요.</p>
                     </div>
                     <i className="bi bi-chevron-right"></i>
                 </div>
                 <div className="photo-slide">
-                    <PhotoSlide selectedChildId={selectedChildId}/>
+                    <PhotoSlide selectedChildId={selectedChildId} />
                 </div>
 
                 {/* 챗봇 버튼 */}
@@ -223,10 +257,10 @@ const Dashboard = () => {
                 {isChatBotOpen && (
                     <div
                         className="chatbot-modal open"
-                        style={{display: isChatBotVisible ? 'block' : 'none'}} // 두 번째 클릭부터 숨김 처리
+                        style={{ display: isChatBotVisible ? 'block' : 'none' }} // 두 번째 클릭부터 숨김 처리
                     >
 
-                        <ChatBot onClose={toggleChatBot}/>
+                        <ChatBot onClose={toggleChatBot} />
                     </div>
                 )}
             </section>
@@ -242,7 +276,6 @@ const Dashboard = () => {
             {/*</Link>*/}
 
         </div>
-
 
     );
 };
