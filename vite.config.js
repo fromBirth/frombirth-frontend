@@ -23,6 +23,7 @@ export default defineConfig({
     },
     host: '0.0.0.0',  // 모든 네트워크 인터페이스에서 접근 가능하게 설정
     port: 5173,       // 기본 포트 설정
+    strictPort: true // 포트번호 사용시 자동 다른 포트 시도 방지
   },
   build: {
     rollupOptions: {

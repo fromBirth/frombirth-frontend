@@ -43,6 +43,7 @@ const KakaoMap = () => {
 
     // Android에서 위치 정보를 받을 JavaScript 함수 정의
     useEffect(() => {
+        console.log("위치정보 받기 실행")
         window.setLocation = (latitude, longitude) => {
             console.log(`위치정보 받아옴 ${latitude} ${longitude}`)
             setCenter({ lat: latitude, lng: longitude });
@@ -52,6 +53,7 @@ const KakaoMap = () => {
 
     // 현재 위치를 바탕으로 주소를 검색
     useEffect(() => {
+        console.log(`${position.lat}, ${position.lng}`)
         if (position.lat && position.lng) {
             setCenter({ lat: position.lat, lng: position.lng });
         }
