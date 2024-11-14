@@ -111,7 +111,7 @@ const KakaoMap = () => {
             center={center}
             style={{
                 width: "100%",
-                height: "350px",
+                height: "325px",
                 overflow: "hidden"
             }}
             level={5}
