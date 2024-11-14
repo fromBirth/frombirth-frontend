@@ -6,56 +6,91 @@ import { Link,useNavigate } from "react-router-dom";
 import {useEffect, useContext,useState} from "react";
 import AppContext from '../../contexts/AppProvider.jsx';
 import Cookies from 'js-cookie';
-import {SPRING_BASE_URL} from "../../routes/ApiPath.js";
+import {CHILDREN_LIST_BY_USER, SPRING_BASE_URL} from "../../routes/ApiPath.js";
+import axios from "axios";
 
 function Login() {
-
     const navigate = useNavigate();
-    const { setUser } = useContext(AppContext); // 사용자 정보 설정을 위한 Context 사용
+    const { setUser,setChildList ,setIsLoading,setSelectedChildId} = useContext(AppContext); // 사용자 정보 설정을 위한 Context 사용
     const [isFetching, setIsFetching] = useState(false);
-    function fetchProtectedData(retryCount = 0) {
-        if (retryCount > 1) { // 최대 재시도 횟수 제한
+    async function fetchProtectedData(retryCount = 0) {
+        if (retryCount > 1) {
             console.error('Max retry attempts reached');
             return;
         }
-        return fetch(SPRING_BASE_URL+'/api/user/me', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include', // 쿠키를 포함하여 요청
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else if (response.status === 401) {
-                    // 액세스 토큰이 유효하지 않으면 리프레시 토큰으로 갱신 시도
-                    return refreshToken().then(() => fetchProtectedData(retryCount + 1));
-                } else {
-                    throw new Error('Unauthorized');
-                }
-            })
-            .then(data => {
+        try {
+            const response = await fetch(SPRING_BASE_URL + '/api/user/me', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+            });
+
+            if (response.ok) {
+                const data = await response.json();
                 console.log('User data:', data);
                 console.log('Login successful', data);
-                // 필요 시 사용자 정보를 상태에 저장하거나 추가 동작 수행
                 setUser({
                     userId: data.userId,
                     email: data.email,
                 });
+                console.log("1");
+
+                // fetchChildList의 비동기 작업이 완료될 때까지 대기
+                console.log("2");
+                try {
+                    const result = await axios.get(CHILDREN_LIST_BY_USER + data.userId);
+                    console.log("3");
+                    setChildList(result.data);
+                    saveChildId(result.data);
+                } catch (error) {
+                    console.error("아이 리스트 가져오는 중 오류가 발생했습니다.", error);
+                }
+
                 let newaccessToken = Cookies.get('accessToken');
                 let newrefreshToken = Cookies.get('refreshToken');
                 if (window.Android) {
                     window.Android.receiveTokens(newaccessToken, newrefreshToken);
                 }
-                // 메인 페이지로 이동
+
+                // fetchChildList 완료 후에 navigate 호출
                 navigate("/dashboard");
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                // 로그인 페이지로 리디렉션 등 처리
-            });
+
+            } else if (response.status === 401) {
+                await refreshToken();
+                await fetchProtectedData(retryCount + 1);
+            } else {
+                throw new Error('Unauthorized');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // 에러 처리 로직 추가
+        }
     }
+
+
+
+    const saveChildId = (childList) => {
+        if (childList.length < 1) return;
+        console.log(childList);
+        console.log(localStorage.getItem('selectedChildId'));
+
+        const isUserChild = childList.find((item) => item.childId === Number(localStorage.getItem('selectedChildId')));
+        console.log('isUserChild : ', isUserChild);
+
+        if (isUserChild) {
+            setSelectedChildId(isUserChild.childId);
+        }
+
+        if (!localStorage.getItem('selectedChildId') || !isUserChild) {
+            const lastChildId = childList[childList.length - 1]?.childId;
+            if (lastChildId) {
+                setSelectedChildId(lastChildId);
+                localStorage.setItem('selectedChildId', lastChildId);
+            }
+        }
+    };
 
 // 리프레시 토큰을 사용하여 새로운 액세스 토큰 요청
     function refreshToken() {
@@ -79,8 +114,6 @@ function Login() {
                 if (text.startsWith('{')) {
                     // 응답이 JSON이라면 JSON으로 파싱
                     const data = JSON.parse(text);
-                 
-
 
 
 
@@ -118,7 +151,6 @@ function Login() {
             redirectUri: SPRING_BASE_URL+'/api/kakao/callback', // 리다이렉트 URI 설정
         });
     };
-
 
     return (
         <div className="login-wrap">

@@ -11,21 +11,8 @@ export const AppProvider = ({ children }) => {
     const [pageTitle, setPageTitle] = useState(''); // 화면 제목
     const [selectedChildId, setSelectedChildId] = useState(56);
     const [childList, setChildList] = useState([]);
-    const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
+    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
     const [query, setQuery] = useState("");
-
-    // 아이 리스트 저장
-    useEffect(() => {
-        const fetchChildList = async () => {
-            try {
-                const {data} = await axios.get(CHILDREN_LIST_BY_USER + user.userId);
-                setChildList(data);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchChildList();
-    }, [user.userId]);
 
     useEffect(() => {
         if (childList.length < 1) return;
@@ -49,7 +36,7 @@ export const AppProvider = ({ children }) => {
 
     }, [childList, setUser]);
 
-    if (isLoading || !user || childList.length === 0) return <Spinner/>;
+    if (isLoading) return <Spinner/>;
 
     return (
         <AppContext.Provider value={{
