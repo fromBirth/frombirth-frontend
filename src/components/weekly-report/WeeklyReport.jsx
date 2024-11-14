@@ -122,7 +122,7 @@ const WeeklyReport = () => {
                     selected = sortedReports.find(report => report.reportId === reportIdInt);
                     const createdAt = new Date(selected.createdAt);
                     const {start, end} = getWeekRange(createdAt);
-                    setWeekRange(`${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월 <br/> ${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
+                    setWeekRange(`<b>${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월</b>${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
 
                     // 마지막에 isReadAvailable 설정 (selectedReport가 확실히 설정된 후에)
                     setIsReadAvailable(selected.read);
@@ -196,21 +196,25 @@ const WeeklyReport = () => {
             setIsReadAvailable(newReport.read);
             const createdAt = new Date(newReport.createdAt);
             const {start, end} = getWeekRange(createdAt);
-            setWeekRange(`${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월 <br/> ${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
+            setWeekRange(`<b>${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월</b>${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
         }
     };
 
     const loadPreviousReport = () => {
         console.log(reports);
-        if (currentReportIndex < reports.length - 1) {
-            handleReportChange(1);
-        }
+        setTimeout(() => {
+            if (currentReportIndex < reports.length - 1) {
+                handleReportChange(1);
+            }
+        }, 200);
     };
 
     const loadNextReport = () => {
-        if (currentReportIndex > 0) {
-            handleReportChange(-1);
-        }
+        setTimeout(() => {
+            if (currentReportIndex > 0) {
+                handleReportChange(-1);
+            }
+        }, 200);
     };
 
     const startReview = async () => {
@@ -234,7 +238,7 @@ const WeeklyReport = () => {
             <div className="week-button">
                 {/* 이전 보고서로 이동 버튼 */}
                 <button
-                    className="previous-week-button"
+                    className="previous-week-button btn-week"
                     onClick={loadPreviousReport}
                     style={{visibility: currentReportIndex < reports.length - 1 ? 'visible' : 'hidden'}}
                 >
@@ -246,7 +250,7 @@ const WeeklyReport = () => {
 
                 {/* 다음 보고서로 이동 버튼 */}
                 <button
-                    className="next-week-button"
+                    className="next-week-button btn-week"
                     onClick={loadNextReport}
                     style={{visibility: currentReportIndex > 0 ? 'visible' : 'hidden'}}
                 >
