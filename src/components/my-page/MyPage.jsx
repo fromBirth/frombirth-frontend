@@ -8,6 +8,7 @@ import { PATHS } from "../../routes/paths.js";
 import kakao_icon from '../../assets/img/kakao.png';
 import basic_profile from '../../assets/img/basic_profile.png';
 import {calculateAgeInMonthsAndDays, getSelectedChild} from "../../utils/Util.js";
+import Cookies from "js-cookie";
 
 const MyPage = () => {
     const { user, selectedChildId, childList } = useContext(AppContext);
@@ -15,6 +16,25 @@ const MyPage = () => {
     const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅
     const selectedChild = getSelectedChild(selectedChildId, childList);
     setPageTitle('내정보');
+
+    //로그아웃
+    const handleLogout = () => {
+        // 모든 쿠키 삭제
+        const allCookies = Cookies.get(); // 모든 쿠키 가져오기
+        for (let cookieName in allCookies) {
+            Cookies.remove(cookieName, { path: '/' }); // 쿠키 삭제
+            // 필요에 따라 도메인이나 다른 경로를 지정하여 삭제
+        }
+
+        // 안드로이드 앱의 토큰 및 쿠키 삭제
+        if (window.Android && window.Android.clearTokens) {
+            window.Android.clearTokens();
+        }
+
+        // 로그인 페이지로 이동
+        navigate('/login');
+    };
+
 
     // 아이 추가 클릭 시 이동할 함수
     const handleAddChildClick = () => {
@@ -40,7 +60,11 @@ const MyPage = () => {
                         <div>이메일</div>
                         <div>{user.email}</div>
                     </div>
-                    <div className="logout">로그아웃</div>
+                    <div className="logout">
+                        <button onClick={handleLogout}>
+                            로그아웃
+                        </button>
+                    </div>
                 </div>
             </div>
 
