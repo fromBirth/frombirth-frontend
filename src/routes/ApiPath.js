@@ -27,6 +27,7 @@ export const RECORD_DELETE = SPRING_RECORD_BASE + '/delete/{recordId}';
 //weekly-report 컨트롤러 주소
 export const SPRING_REPORT_BASE =SPRING_BASE_URL + '/api/reports';
 export const REPORT_CHILD_ALL_REPORT = SPRING_REPORT_BASE + '/all';
+export const RECORD_CHILD_ALL_REPORT_CNT = SPRING_REPORT_BASE + '/cnt/';
 export const REPORT_CHILD_REPORT = SPRING_REPORT_BASE + '/report';
 export const REPORT_CREATE = SPRING_REPORT_BASE + '/create';
 export const REPORT_DELETE = SPRING_REPORT_BASE + '/delete';
