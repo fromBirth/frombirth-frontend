@@ -63,7 +63,7 @@ const WeeklyReport = () => {
     // getDiaries 함수 정의 (axios 호출)
     const getThisWeekDiaryCount = async (childId) => {
         try {
-            const response = await axios.get(`${RECORD_CHILD_ALL_RECORD_CNT}${childId}`);
+            const response = await axios.get(`${RECORD_CHILD_ALL_RECORD_CNT}${childId}/week`);
             return response.data;
         } catch (error) {
             console.error("일기 데이터를 불러오는 데 실패했습니다:", error);
