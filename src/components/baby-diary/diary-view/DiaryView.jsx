@@ -96,7 +96,6 @@ const DiaryView = () => {
     return (
         <div className="container entry-view">
             {/* 수정/삭제 버튼 */}
-            {isThisWeek && ( // 이번 주가 아니면 더보기 메뉴를 표시하지 않음
                 <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
                     <i className="bi bi-three-dots-vertical"></i>
                     {menuOpen && (
@@ -112,7 +111,6 @@ const DiaryView = () => {
                         </div>
                     )}
                 </div>
-            )}
             {(diary.height || diary.weight) && (
                 <div className="entry-size">
                     <div className="size-item">키 : {diary.height ? `${diary.height} cm` : '-'}</div>
