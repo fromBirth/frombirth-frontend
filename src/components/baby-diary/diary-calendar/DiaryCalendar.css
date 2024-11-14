@@ -3,7 +3,8 @@
 .calendar-wrap .date-navigator .nav-section { display: flex; align-items: center; font-size: 1.5em; } 
 .calendar-wrap .date-navigator .nav-section .nav-button { border: none; background: none; margin: 0 15px; } 
 .calendar-wrap .date-navigator .nav-section .nav-button i { padding: 7px 9px 7px 7px; color: #333; } 
-.calendar-wrap .date-navigator .nav-section .nav-button i:active { background-color: var(--background-color); border-radius: 50%; } 
+.calendar-wrap .date-navigator .nav-section .nav-button:not(:disabled) i:active { background-color: var(--background-color); border-radius: 50%; }
+.calendar-wrap .date-navigator .nav-section .nav-button:disabled i { color:#ddd }
 .calendar-wrap .date-navigator .nav-section .current-date { font-weight: 500; color: #333; } 
 .calendar-wrap .date-navigator .today-button { font-size: 1em; color: #333; background: none; border: none; cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); padding: 4px 7px; border-radius: 20px; } 
 .calendar-wrap .date-navigator .today-button:active { background-color: var(--background-color); } 
