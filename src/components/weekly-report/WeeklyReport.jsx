@@ -72,7 +72,7 @@ const WeeklyReport = () => {
     };
 
     useEffect(() => {
-        setWeekRange("");
+        setWeekRange(getWeekRangeByDate(new Date()));
         // setReports([]);
         // setSelectedReport(null);
         // setIsReadAvailable(false);
@@ -191,14 +191,18 @@ const WeeklyReport = () => {
             setCurrentReportIndex(newIndex);
             const newReport = reports[newIndex];
             setSelectedReport(newReport);
+            setWeekRange(getWeekRangeByDate(new Date()));
             if (typeof newReport !== 'object' || newReport == null) return;
 
             setIsReadAvailable(newReport.read);
-            const createdAt = new Date(newReport.createdAt);
-            const {start, end} = getWeekRange(createdAt);
-            setWeekRange(`<b>${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월</b>${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`);
+            setWeekRange(getWeekRangeByDate(new Date(newReport.createdAt)));
         }
     };
+
+    const getWeekRangeByDate = (createdAt) => {
+        const {start, end} = getWeekRange(createdAt);
+        return `<b>${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월<br/>${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`;
+    }
 
     const loadPreviousReport = () => {
         console.log(reports);
