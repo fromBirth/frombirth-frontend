@@ -47,7 +47,7 @@ const Dashboard = () => {
     // 아이 성장정보 가져오기
     const fetchGrowthData = async () => {
         try {
-            const growthResponse = await axios.get(SPRING_RECORD_BASE + `/growth-data/${selectedChildId}`);
+            const growthResponse = await axios.get(SPRING_RECORD_BASE + `/growth-data-last/${selectedChildId}`);
             let weight = null;
             let height = null;
             console.log(selectedChild);

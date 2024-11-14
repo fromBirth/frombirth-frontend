@@ -4,8 +4,8 @@ import { AppContext } from '../contexts/AppProvider.jsx';
 import {PATHS} from "./paths.js";
 const CheckChildExist = () => {
     const { childList } = useContext(AppContext);
-
-    if (!childList || childList.length < 1) {
+    console.log("ㅇㅇ",childList);
+    if (childList.length < 1) {
         return <Navigate to={PATHS.MY_PAGE.CHILD_REGISTER} replace />;
     }
 
