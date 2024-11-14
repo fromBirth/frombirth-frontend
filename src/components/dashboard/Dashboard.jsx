@@ -10,7 +10,7 @@ import { getAmPmHourMinuteByLocalTime, getSelectedChild } from "../../utils/Util
 import ChatBot from "../common/ChatBot.jsx";
 import PhotoSlide from "./PhotoSlide.jsx";
 import axios from "axios";
-import { SPRING_RECORD_BASE, SPRING_STATISTIC_BASE, RECORD_CHILD_ALL_RECORD_CNT } from "../../routes/ApiPath.js";
+import {SPRING_RECORD_BASE, SPRING_STATISTIC_BASE, RECORD_CHILD_ALL_RECORD_CNT, RECORD_CHILD_ALL_REPORT_CNT} from "../../routes/ApiPath.js";
 import { PATHS } from "../../routes/paths.js";
 
 const Dashboard = () => {
@@ -115,8 +115,8 @@ const Dashboard = () => {
             const diaryCountResponse = await axios.get(`${RECORD_CHILD_ALL_RECORD_CNT}${selectedChildId}`);
             setDiaryCount(diaryCountResponse.data || 0);
 
-            // const weeklyReportCountResponse = await axios.get(`${SPRING_RECORD_BASE}/count/weekly-report/${selectedChildId}`);
-            // setWeeklyReportCount(weeklyReportCountResponse.data || 0);
+            const weeklyReportCountResponse = await axios.get(`${RECORD_CHILD_ALL_REPORT_CNT}${selectedChildId}`);
+            setWeeklyReportCount(weeklyReportCountResponse.data || 0);
 
             // const growthAnalysisCountResponse = await axios.get(`${SPRING_RECORD_BASE}/count/growth-analysis/${selectedChildId}`);
             // setGrowthAnalysisCount(growthAnalysisCountResponse.data || 0);
