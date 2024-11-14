@@ -279,6 +279,7 @@ const WeeklyReport = () => {
                                     speed="1.5"
                                     className="lottie-player-before"
                                     autoplay
+                                    style={{ width: '200px', height: '200px'}}
                                     loop={false}
                                 />
                             </div>
