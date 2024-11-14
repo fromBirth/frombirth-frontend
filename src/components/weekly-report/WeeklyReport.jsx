@@ -105,7 +105,7 @@ const WeeklyReport = () => {
                 const response = await axios.get(`${REPORT_CHILD_ALL_REPORT}/${selectedChildId}`);
                 console.log("response.data:", response.data);
 
-                if (Array.isArray(response.data) && response.data.length > 0) {
+                // if (Array.isArray(response.data) && response.data.length > 0) {
                     const sortedReports = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                     // sortedReports.unshift('');
 
@@ -139,6 +139,7 @@ const WeeklyReport = () => {
                         !isSufficient
                     ) {
                         sortedReports.unshift('not enough');
+                        setIsDataAvailable(false);
                     }
 
                     if (
@@ -147,22 +148,24 @@ const WeeklyReport = () => {
                         !isSufficient
                     ) {
                         sortedReports.unshift('fail');
+                        setIsDataAvailable(false);
                     }
 
                     if (!selected) {
                         // 쿼리 파라미터에 맞는 보고서가 없으면 가장 최근 보고서 선택
                         selected = sortedReports[0];
                     }
+                    console.log(sortedReports);
                     setReports(sortedReports);
 
                     setSelectedReport(selected);
                     setCurrentReportIndex(sortedReports.indexOf(selected));
 
                     setIsDataAvailable(true);
-                } else {
-                    console.error("보고서가 없습니다.");
-                    setIsDataAvailable(false);
-                }
+                // } else {
+                //     console.error("보고서가 없습니다.");
+                //     setIsDataAvailable(false);
+                // }
             } catch (error) {
                 console.error("데이터를 불러오는 데 실패했습니다:", error);
                 setIsDataAvailable(false);
