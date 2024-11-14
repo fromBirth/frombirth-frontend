@@ -45,6 +45,8 @@ const GrowthAnalysis = () => {
                     timeAgo = `${diffInYears}년 전`;
                 } else if (diffInMonths >= 1) {
                     timeAgo = `${diffInMonths}달 전`;
+                } else if (diffInMonths == 0) {
+                    timeAgo = `오늘`;
                 } else {
                     timeAgo = `${diffInDays}일 전`;
                 }

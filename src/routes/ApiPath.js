@@ -18,6 +18,11 @@ export const RECORD_CREATE = SPRING_RECORD_BASE + '/create';
 export const RECORD_DETAIL = SPRING_RECORD_BASE + '/child/';
 export const RECORD_CHILD_DATE_RECORD = SPRING_RECORD_BASE + '/child/{childId}/date/';
 export const RECORD_RANDOM_PHOTO = SPRING_RECORD_BASE + '/randomPhoto/'
+export const RECORD_CHILD_ALL_RECORD_WITH_QUERY = SPRING_RECORD_BASE + '/all/{childId}/{lastRecordId}/{size}/{query}';
+export const RECORD_CHILD_MONTH_RECORDS = SPRING_RECORD_BASE + '/all/{childId}/{month}';
+export const RECORD_PHOTO_WITH_QUERY = SPRING_RECORD_BASE + '/all/photo/{childId}/{lastMonth}/{size}/{query}';
+export const RECORD_UPDATE = SPRING_RECORD_BASE + '/update';
+export const RECORD_DELETE = SPRING_RECORD_BASE + '/delete/{recordId}';
 
 //weekly-report 컨트롤러 주소
 export const SPRING_REPORT_BASE =SPRING_BASE_URL + '/api/reports';
