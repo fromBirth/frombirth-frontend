@@ -1,5 +1,5 @@
 /* src/components/common/Layout.css */
-.progress-container { position: relative; width: 100%; margin:17px auto 10px; text-align: center; }
+.progress-container { position: relative; width: 100%; margin:10px auto 10px; text-align: center; }
 /* progress-bar */
 .progress-container .progress-bar-container { height: 10px; background-color: #f0f0f0; border-radius: 10px; overflow: hidden; margin-bottom: 5px; }
 .progress-container .progress-bar-container .progress-bar { height: 100%; background-color: #f78e1e; border-radius: 10px 0 0 10px; }
