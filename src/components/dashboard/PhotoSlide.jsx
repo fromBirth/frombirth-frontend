@@ -7,9 +7,10 @@ import 'slick-carousel/slick/slick-theme.css';
 
 
 const PhotoSlide = ({selectedChildId}) => {
+    const [randomPhotoList, setRandomPhotoList] = useState([]);
     const settings = {
         dots: true,
-        infinite: true,
+        infinite: randomPhotoList && randomPhotoList.length > 1,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -17,7 +18,6 @@ const PhotoSlide = ({selectedChildId}) => {
         autoplay: true,
         autoplaySpeed: 4000
     };
-    const [randomPhotoList, setRandomPhotoList] = useState([]);
 
     const getRandomPhotos = async () => {
         let {data} = await axios.get(RECORD_RANDOM_PHOTO + selectedChildId);
@@ -30,7 +30,6 @@ const PhotoSlide = ({selectedChildId}) => {
             const data = await getRandomPhotos();
             setRandomPhotoList(data);
         }
-
         fetchData();
     }, [selectedChildId]);
 
