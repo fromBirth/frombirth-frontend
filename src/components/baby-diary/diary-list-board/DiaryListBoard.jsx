@@ -10,6 +10,7 @@ import AppContext from "../../../contexts/AppProvider.jsx";
 import {useNavigate} from "react-router-dom";
 import {PATHS} from "../../../routes/paths.js";
 import {debounce, throttle} from "lodash";
+import {getDayOfWeek} from "../../../utils/Util.js";
 
 const DiaryListBoard = () => {
     const navigate = useNavigate();
@@ -55,13 +56,6 @@ const DiaryListBoard = () => {
     function handleViewDiary(diary) {
         navigate(PATHS.BABY_DIARY.VIEW, {state: diary});
     }
-
-    // 요일을 가져오는 함수
-    const getDayOfWeek = (dateString) => {
-        const date = new Date(dateString);
-        const days = ["일", "월", "화", "수", "목", "금", "토"];
-        return days[date.getDay()];
-    };
 
     return (
         <div>
