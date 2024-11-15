@@ -5,7 +5,7 @@ import {PATHS} from "./paths.js";
 const ProtectedRoute = () => {
     const { user } = useContext(AppContext);
 
-    if (!user) {
+    if (!user || user.userId == null) {
         // 인증되지 않은 경우 로그인 페이지로 리다이렉트
         return <Navigate to={PATHS.LOGIN} replace />;
     }
