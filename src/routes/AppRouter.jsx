@@ -15,6 +15,7 @@ import DiarySearch from "../components/baby-diary/diary-search/DiarySearch.jsx";
 import ProtectedRoute from '../routes/ProtectedRoute.jsx';
 import AppContext from "../contexts/AppProvider.jsx";
 import TestLogin from "../components/login/TestLogin.jsx";
+import Test from "../components/login/Test.jsx";
 import ChatBot from "../components/common/ChatBot.jsx";
 import CheckChildExist from "./CheckChildExist.jsx";
 import Login from "../components/login/Login.jsx";
@@ -43,6 +44,7 @@ function AppRouter() {
                 {/* 로그인 페이지 */}
                 <Route path={PATHS.LOGIN} element={<Login/>}/>
                 <Route path='/testLogin' element={<TestLogin/>}/>
+                <Route path='/test' element={<Test/>}/>
                 {/* 기본 경로에서 메인 대시보드 화면으로 리다이렉트 */}
                 <Route path="/" element={<Navigate to={PATHS.DASHBOARD}/>}/>
 

@@ -158,18 +158,6 @@ function Login() {
                 <p className="title">프롬버스</p>
                 <p className="subtitle">from birth : 탄생부터 성장까지</p>
                 <p className="description">육아 기록 및 발달장애 진단 앱</p>
-                <Link
-                    to="/"
-                    style={{
-                        fontSize: '12px',
-                        color: 'gray',
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                    }}
-                >
-                    메인으로
-                </Link>
             </div>
             <button onClick={handleKakaoLogin}>
                 <div className="kakao-button">
