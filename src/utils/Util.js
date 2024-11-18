@@ -89,3 +89,14 @@ export function isBetweenMidnightAndNineAM() {
 
     return hour >= 0 && hour < 9;
 }
+
+export const isMondayMorning = (date) => {
+    // 요일 확인: getDay()에서 1은 월요일
+    const isMonday = date.getDay() === 1;
+
+    // 시간 확인: 오전 0시(00:00:00)부터 오전 9시(09:00:00)까지
+    const hours = date.getHours();
+    const isMorning = hours >= 0 && hours < 9;
+
+    return isMonday && isMorning;
+};
