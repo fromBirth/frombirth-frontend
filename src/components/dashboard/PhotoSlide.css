@@ -1,0 +1,14 @@
+.no-photos-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 220px; /* 이미지 슬라이드와 동일한 높이 */
+    background-color: #f9f9f9; /* 배경 색상 */
+    border-radius: 10px; /* 모서리 둥글게 */
+    color: #777; /* 텍스트 색상 */
+    font-size: 16px; /* 텍스트 크기 */
+    font-weight: bold; /* 텍스트 굵기 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+    margin: 10px 0; /* 슬라이더와 간격 */
+}
