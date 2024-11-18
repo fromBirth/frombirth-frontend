@@ -15,7 +15,7 @@ import Spinner from "../common/Spinner.jsx"; // useLocation 훅을 사용하여 
 import {DotLottiePlayer} from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';
 import ViewSelectedReport from "./ViewSelectedReport.jsx";
-import {formatDateToYYYYMMDD, isBetweenMidnightAndNineAM} from "../../utils/Util.js";
+import {formatDateToYYYYMMDD, isBetweenMidnightAndNineAM, isMondayMorning} from "../../utils/Util.js";
 
 
 // 주간 날짜 범위 계산 함수
@@ -202,7 +202,7 @@ const WeeklyReport = () => {
         const today = new Date();
         const isSameDay = createdAt.toDateString() === today.toDateString();
 
-        if (!isSameDay) {
+        if (!isSameDay || isMondayMorning(createdAt)) {
             createdAt.setDate(createdAt.getDate() - 7);
         }
 
