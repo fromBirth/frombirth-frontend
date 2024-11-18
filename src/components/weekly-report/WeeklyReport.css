@@ -1,5 +1,5 @@
 .date-range { text-align: center;font-size: 0.9em;  color: gray; }
-.date-range b { color:#444; font-size: 1.1em; margin-bottom: 2px; display: block }
+.date-range b { color:#444; font-size: 1.1em; margin-bottom: 2px; }
 
 .report-content-wrap { background-color: #f8f8f8; border-radius: 8px; padding: 14px; }
 .report-content-wrap .report-content { font-size: 1em; color: #333; line-height: 1.6; }

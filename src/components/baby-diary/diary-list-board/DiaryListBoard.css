@@ -3,4 +3,4 @@
 .entry.list .entry-title .date { color: #777; font-weight: 500; margin-bottom: 2px; } 
 .entry.list .entry-content { font-size: 1.1em; color: #555; font-weight: 400; line-height: 1.1em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; } 
 .entry.list .diary-list-board-photo-box { display: flex; gap: 5px; } 
-.entry.list .diary-list-board-photo { margin-top:0.5rem; width: 70px; height: 70px; object-fit: cover; } 
+.entry.list .diary-list-board-photo { margin-top:0.5rem; width: 70px; height: 70px; object-fit: cover; }

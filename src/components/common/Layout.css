@@ -83,4 +83,17 @@ input[type="text"]:focus, input[type="number"]:focus, textarea:focus { border-co
 .layout .footer .btn-menu .btn-menu-inner .icon-wrap { display: flex; height: 24px; } 
 .layout .footer .btn-menu .btn-menu-inner .icon-wrap img.icon { width: 18px; } 
 .layout .footer .btn-menu .btn-menu-inner .icon-wrap img.icon.diary { width: 21px; } 
-.layout .footer .btn-menu .btn-menu-inner .icon-wrap img.icon.report { width: 15px; } 
+.layout .footer .btn-menu .btn-menu-inner .icon-wrap img.icon.report { width: 15px; }
+
+
+
+
+/* 등록된 일기가 없을 경우 */
+.no-diaries-message {
+    padding: 20px;
+    text-align: center;
+    font-size: 16px;
+    color: #777;
+    border-radius: 8px;
+    margin-top: 20px;
+}

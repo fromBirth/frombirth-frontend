@@ -2,9 +2,9 @@
 
 .login-wrap { text-align: center; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; background-color: white; max-width: 600px; margin: 0 auto; } 
 .login-wrap .logo-text { text-align: left; width: 100%; padding-left: 45px; padding-bottom: 32px; } 
-.login-wrap .logo-text .title { font-family: "HakgyoansimDunggeunmisoTTF-B"; color: var(--logo-color); font-size: 4.62em; padding-bottom: 1.3vh; margin-left: -3px; } 
-.login-wrap .logo-text .subtitle { font-family: "HakgyoansimDunggeunmisoTTF-B"; color: var(--logo-color); font-size: 1.65em; padding-bottom: 1.5vh; } 
-.login-wrap .logo-text .description { font-family: "HakgyoansimDunggeunmisoTTF-R"; color: var(--logo-color); font-size: 1.57em; } 
+.login-wrap .logo-text .title { font-family: "HakgyoansimDunggeunmisoTTF-B"; color: var(--logo-color); font-size: 3.7em; padding-bottom: 1.3vh; margin-left: -3px; }
+.login-wrap .logo-text .subtitle { font-family: "HakgyoansimDunggeunmisoTTF-B"; color: var(--logo-color); font-size: 1.33em; padding-bottom: 1.5vh; }
+.login-wrap .logo-text .description { font-family: "HakgyoansimDunggeunmisoTTF-R"; color: var(--logo-color); font-size: 1.28em; }
 .login-wrap .kakao-button { display: flex; align-items: center; justify-content: center; cursor: pointer; background-color: #FEE500; width: 90%; height: 50px; border-radius: 12px; font-size: 18px; position: absolute; transform: translateX(-50%); bottom: 3vh; } 
 .login-wrap .kakao-button img { width: 23px; height: auto; margin-right: 6px; } 
 .login-wrap .kakao-button span { font-weight: 600; } 

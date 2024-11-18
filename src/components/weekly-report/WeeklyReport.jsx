@@ -197,6 +197,7 @@ const WeeklyReport = () => {
         }
     };
 
+    // 주간 날짜 범위와 월별 몇 주차인지 계산
     const getWeekRangeByDate = (createdAt) => {
         const today = new Date();
         const isSameDay = createdAt.toDateString() === today.toDateString();
@@ -204,9 +205,24 @@ const WeeklyReport = () => {
         if (!isSameDay) {
             createdAt.setDate(createdAt.getDate() - 7);
         }
-        const {start, end} = getWeekRange(createdAt);
-        return `<b>${createdAt.getFullYear()}년 ${createdAt.getMonth() + 1}월<br/>${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`;
-    }
+
+        const { start, end } = getWeekRange(createdAt);
+
+        // 월별 주차 계산 함수 (월 기준 정확한 주차 계산)
+        const getMonthWeekNumber = (date) => {
+            const firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1); // 월의 첫째 날
+            const dayOfMonth = date.getDate(); // 현재 날짜
+            const firstDayOfWeek = firstDayOfMonth.getDay(); // 월의 첫째 날 요일 (일요일: 0, 월요일: 1, ...)
+            const offset = (firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1); // 첫째 주의 기준점(월요일 시작)
+
+            return Math.ceil((dayOfMonth + offset) / 7); // 월요일을 기준으로 주차 계산
+        };
+
+        const monthWeekNumber = getMonthWeekNumber(createdAt);
+        const year = createdAt.getFullYear();
+        const month = createdAt.getMonth() + 1; // 월은 0부터 시작
+        return `<b>${year}년 ${month}월 ${monthWeekNumber}주</b><br/>${start} (${getDayName(new Date(start))}) ~ ${end} (${getDayName(new Date(end))})`;
+    };
 
     const loadPreviousReport = () => {
         console.log(reports);

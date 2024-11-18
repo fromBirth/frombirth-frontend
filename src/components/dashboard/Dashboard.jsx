@@ -46,6 +46,7 @@ const Dashboard = () => {
 
     // 아이 성장정보 가져오기
     const fetchGrowthData = async () => {
+        // window.showToast("Width, Height, devicePixelRatio : "+window.innerWidth+", "+window.innerHeight+", "+window.devicePixelRatio); // 412, 815
         try {
             const growthResponse = await axios.get(SPRING_RECORD_BASE + `/growth-data-last/${selectedChildId}`);
             let weight = null;
