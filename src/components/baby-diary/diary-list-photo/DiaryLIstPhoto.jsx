@@ -1,6 +1,6 @@
 /* src/components/baby-diary/diary-list-photo/DiaryLIstPhoto.jsx */
 
-import './DiaryListPhoto.css';
+import './DiaryLIstPhoto.css';
 import {Fragment, useContext, useEffect} from "react";
 import AppContext from "../../../contexts/AppProvider.jsx";
 import {useInView} from "react-intersection-observer";
