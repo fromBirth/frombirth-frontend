@@ -158,6 +158,18 @@ function Login() {
 
     return (
         <div className="login-wrap">
+            <Link
+                    to="/"
+                    style={{
+                        fontSize: '12px',
+                        color: 'gray',
+                        position: 'absolute',
+                        top: '10px',
+                        right: '10px',
+                    }}
+                >
+                    메인으로
+                </Link>
             <div className="logo-text">
                 <p className="title">프롬버스</p>
                 <p className="subtitle">from birth : 탄생부터 성장까지</p>
