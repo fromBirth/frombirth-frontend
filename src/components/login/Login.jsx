@@ -141,8 +141,12 @@ function Login() {
         }
         // 토큰이 존재하는 경우 백엔드로 검증 요청
         if (accessToken && refreshToken && !isFetching) {
-            fetchProtectedData().finally(() => setIsFetching(true));
+            setIsFetching(true); // 먼저 설정
+            fetchProtectedData()
+                .catch((error) => console.error("Fetch error:", error))
+                .finally(() => setIsFetching(false)); // 마지막에 재설정
         }
+
     }, [isFetching]);
 
 
