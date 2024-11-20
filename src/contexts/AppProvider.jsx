@@ -7,12 +7,25 @@ export const AppContext = createContext(null);
 
 
 export const AppProvider = ({ children }) => {
-    const [user, setUser] = useState({ email: '', userId: null }); // 사용자 정보
+    const [user, setUser] = useState({ email: 'example@example.com', userId: '27' }); // 사용자 정보
     const [pageTitle, setPageTitle] = useState(''); // 화면 제목
-    const [selectedChildId, setSelectedChildId] = useState(56);
+    const [selectedChildId, setSelectedChildId] = useState(102);
     const [childList, setChildList] = useState([]);
-    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+    const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
     const [query, setQuery] = useState("");
+
+    // 아이 리스트 저장
+    useEffect(() => {
+        const fetchChildList = async () => {
+            try {
+                const {data} = await axios.get(CHILDREN_LIST_BY_USER + user.userId);
+                setChildList(data);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchChildList();
+    }, [user.userId]);
 
     useEffect(() => {
         if (childList.length < 1) return;
@@ -36,7 +49,7 @@ export const AppProvider = ({ children }) => {
 
     }, [childList, setUser]);
 
-    if (isLoading) return <Spinner/>;
+    if (isLoading || !user || childList.length === 0) return <Spinner/>;
 
     return (
         <AppContext.Provider value={{
