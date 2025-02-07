@@ -27,21 +27,47 @@ function Login() {
                 credentials: 'include',
             });
 
+            // 실제 구현 로직
+            // if (response.ok) {
+            //     const data = await response.json();
+            //     console.log('User data:', data);
+            //     console.log('Login successful', data);
+            //     setUser({
+            //         userId: data.userId,
+            //         email: data.email,
+            //     });
+            //     console.log("1");
+            //
+            //     // fetchChildList의 비동기 작업이 완료될 때까지 대기
+            //     console.log("2");
+            //     try {
+            //         const result = await axios.get(CHILDREN_LIST_BY_USER + data.userId);
+            //         console.log("3");
+            //         setChildList(result.data);
+            //         saveChildId(result.data);
+            //     } catch (error) {
+            //         console.error("아이 리스트 가져오는 중 오류가 발생했습니다.", error);
+            //     }
+            //     let newaccessToken = Cookies.get('accessToken');
+            //     let newrefreshToken = Cookies.get('refreshToken');
+            //     if (window.Android) {
+            //         window.Android.receiveTokens(newaccessToken, newrefreshToken);
+            //     }
+            //
+            //     // fetchChildList 완료 후에 navigate 호출
+            //     navigate("/dashboard");
+            //
+            // }
             if (response.ok) {
-                const data = await response.json();
-                console.log('User data:', data);
-                console.log('Login successful', data);
-                setUser({
-                    userId: data.userId,
-                    email: data.email,
-                });
-                console.log("1");
+                // 백엔드에서 받은 callback 데이터 대신, 하드코딩 값으로 설정 (테스트값)
+                setUser({ email: 'hjwjo@hjwjo.com', userId: '27' });
+                setSelectedChildId(102);
+                console.log("테스트 코드 하드코딩 완료");
 
-                // fetchChildList의 비동기 작업이 완료될 때까지 대기
-                console.log("2");
+                // 이후 자식 리스트를 가져오는 로직 (user.userId 대신 하드코딩 '27' 사용)
                 try {
-                    const result = await axios.get(CHILDREN_LIST_BY_USER + data.userId);
-                    console.log("3");
+                    const result = await axios.get(CHILDREN_LIST_BY_USER + '27');
+                    console.log("Child list:", result.data);
                     setChildList(result.data);
                     saveChildId(result.data);
                 } catch (error) {
@@ -56,7 +82,6 @@ function Login() {
 
                 // fetchChildList 완료 후에 navigate 호출
                 navigate("/dashboard");
-
             } else if (response.status === 401) {
                 await refreshToken();
                 await fetchProtectedData(retryCount + 1);
@@ -68,7 +93,6 @@ function Login() {
             // 에러 처리 로직 추가
         }
     }
-
 
 
     const saveChildId = (childList) => {
@@ -130,7 +154,7 @@ function Login() {
 
     useEffect(() => {
         if (window.Kakao && !window.Kakao.isInitialized()) {
-            window.Kakao.init('66231e0e83f9f6009c0eb6c52aadb80b');
+            window.Kakao.init('929a751836571e9de0c6b4d84f8579ce');
         }
 
         // URL 파라미터에서 토큰 및 사용자 정보 추출
@@ -158,18 +182,6 @@ function Login() {
 
     return (
         <div className="login-wrap">
-            <Link
-                    to="/"
-                    style={{
-                        fontSize: '12px',
-                        color: 'gray',
-                        position: 'absolute',
-                        top: '10px',
-                        right: '10px',
-                    }}
-                >
-                    메인으로
-                </Link>
             <div className="logo-text">
                 <p className="title">프롬버스</p>
                 <p className="subtitle">from birth : 탄생부터 성장까지</p>
